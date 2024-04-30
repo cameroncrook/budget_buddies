@@ -1,0 +1,24 @@
+@import url("https://use.typekit.net/psd6dgn.css");
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+$primary: #add8e6; 
+$secondary: #ffb6c1; 
+$accent1: #3b413c; 
+$accent2: #e3d888; 
+$accent3: #28965a;
+
+$font-heading: "utopia-std-headline", serif;
+$font-body: "Lato", sans-serif;
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-heading;
+    font-weight: 400;
+    font-style: normal; 
+}
+
+p, input, a, span, label {
+    font-family: $font-body;
+    font-weight: 400;
+    font-style: normal;
+}
+

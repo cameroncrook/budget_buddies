@@ -1,0 +1,505 @@
+@import 'variables';
+
+// ----------------------------------
+// Layouts
+// ----------------------------------
+body {
+    background-color: $accent1;
+}
+
+.account-layout {
+    // sizing and spacing
+    height: 97vh;
+
+    // display
+    display: grid;
+    grid-template-rows: 150px 1fr;
+
+    header {
+        display: flex;
+        align-items: center;
+    }
+}
+
+header {
+    padding-left: 20px;
+    color: $secondary;
+}
+
+.budget-layout {
+    margin: 0;
+
+    position: relative;
+    min-height: 100vh;
+
+    main {
+        margin-bottom: 100px;
+    }
+}
+
+
+
+
+
+
+
+// ----------------------------------
+// Utilities
+// ----------------------------------
+.overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: $primary;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+
+    max-width: 85%;
+
+    font-size: 20px;
+    z-index: 99;
+
+    &--lg {
+        width: 80%;
+        height: 50%;
+    }
+}
+
+.d-none {
+    display: none !important;
+}
+
+
+
+
+
+
+
+
+
+// ----------------------------------
+// Bottom Nav Bar
+// ----------------------------------
+nav {
+    // position
+    position: fixed;
+    bottom: 0;
+    z-index: 99;
+
+    // display
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    // styles
+    background-color: $primary;
+
+    // sizing and spacing
+    height: 75px;
+    width: 100%;
+
+    img {
+        width: 30px;
+    }
+}
+
+.logout-form {
+    display: flex;
+    grid-column-gap: 5px;
+    
+    input {
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    input[type="submit"] {
+        background-color: $secondary;
+    }
+}
+
+#share-close {
+    width: 40px;
+}
+
+.share {
+    &__close {
+        text-align: start;
+    }
+
+    #share-code {
+        word-wrap: break-word; 
+        overflow-wrap: break-word;
+
+        background-color: #fefefe;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    #share-btn {
+        width: 80%;
+        height: 30px;
+        border: 1px solid $accent1;
+        background-color: $secondary;
+        border-radius: 5px;
+    }
+}
+
+
+
+
+
+
+
+
+
+// ----------------------------------
+// Account form
+// ----------------------------------
+.account-form {
+    // sizing and spacing
+    width: 100%;
+    height: 100%;
+
+    // display
+    display: grid;
+    grid-template-rows: 2fr 1fr;
+
+    // styles
+    color: #fefefe;
+
+    input {
+        border: 1px $accent1 solid;
+        border-radius: 10px;
+        height: 50px;
+
+        font-size: 20px;
+    }
+
+    label {
+        font-size: 22px;
+    }
+
+    &__inputs {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        > div {
+            display: flex;
+            flex-direction: column;
+            width: 89%;
+            margin-bottom: 40px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding-left: 15px;
+        }
+    }
+
+    &__submit {
+        // display
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+
+        input {
+            width: 89%;
+            background-color: $secondary;
+        }
+
+        a {
+            color: $accent3;
+            font-size: 20px;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------
+// log form
+// ----------------------------------
+.log-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: #fefefe;
+
+    input, label, select, textarea {
+        width: 89%;
+    }
+
+    label {
+        font-size: 20px;
+    }
+
+    input, select {
+        border: 1px $accent1 solid;
+        border-radius: 10px;
+        height: 50px;
+
+        font-size: 20px;
+        padding-left: 15px;
+        margin-bottom: 20px;
+    }
+
+    textarea {
+        border: 1px $accent1 solid;
+        border-radius: 10px;
+
+        font-size: 20px;
+        padding-top: 15px;
+        padding-left: 15px;
+        margin-bottom: 20px;
+
+        height: 100px;
+    }
+
+    &__submit {
+        background-color: $secondary;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------
+// Dashboard
+// ----------------------------------
+.category-display {
+    margin: 30px;
+}
+
+.add-category {
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 30px;
+
+    &__icon {
+        // sizing
+        width: 75px;
+        height: 75px;
+
+        // styles
+        border-radius: 50%;
+        background-color: $secondary;
+
+        // display
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 30px;
+        }
+    }
+}
+
+.category-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.category {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    width: 95%;
+    overflow: hidden;
+
+    position: relative;
+
+    &__form {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        input {
+            border: none;
+            padding: 5px;
+
+            border-radius: 5px;
+        }
+
+        select {
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+
+            max-width: 75px;
+        }
+
+        input[type="submit"] {
+            background-color: $primary;
+        }
+    }
+
+    &__card {
+        p {
+            font-size: 22px;
+        }
+
+        width: 100%;
+        
+        height: 70px;
+    }
+
+    &__settings {
+        background-color: #fefefe;
+        border-radius: 25px;
+        padding: 5px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+
+        display: flex;
+        align-items: center;
+        grid-column-gap: 7px;
+
+        position: absolute;
+        right: 10px;
+        top: (70px * .5);
+        transform: translateY(-(30px * .5));
+        z-index: 1;
+        
+
+        img {
+            width: 40px;
+            cursor: pointer;
+        }
+
+        .category-edit {
+            margin-left: 5px;
+        }
+    }
+
+    &__budgets {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        width: 100%;
+        margin-top: 20px;
+
+        a {
+            text-decoration: none;
+            width: 100%;
+        }
+
+        &__card {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+
+            max-width: 100%;
+            padding: 5px;
+            margin-bottom: 5px;
+
+            p {
+                align-self: center;
+                color: $accent1;
+            }
+
+            div {
+                text-align: center;
+            }
+        }
+
+        &__add {
+            width: 25px;
+        }
+    }
+}
+
+.create-budget-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    .form-input-field {
+        width: 85%;
+        display: flex;
+        flex-direction: column;
+
+        text-align: start;
+
+        input {
+            height: 40px;
+            border: 1px solid $accent1;
+            border-radius: 5px;
+
+            font-size: 20px;
+            padding-left: 15px;
+        }
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-evenly;
+
+        width: 100%;
+
+        input {
+            height: 40px;
+            width: 40%;
+
+            border: none;
+            box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        input[type="submit"] {
+            background-color: $secondary;
+        }
+    }
+}
+
+
+.log {
+    // display
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+
+    // sizing and spacing
+    padding: 5px;
+
+    // style
+    color: #fefefe;
+
+    > p {
+        align-self: center;
+    }
+}
+

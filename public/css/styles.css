@@ -1,0 +1,358 @@
+@import url("https://use.typekit.net/psd6dgn.css");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+h1, h2, h3, h4, h5, h6 {
+  font-family: "utopia-std-headline", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+p, input, a, span, label {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  background-color: #3b413c;
+}
+
+.account-layout {
+  height: 97vh;
+  display: grid;
+  grid-template-rows: 150px 1fr;
+}
+.account-layout header {
+  display: flex;
+  align-items: center;
+}
+
+header {
+  padding-left: 20px;
+  color: #ffb6c1;
+}
+
+.budget-layout {
+  margin: 0;
+  position: relative;
+  min-height: 100vh;
+}
+.budget-layout main {
+  margin-bottom: 100px;
+}
+
+.overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #add8e6;
+  padding: 20px;
+  text-align: center;
+  border-radius: 5px;
+  max-width: 85%;
+  font-size: 20px;
+  z-index: 99;
+}
+.overlay--lg {
+  width: 80%;
+  height: 50%;
+}
+
+.d-none {
+  display: none !important;
+}
+
+nav {
+  position: fixed;
+  bottom: 0;
+  z-index: 99;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #add8e6;
+  height: 75px;
+  width: 100%;
+}
+nav img {
+  width: 30px;
+}
+
+.logout-form {
+  display: flex;
+  grid-column-gap: 5px;
+}
+.logout-form input {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+.logout-form input[type=submit] {
+  background-color: #ffb6c1;
+}
+
+#share-close {
+  width: 40px;
+}
+
+.share__close {
+  text-align: start;
+}
+.share #share-code {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  background-color: #fefefe;
+  padding: 5px;
+  border-radius: 5px;
+}
+.share #share-btn {
+  width: 80%;
+  height: 30px;
+  border: 1px solid #3b413c;
+  background-color: #ffb6c1;
+  border-radius: 5px;
+}
+
+.account-form {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  color: #fefefe;
+}
+.account-form input {
+  border: 1px #3b413c solid;
+  border-radius: 10px;
+  height: 50px;
+  font-size: 20px;
+}
+.account-form label {
+  font-size: 22px;
+}
+.account-form__inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.account-form__inputs > div {
+  display: flex;
+  flex-direction: column;
+  width: 89%;
+  margin-bottom: 40px;
+}
+.account-form__inputs label {
+  margin-bottom: 5px;
+}
+.account-form__inputs input {
+  padding-left: 15px;
+}
+.account-form__submit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.account-form__submit input {
+  width: 89%;
+  background-color: #ffb6c1;
+}
+.account-form__submit a {
+  color: #28965a;
+  font-size: 20px;
+}
+
+.log-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fefefe;
+}
+.log-form input, .log-form label, .log-form select, .log-form textarea {
+  width: 89%;
+}
+.log-form label {
+  font-size: 20px;
+}
+.log-form input, .log-form select {
+  border: 1px #3b413c solid;
+  border-radius: 10px;
+  height: 50px;
+  font-size: 20px;
+  padding-left: 15px;
+  margin-bottom: 20px;
+}
+.log-form textarea {
+  border: 1px #3b413c solid;
+  border-radius: 10px;
+  font-size: 20px;
+  padding-top: 15px;
+  padding-left: 15px;
+  margin-bottom: 20px;
+  height: 100px;
+}
+.log-form__submit {
+  background-color: #ffb6c1;
+}
+
+.category-display {
+  margin: 30px;
+}
+
+.add-category {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+.add-category__icon {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-color: #ffb6c1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add-category__icon img {
+  width: 30px;
+}
+
+.category-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  width: 95%;
+  overflow: hidden;
+  position: relative;
+}
+.category__form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.category__form input {
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+}
+.category__form select {
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  max-width: 75px;
+}
+.category__form input[type=submit] {
+  background-color: #add8e6;
+}
+.category__card {
+  width: 100%;
+  height: 70px;
+}
+.category__card p {
+  font-size: 22px;
+}
+.category__settings {
+  background-color: #fefefe;
+  border-radius: 25px;
+  padding: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  grid-column-gap: 7px;
+  position: absolute;
+  right: 10px;
+  top: 35px;
+  transform: translateY(-15px);
+  z-index: 1;
+}
+.category__settings img {
+  width: 40px;
+  cursor: pointer;
+}
+.category__settings .category-edit {
+  margin-left: 5px;
+}
+.category__budgets {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+.category__budgets a {
+  text-decoration: none;
+  width: 100%;
+}
+.category__budgets__card {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  max-width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.category__budgets__card p {
+  align-self: center;
+  color: #3b413c;
+}
+.category__budgets__card div {
+  text-align: center;
+}
+.category__budgets__add {
+  width: 25px;
+}
+
+.create-budget-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.create-budget-form .form-input-field {
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+}
+.create-budget-form .form-input-field input {
+  height: 40px;
+  border: 1px solid #3b413c;
+  border-radius: 5px;
+  font-size: 20px;
+  padding-left: 15px;
+}
+.create-budget-form .form-actions {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+.create-budget-form .form-actions input {
+  height: 40px;
+  width: 40%;
+  border: none;
+  box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+.create-budget-form .form-actions input[type=submit] {
+  background-color: #ffb6c1;
+}
+
+.log {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  padding: 5px;
+  color: #fefefe;
+}
+.log > p {
+  align-self: center;
+}
+
+/*# sourceMappingURL=styles.css.map */
