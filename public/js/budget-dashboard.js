@@ -43,7 +43,7 @@ categoryCards.forEach(card => {
         document.querySelector('body').appendChild(popupContainer);
     })
 
-    // const id = card.getAttribute('data-id');
+    const id = card.getAttribute('data-id');
 
     // // card click
     // const cardElement = card.querySelector('.category__card');

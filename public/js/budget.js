@@ -24,7 +24,7 @@ shareBtn.addEventListener('click', async function () {
     
     const shareCodeResponse = await fetch("/budget/get-share-code");
     const shareCodeData = await shareCodeResponse.json();
-    const shareCode = `http://localhost:5500/account/register/${shareCodeData.shareCode}`;
+    const shareCode = `http://budgetbuddies.fieldtechinnovations.com/account/register/${shareCodeData.shareCode}`;
 
     const overlay = document.createElement('div');
     overlay.className = "overlay share";
