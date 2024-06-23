@@ -57,7 +57,8 @@ async function deleteSubCategory(req, res) {
 
     const response = await budgetModel.removeSubCategory(sub_id);
 
-    res.status(201).send("success");
+    //res.status(201).send("success");
+    res.redirect("/budget/");
 }
 
 async function updateSubCategory(req, res) {
@@ -65,7 +66,7 @@ async function updateSubCategory(req, res) {
 
     const response = await budgetModel.editSubCategory(sub_id, sub_name, sub_budget);
 
-    res.status(201).send("success");
+    res.redirect(`/budget/logs/${sub_id}`);
 }
 
 async function getSubCategories(req, res) {
@@ -113,7 +114,7 @@ async function buildLogs(req, res) {
 
     const logElements = utilities.buildLogEntries(logsData);
 
-    res.render('budget/logs', { logElements, budget_name: budget })
+    res.render('budget/logs', { logElements, id: sub_id, budget_name: budget })
 }
 
 async function getShareCode(req, res) {
@@ -124,4 +125,16 @@ async function getShareCode(req, res) {
     res.json({shareCode: shareCode.bg_sharecode});
 }
 
-module.exports = { buildDashboard, buildLog, createCategory, editCategory, deleteCategory, createSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, getShareCode, createLog, removeLog, editLog, buildLogs };
+async function renderBudgetEdit(req, res) {
+    const sub_id = req.params.sub_id;
+    const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
+
+    const budget_data = await budgetModel.getSubCategory(sub_id);
+
+    let sub_budget = budget_data.sub_budget.replace('$', '');
+    sub_budget = parseInt(sub_budget);
+
+    res.render('budget/editSubCategory', { id: sub_id, name: budget_data.sub_name, budget: sub_budget, budget_name: budget})
+}
+
+module.exports = { buildDashboard, buildLog, createCategory, editCategory, deleteCategory, createSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, getShareCode, createLog, removeLog, editLog, buildLogs, renderBudgetEdit };

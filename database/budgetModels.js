@@ -108,6 +108,22 @@ async function editSubCategory(sub_id, sub_name, sub_budget) {
     }
 }
 
+async function getSubCategory(sub_id) {
+    try {
+        const result = await pool.query(
+            `SELECT sub_name, sub_budget
+            FROM public.sub_category
+            WHERE sub_id=$1`, [sub_id]
+        )
+
+        return result.rows[0];
+    } catch (err) {
+        console.log(`Error while getting sub category: ${err}`);
+
+        return false;
+    }
+}
+
 async function getSubCategories(cat_id) {
     try {
         const result = await pool.query(
@@ -219,4 +235,4 @@ async function updateLog(exp_id, sub_id, exp_for, exp_description, exp_date, exp
     }
 }
 
-module.exports = { addCategory, getCategories, deleteCategory, editCategory, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getBudgetShareCode, getBudgetName, getLogs, addLog, deleteLog, updateLog }
+module.exports = { addCategory, getCategories, deleteCategory, editCategory, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getBudgetShareCode, getBudgetName, getLogs, addLog, deleteLog, updateLog, getSubCategory }

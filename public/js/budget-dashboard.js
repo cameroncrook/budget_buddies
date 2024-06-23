@@ -17,11 +17,11 @@ categoryCards.forEach(card => {
         <form class="create-budget-form" action="/budget/create-sub-category" method="post">
             <div class="form-input-field">
                 <label for="sub_name">Name</label>
-                <input type="text" id="sub_name" name="sub_name">
+                <input type="text" id="sub_name" name="sub_name" required>
             </div>
             <div class="form-input-field">
                 <label for="sub_budget">Budget</label>
-                <input type="number" id="sub_budget" name="sub_budget" pattern="/^\d+(\.\d{1,2})?$/">
+                <input type="number" id="sub_budget" name="sub_budget" step="0.01" min="0" placeholder="0.00" required>
             </div>
             <div class="form-actions">
                 <input class="form-cancel" type="button" value="CANCEL">
@@ -44,65 +44,6 @@ categoryCards.forEach(card => {
     })
 
     const id = card.getAttribute('data-id');
-
-    // // card click
-    // const cardElement = card.querySelector('.category__card');
-    // cardElement.addEventListener('click', function () {
-    //     const expandedValue = card.getAttribute('aria-expanded');
-    //     const expanded = expandedValue === "true";
-
-    //     if (expanded) {
-    //         const budgetsDiv = card.querySelector('.category__budgets');
-
-    //         if (budgetsDiv) {
-    //             card.removeChild(budgetsDiv);
-    //         }
-            
-    //    } else {
-
-            // const budgetsDiv = document.createElement('div');
-            // budgetsDiv.className = "category__budgets";
-            // budgetsDiv.innerHTML = `
-            // <img class="category__budgets__add" src="/images/add.png" alt="Add new sub category">
-            // `
-
-            // Move to a pop-up box
-            // budgetsDiv.querySelector('.category__budgets__add').addEventListener('click', function () {
-            //     const budgetForm = `
-            //     <form class="create-budget-form" action="/budget/create-sub-category" method="post">
-            //         <div class="form-input-field">
-            //             <label for="sub_name">Name</label>
-            //             <input type="text" id="sub_name" name="sub_name">
-            //         </div>
-            //         <div class="form-input-field">
-            //             <label for="sub_budget">Budget</label>
-            //             <input type="number" id="sub_budget" name="sub_budget" pattern="/^\d+(\.\d{1,2})?$/">
-            //         </div>
-            //         <div class="form-actions">
-            //             <input class="form-cancel" type="button" value="CANCEL">
-            //             <input type="submit" value="CREATE">
-            //         </div>
-            //         <input type="hidden" name="cat_id" value="${id}">
-            //     </form>
-            //     `
-
-            //     const popupContainer = document.createElement('div');
-            //     popupContainer.innerHTML = budgetForm;
-            //     popupContainer.className = "overlay overlay--lg";
-
-            //     // cancel button
-            //     popupContainer.querySelector('.form-cancel').addEventListener('click', function () {
-            //         document.querySelector('body').removeChild(popupContainer);
-            //     })
-
-            //     document.querySelector('body').appendChild(popupContainer);
-            // })
-
-    //         card.appendChild(budgetsDiv);
-    //     }
-
-    //     card.setAttribute('aria-expanded', !expanded);
-    // })
 
     const settingsIcon = card.querySelector('.category-settings');
     const deleteIcon = card.querySelector('.category-delete');

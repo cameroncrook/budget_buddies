@@ -18,6 +18,8 @@ router.post("/create-log", budgetController.createLog);
 router.post("/remove-log", budgetController.removeLog);
 router.post("/edit-log", budgetController.editLog);
 
+router.get("/budget-edit/:sub_id", budgetController.renderBudgetEdit);
+
 router.get("/logs/:sub_id", budgetController.buildLogs);
 
 router.get("/get-share-code", budgetController.getShareCode);
