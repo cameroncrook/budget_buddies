@@ -114,6 +114,9 @@ async function buildLogs(req, res) {
 
     const logElements = utilities.buildLogEntries(logsData);
 
+    console.log('here');
+    console.log(sub_id);
+
     res.render('budget/logs', { logElements, id: sub_id, budget_name: budget })
 }
 
