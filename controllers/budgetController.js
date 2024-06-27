@@ -134,7 +134,7 @@ async function renderBudgetEdit(req, res) {
     let sub_budget = budget_data.sub_budget.replace('$', '');
     sub_budget = parseInt(sub_budget);
 
-    res.render('budget/editSubCategory', { name: budget_data.sub_name, budget: sub_budget, budget_name: budget, sub_id })
+    res.render('budget/editSubCategory', { name: budget_data.sub_name, budget: sub_budget, budget_name: budget, id: sub_id })
 }
 
 module.exports = { buildDashboard, buildLog, createCategory, editCategory, deleteCategory, createSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, getShareCode, createLog, removeLog, editLog, buildLogs, renderBudgetEdit };
