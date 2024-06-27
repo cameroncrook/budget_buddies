@@ -129,7 +129,8 @@ async function getShareCode(req, res) {
 }
 
 async function renderBudgetEdit(req, res) {
-    const sub_id = req.params.sub_id;
+    const an_id = req.params.sub_id;
+    const sub_id = 5;
     const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
 
     const budget_data = await budgetModel.getSubCategory(sub_id);
@@ -137,7 +138,7 @@ async function renderBudgetEdit(req, res) {
     let sub_budget = budget_data.sub_budget.replace('$', '');
     sub_budget = parseInt(sub_budget);
 
-    res.render('budget/editSubCategory', { id: sub_id, name: budget_data.sub_name, budget: sub_budget, budget_name: budget})
+    res.render('budget/editSubCategory', { name: budget_data.sub_name, budget: sub_budget, budget_name: budget, sub_id })
 }
 
 module.exports = { buildDashboard, buildLog, createCategory, editCategory, deleteCategory, createSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, getShareCode, createLog, removeLog, editLog, buildLogs, renderBudgetEdit };
