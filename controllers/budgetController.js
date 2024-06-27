@@ -114,10 +114,7 @@ async function buildLogs(req, res) {
 
     const logElements = utilities.buildLogEntries(logsData);
 
-    console.log('here');
-    console.log(sub_id);
-
-    res.render('budget/logs', { logElements, id: sub_id, budget_name: budget })
+    res.render('budget/logs', { logElements, sub_id, budget_name: budget })
 }
 
 async function getShareCode(req, res) {
@@ -129,8 +126,7 @@ async function getShareCode(req, res) {
 }
 
 async function renderBudgetEdit(req, res) {
-    const an_id = req.params.sub_id;
-    const sub_id = 5;
+    const sub_id = req.params.sub_id;
     const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
 
     const budget_data = await budgetModel.getSubCategory(sub_id);
