@@ -178,7 +178,9 @@ async function getLogs(sub_id) {
             FROM expenditure e
                 INNER JOIN account a
                 ON a.account_id = e.account_id
-            WHERE sub_id=$1;`, [sub_id]
+            WHERE sub_id=$1
+            AND DATE_TRUNC('month', e.exp_date) = DATE_TRUNC('month', CURRENT_DATE)
+            ORDER BY e.exp_date DESC;`, [sub_id]
         )
 
         return result.rows;
