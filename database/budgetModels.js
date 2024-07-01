@@ -235,4 +235,42 @@ async function updateLog(exp_id, sub_id, exp_for, exp_description, exp_date, exp
     }
 }
 
-module.exports = { addCategory, getCategories, deleteCategory, editCategory, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getBudgetShareCode, getBudgetName, getLogs, addLog, deleteLog, updateLog, getSubCategory }
+async function getBudgetIdFromSub(sub_id) {
+    try {
+        const result = await pool.query(
+            `SELECT bp.bg_id FROM budget_plan bp
+            INNER JOIN public.budget_category bc
+            ON bc.bg_id = bp.bg_id
+            INNER JOIN public.sub_category sc 
+            ON sc.cat_id = bc.cat_id
+            WHERE sc.sub_id = $1;`, [sub_id]
+        )
+
+        return result.rows[0];
+    } catch (err) {
+        console.log(`Error while getting budget_id: ${err}`);
+
+        return false;
+    }
+}
+
+async function getTotalBudget(bp_id) {
+    try {
+        const result = await pool.query(
+            `SELECT SUM(sc.sub_budget) as total FROM public.budget_plan bp
+            INNER JOIN public.budget_category bc
+            ON bp.bg_id = bc.bg_id
+            INNER JOIN public.sub_category sc
+            ON bc.cat_id = sc.cat_id
+            WHERE bp.bg_id = $1;`, [bp_id]
+        )
+
+        return result.rows[0].total;
+    } catch (err) {
+        console.log(`Error while getting total budget: ${err}`);
+
+        return false;
+    }
+}
+
+module.exports = { addCategory, getCategories, deleteCategory, editCategory, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getBudgetShareCode, getBudgetName, getLogs, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getTotalBudget }

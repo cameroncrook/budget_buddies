@@ -8,6 +8,19 @@ function requireLogin(req, res, next) {
     }
 }
 
+async function checkAuthorization(req, res, next) {
+    const sub_id = req.params.sub_id;
+
+    const target_id = await budgetModel.getBudgetIdFromSub(sub_id);
+    const authorized_id = req.session.user.bg_id;
+
+    if (target_id.bg_id == authorized_id) {
+        next();
+    } else {
+        return res.redirect("/budget/");
+    }
+}
+
 async function buildCategoryCards(categories) {
     let html = '';
     for (const category of categories) {
@@ -81,4 +94,4 @@ function buildLogEntries(logs) {
     return html;
 }
 
-module.exports = { requireLogin, buildCategoryCards, buildCategoryOptions, buildLogEntries };
+module.exports = { requireLogin, buildCategoryCards, buildCategoryOptions, buildLogEntries, checkAuthorization };

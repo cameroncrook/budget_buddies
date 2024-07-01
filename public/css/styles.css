@@ -37,7 +37,7 @@ header {
   min-height: 100vh;
 }
 .budget-layout main {
-  margin-bottom: 100px;
+  padding-bottom: 100px;
 }
 
 .overlay {
@@ -68,6 +68,7 @@ header {
   box-shadow: 0px 12px 18px -6px rgba(0, 0, 0, 0.3);
   padding-right: 10px;
   padding-left: 10px;
+  cursor: pointer;
 }
 .button--text-icon {
   display: flex;
@@ -247,6 +248,46 @@ nav img {
 }
 .log-form__submit {
   background-color: #ffb6c1;
+}
+
+.delete-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fefefe;
+  text-align: center;
+}
+.delete-form__heading {
+  font-size: 28px;
+  font-weight: bold;
+}
+.delete-form__sub-text {
+  font-style: italic;
+}
+.delete-form__delete {
+  background-color: #add8e6;
+}
+.delete-form button {
+  font-size: 20px;
+  border: none;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 0 15px 0 15px;
+  cursor: pointer;
+}
+
+.total-budget {
+  text-align: center;
+  color: #e3d888;
+}
+.total-budget__amount {
+  font-weight: bold;
+  font-size: 50px;
+  margin-top: 0px;
+}
+.total-budget__sub-title {
+  font-style: italic;
+  font-size: 16px;
 }
 
 .category-display {

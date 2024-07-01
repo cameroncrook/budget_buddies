@@ -4,12 +4,13 @@ const utilities = require('../utilities/');
 async function buildDashboard(req, res) {
     const user = req.session.user;
     const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
+    const totalBudget = await budgetModel.getTotalBudget(req.session.user.bg_id);
 
     const categories = await budgetModel.getCategories(user.bg_id);
 
     const categoryCards = await utilities.buildCategoryCards(categories);
 
-    res.render('budget/dashboard', { budget_name: budget, categoryCards });
+    res.render('budget/dashboard', { budget_name: budget, total: totalBudget, categoryCards });
 }
 
 async function createCategory(req, res) {
@@ -53,12 +54,12 @@ async function createSubCategory(req, res) {
 }
 
 async function deleteSubCategory(req, res) {
-    const { sub_id } = req.body;
+    // const { sub_id } = req.body;
+    const sub_id = req.params.sub_id;
 
     const response = await budgetModel.removeSubCategory(sub_id);
 
-    //res.status(201).send("success");
-    res.redirect("/budget/");
+    res.status(201).send("success");
 }
 
 async function updateSubCategory(req, res) {
