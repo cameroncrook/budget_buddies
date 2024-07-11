@@ -127,7 +127,7 @@ async function getSubCategory(sub_id) {
 async function getSubCategories(cat_id) {
     try {
         const result = await pool.query(
-            `SELECT s.*, (sub_budget - (SELECT SUM(exp_cost) as total FROM public.expenditure WHERE sub_id = s.sub_id AND DATE_TRUNC('month', exp_date) = DATE_TRUNC('month', CURRENT_DATE))) AS sub_remaining
+            `SELECT s.*, (sub_budget - (SELECT SUM(exp_cost) as total FROM public.expenditure WHERE sub_id = s.sub_id AND exp_date >= (DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month' + INTERVAL '18 days') AND exp_date < (DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '19 days'))) AS sub_remaining
             FROM public.sub_category s
             WHERE cat_id=$1;`, [cat_id]
         )
@@ -179,7 +179,8 @@ async function getLogs(sub_id) {
                 INNER JOIN account a
                 ON a.account_id = e.account_id
             WHERE sub_id=$1
-            AND DATE_TRUNC('month', e.exp_date) = DATE_TRUNC('month', CURRENT_DATE)
+            AND e.exp_date >= (DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month' + INTERVAL '18 days')
+            AND e.exp_date < (DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '19 days')
             ORDER BY e.exp_date DESC;`, [sub_id]
         )
 
