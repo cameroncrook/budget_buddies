@@ -126,8 +126,12 @@ async function getSubCategory(sub_id) {
 
 async function getSubCategories(cat_id) {
     try {
+        const currentDate = new Date();
+
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1;
         const result = await pool.query(
-            `SELECT s.*, (sub_budget - (SELECT SUM(exp_cost) as total FROM public.expenditure WHERE sub_id = s.sub_id AND exp_date >= (DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month' + INTERVAL '18 days') AND exp_date < (DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '19 days'))) AS sub_remaining
+            `SELECT s.*, (sub_budget - (SELECT SUM(exp_cost) as total FROM public.expenditure WHERE sub_id = s.sub_id AND exp_date BETWEEN '${year}/${String(month).padStart(2, '0')}/19' AND '${month >= 12 ? `${year+1}/01/18` : `${year}/${String(month + 1).padStart(2, '0')}/18`}')) AS sub_remaining
             FROM public.sub_category s
             WHERE cat_id=$1;`, [cat_id]
         )
@@ -173,14 +177,17 @@ async function getBudgetName(bg_id) {
 
 async function getLogs(sub_id) {
     try {
+        const currentDate = new Date();
+
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1;
         const result = await pool.query(
             `SELECT a.account_firstname, e.exp_for, e.exp_cost, e.exp_description, e.exp_date 
             FROM expenditure e
                 INNER JOIN account a
                 ON a.account_id = e.account_id
             WHERE sub_id=$1
-            AND e.exp_date >= (DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month' + INTERVAL '18 days')
-            AND e.exp_date < (DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '19 days')
+            AND e.exp_date BETWEEN '${year}/${String(month).padStart(2, '0')}/19' AND '${month >= 12 ? `${year+1}/01/18` : `${year}/${String(month + 1).padStart(2, '0')}/18`}'
             ORDER BY e.exp_date DESC;`, [sub_id]
         )
 
