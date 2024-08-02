@@ -8,7 +8,8 @@ async function buildDashboard(req, res) {
 
     const categories = await budgetModel.getCategories(user.bg_id);
 
-    const categoryCards = await utilities.buildCategoryCards(categories);
+    const dateRanges = utilities.getLogDateRange();
+    const categoryCards = await utilities.buildCategoryCards(categories, dateRanges);
 
     res.render('budget/dashboard', { budget_name: budget, total: totalBudget, categoryCards });
 }
@@ -73,7 +74,8 @@ async function updateSubCategory(req, res) {
 async function getSubCategories(req, res) {
     const cat_id = req.params.cat_id;
 
-    const response = await budgetModel.getSubCategories(cat_id);
+    const dateRanges = utilities.getLogDateRange();
+    const response = await budgetModel.getSubCategories(cat_id, dateRanges);
 
     res.json(response);
 }
@@ -111,7 +113,8 @@ async function buildLogs(req, res) {
     const sub_id = req.params.sub_id;
     const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
 
-    const logsData = await budgetModel.getLogs(sub_id);
+    const dateRanges = utilities.getLogDateRange();
+    const logsData = await budgetModel.getLogs(sub_id, dateRanges);
 
     const logElements = utilities.buildLogEntries(logsData);
 

@@ -21,10 +21,10 @@ async function checkAuthorization(req, res, next) {
     }
 }
 
-async function buildCategoryCards(categories) {
+async function buildCategoryCards(categories, dateRanges) {
     let html = '';
     for (const category of categories) {
-        const budgets = await budgetModel.getSubCategories(category.cat_id);
+        const budgets = await budgetModel.getSubCategories(category.cat_id, dateRanges);
 
         let budgetHtml = '';
         budgets.forEach(budget => {
@@ -94,4 +94,37 @@ function buildLogEntries(logs) {
     return html;
 }
 
-module.exports = { requireLogin, buildCategoryCards, buildCategoryOptions, buildLogEntries, checkAuthorization };
+function getLogDateRange() {
+    let dateRanges = {};
+
+    const currentDate = new Date();
+
+    const setDay = 19;
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const day = currentDate.getDay();
+
+    if (day < 19) {
+        dateRanges.start_month = String(month - 1).padStart(2, '0');
+        dateRanges.end_month = String(month).padStart(2, '0');
+    } else {
+        dateRanges.start_month = String(month).padStart(2, '0');
+        dateRanges.end_month = String(month + 1).padStart(2, '0');
+    }
+
+    dateRanges.start_year = year;
+
+    if (dateRanges.end_month > 12) {
+        dateRanges.end_month = '01';
+        dateRanges.end_year = year + 1;
+    } else {
+        dateRanges.end_year = year;
+    }
+
+    dateRanges.start_day = String(setDay).padStart(2, '0');
+    dateRanges.end_day = String(setDay - 1).padStart(2, '0');
+
+    return dateRanges;
+}
+
+module.exports = { requireLogin, buildCategoryCards, buildCategoryOptions, buildLogEntries, checkAuthorization, getLogDateRange };
