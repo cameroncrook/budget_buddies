@@ -102,7 +102,7 @@ function getLogDateRange() {
     const setDay = 19;
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
-    const day = currentDate.getDay();
+    const day = currentDate.getDate();
 
     if (day < 19) {
         dateRanges.start_month = String(month - 1).padStart(2, '0');
