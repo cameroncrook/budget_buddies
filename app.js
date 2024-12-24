@@ -1,9 +1,10 @@
 const express = require('express');
 const accountRoutes = require('./routes/accountRoutes');
 const budgetRoutes = require('./routes/budgetRoutes');
+const lifeRoutes = require('./routes/lifeRoutes');
 const static = require('./routes/static');
 const expressLayouts = require('express-ejs-layouts');
-const accountController = require('./controllers/accountController');
+const baseController = require('./controllers/baseController');
 const bodyParser = require('body-parser');
 const session = require("express-session")
 require("dotenv").config();
@@ -44,15 +45,23 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // ------------------------------------
 app.use(static);
 
-app.get("/", accountController.buildLogin);
+app.get("/", utilites.requireLogin, (req, res, next) => {
+    app.set('layout', 'layouts/layout');
+    next();
+}, baseController.buildHome);
 
 app.use("/budget", utilites.requireLogin, (req, res, next) => {
     app.set('layout', 'layouts/budget_layout');
     next();
 }, budgetRoutes);
 
+app.use("/life", (req, res, next) => {
+    app.set('layout', 'layouts/life_layout');
+    next();
+}, lifeRoutes);
+
 app.use("/account", (req, res, next) => {
-    app.set('layout', 'layouts/layout');
+    app.set('layout', 'layouts/account_layout');
     next();
 }, accountRoutes);
 

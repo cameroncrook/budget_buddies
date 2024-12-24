@@ -16,11 +16,11 @@ async function login(req, res) {
 
         req.session.user = user;
 
-        return res.redirect("/budget/");
+        return res.redirect("/");
     } else {
         console.log("login failed");
 
-        return res.redirect("/");
+        return res.redirect("/account/login");
     }
 }
 
