@@ -94,12 +94,11 @@ function buildLogEntries(logs) {
     return html;
 }
 
-function getLogDateRange() {
+function getLogDateRange(setDay) {
     let dateRanges = {};
 
     const currentDate = new Date();
 
-    const setDay = 19;
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
     const day = currentDate.getDate();
@@ -122,7 +121,18 @@ function getLogDateRange() {
     }
 
     dateRanges.start_day = String(setDay).padStart(2, '0');
-    dateRanges.end_day = String(setDay - 1).padStart(2, '0');
+
+    if (setDay == 1) {
+        const nextMonth = new Date(year, month, 0);
+
+        // Get the total days in the current month
+        const totalDays = nextMonth.getDate();
+
+        dateRanges.end_day = String(totalDays).padStart(2, '0');
+    } else {
+        dateRanges.end_day = String(setDay - 1).padStart(2, '0');
+    }
+    
 
     return dateRanges;
 }

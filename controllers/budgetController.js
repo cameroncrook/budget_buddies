@@ -8,7 +8,10 @@ async function buildDashboard(req, res) {
 
     const categories = await budgetModel.getCategories(user.bg_id);
 
-    const dateRanges = utilities.getLogDateRange();
+    const resetDay = await budgetModel.getBudgetResetDay(req.session.user.bg_id);
+    console.log(resetDay);
+    const dateRanges = utilities.getLogDateRange(resetDay);
+    console.log(dateRanges);
     const categoryCards = await utilities.buildCategoryCards(categories, dateRanges);
 
     res.render('budget/dashboard', { budget_name: budget, total: totalBudget, categoryCards });

@@ -74,9 +74,13 @@ categoryCards.forEach(card => {
     editIcon.addEventListener('click', function () {
         const cat_name = card.querySelector('.category__name').textContent;
         const cat_color = rgbToHex(card.style.backgroundColor);
-        console.log(cat_color.toLocaleLowerCase());
 
         card.innerHTML = buildCategoryForm("/budget/edit-category", cat_name, cat_color.toLowerCase(), id);
+
+        const colorSelect = card.querySelector('#cat_color');
+        colorSelect.addEventListener('change', function () {
+        card.style.backgroundColor = colorSelect.value;
+    })
     })
 })
 
@@ -134,16 +138,7 @@ function buildCategoryForm(action="/budget/create-category", cat_name=null, cat_
         </div>
         <div>
             <label for"cat_color">Color</label>
-            <select id="cat_color" name="cat_color">
-                <option value="#f08080" ${cat_color=="#f08080" ? 'selected' : ''}>Light Coral</option>
-                <option value="#fafad2" ${cat_color=="#fafad2" ? 'selected' : ''}>Light Goldenrod Yellow</option>
-                <option value="#90ee90" ${cat_color=="#90ee90" ? 'selected' : ''}>Light Green</option>
-                <option value="#ffb6c1" ${cat_color=="#ffb6c1" ? 'selected' : ''}>Light Pink</option>
-                <option value="#add8e6" ${cat_color=="#add8e6" ? 'selected' : ''}>Light Blue</option>
-                <option value="#ffa07a" ${cat_color=="#ffa07a" ? 'selected' : ''}>Light Salmon</option>
-                <option value="#20b2aa" ${cat_color=="#20b2aa" ? 'selected' : ''}>Light Sea Green</option>
-                <option value="#e6e6fa" ${cat_color=="#e6e6fa" ? 'selected' : ''}>Lavender</option>
-            </select>
+            <input type="color" id="cat_color" name="cat_color" value="${cat_color}" />
         </div>
         <input type="hidden" name="cat_id" value="${cat_id}">
         <input type="submit" value="Create">

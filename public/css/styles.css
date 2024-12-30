@@ -334,10 +334,14 @@ nav img {
   display: flex;
   justify-content: space-between;
 }
-.category__form input {
+.category__form input:not(input[type=color]) {
   border: none;
   padding: 5px;
   border-radius: 5px;
+}
+.category__form input[type=color] {
+  width: 25px;
+  height: 25px;
 }
 .category__form select {
   border: none;

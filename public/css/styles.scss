@@ -478,11 +478,16 @@ nav {
         display: flex;
         justify-content: space-between;
 
-        input {
+        input:not(input[type="color"]) {
             border: none;
             padding: 5px;
 
             border-radius: 5px;
+        }
+
+        input[type="color"] {
+            width: 25px;
+            height: 25px;
         }
 
         select {

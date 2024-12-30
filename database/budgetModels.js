@@ -174,7 +174,7 @@ async function getBudgetName(bg_id) {
 
 async function getLogs(sub_id, dateRanges) {
     try {
-        
+        // TODO: If Start day is `1` then it just goes by month
         const result = await pool.query(
             `SELECT a.account_firstname, e.exp_for, e.exp_cost, e.exp_description, e.exp_date 
             FROM expenditure e
@@ -277,4 +277,19 @@ async function getTotalBudget(bp_id) {
     }
 }
 
-module.exports = { addCategory, getCategories, deleteCategory, editCategory, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getBudgetShareCode, getBudgetName, getLogs, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getTotalBudget }
+async function getBudgetResetDay(bg_id) {
+    try {
+        const result = await pool.query(
+            `SELECT bg_budget_reset FROM public.budget_plan
+            WHERE bg_id = $1;`, [bg_id]
+        )
+
+        return result.rows[0].bg_budget_reset;
+    } catch (err) {
+        console.log(`Error while getting reset day: ${err}`);
+
+        return false;
+    }
+}
+
+module.exports = { addCategory, getCategories, deleteCategory, editCategory, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getBudgetShareCode, getBudgetName, getLogs, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getTotalBudget, getBudgetResetDay }
