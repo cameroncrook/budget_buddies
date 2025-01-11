@@ -1,0 +1,65 @@
+@import 'variables';
+@import 'parts';
+@import 'utility';
+
+.life-layout main {
+    padding: 0 20px;
+}
+
+section {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.food-options {
+    @include flexbox(row, space-evenly, center);
+
+    &__item {
+        cursor: pointer;
+        @include flexbox(column, center, center);
+        width: 40%;
+        max-width: 300px;
+        padding: 10px;
+        border-radius: 20px;
+
+        background-color: $primary;
+        box-shadow: $box-shadow-standard;
+
+        svg {
+            width: 40%;
+        }
+    }
+}
+
+.meals {
+    text-align: center;
+
+    &__display {
+        border: solid 2px $text-color;
+        border-radius: 20px;
+
+        height: 35vh;
+        overflow-y: scroll;
+    }
+}
+
+.instructions {
+    text-align: center;
+}
+
+#meal-form {
+    .instructions-display {
+        margin-top: 25px;
+        padding: 5px;
+        min-height: 20vh;
+    }
+}
+
+.ingredient-add-actions {
+
+    .note {
+        text-align: center;
+    }
+
+    
+}

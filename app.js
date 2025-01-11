@@ -6,6 +6,7 @@ const static = require('./routes/static');
 const expressLayouts = require('express-ejs-layouts');
 const baseController = require('./controllers/baseController');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const session = require("express-session")
 require("dotenv").config();
 const pool = require("./database/connection");
@@ -39,6 +40,9 @@ app.set('layout', 'layouts/layout');
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('X-HTTP-Method')) //          Microsoft
+app.use(methodOverride('X-HTTP-Method-Override')) // Google/GData
+app.use(methodOverride('X-Method-Override'))
 
 // ------------------------------------
 // Routes
@@ -55,7 +59,7 @@ app.use("/budget", utilites.requireLogin, (req, res, next) => {
     next();
 }, budgetRoutes);
 
-app.use("/life", (req, res, next) => {
+app.use("/life", utilites.requireLogin, (req, res, next) => {
     app.set('layout', 'layouts/life_layout');
     next();
 }, lifeRoutes);

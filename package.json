@@ -20,6 +20,7 @@
     "express": "^4.19.1",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.0",
+    "method-override": "^3.0.0",
     "pg": "^8.11.3"
   },
   "devDependencies": {

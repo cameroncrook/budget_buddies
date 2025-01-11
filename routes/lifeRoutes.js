@@ -4,7 +4,14 @@ const router = new express.Router();
 
 router.get('/', lifeController.buildMeals);
 
-router.get('/create', lifeController.buildMealCreate);
+router.get('/meal/create', lifeController.buildMealCreate);
+router.post('/meal/create', lifeController.handleMealCreate);
+
+router.get('/meal/:meal_id', lifeController.buildMeal);
+router.post('/meal', lifeController.handleMealUpdate);
+
+router.get('/ingredients/:meal_id', lifeController.buildIngredients);
+router.post('/ingredient', lifeController.handleAddIngredient);
 
 router.get('/add', lifeController.buildMealAdd);
 

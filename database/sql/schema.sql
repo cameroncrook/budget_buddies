@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS public.meal (
 
 CREATE TABLE IF NOT EXISTS public.ingredient (
     ingredient_id SERIAL PRIMARY KEY,
-    ingredient_name VARCHAR(25)
+    ingredient_name VARCHAR(25) UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS public.meal_ingredient (
@@ -49,6 +49,16 @@ CREATE TABLE IF NOT EXISTS public.meal_ingredient (
 
     FOREIGN KEY (meal_id) REFERENCES meal(meal_id) ON DELETE CASCADE,
     FOREIGN KEY (ingredient_id) REFERENCES ingredient(ingredient_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS public.pantry_meal (
+    pantry_meal_id SERIAL PRIMARY KEY,
+    pantry_meal_date DATE NOT NULL,
+    meal_id INT NOT NULL,
+    bg_id INT NOT NULL,
+
+    FOREIGN KEY (meal_id) REFERENCES meal(meal_id) ON DELETE CASCADE,
+    FOREIGN KEY (bg_id) REFERENCES budget_plan(bg_id) ON DELETE CASCADE
 );
 
 

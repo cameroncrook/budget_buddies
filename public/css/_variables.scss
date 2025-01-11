@@ -7,6 +7,9 @@ $accent1: #3b413c;
 $accent2: #e3d888; 
 $accent3: #28965a;
 
+$text-color: #333;
+$text-color-alt: #fefefe;
+
 $font-heading: "utopia-std-headline", serif;
 $font-body: "Lato", sans-serif;
 
@@ -18,7 +21,7 @@ h1, h2, h3, h4, h5, h6 {
     font-style: normal; 
 }
 
-p, input, a, span, label {
+p, input, a, span, label, textarea {
     font-family: $font-body;
     font-weight: 400;
     font-style: normal;

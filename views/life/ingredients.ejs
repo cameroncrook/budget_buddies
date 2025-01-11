@@ -1,0 +1,33 @@
+<section>
+    <h3>Current Ingredients</h3>
+    <div class="meal-ingredients-display">
+
+    </div>
+</section>
+
+<section>
+    <h3>Add Ingredients</h3>
+    <div class="ingredient-add-actions">
+        <form class="add-ingredient-form standard-form" method="POST" action="/life/">
+            <p class="note">Can't find your ingredient? Create an ingredient below</p>
+
+            <div class="form-group">
+                <label for="ingredient_name">Ingredient Name</label>
+                <input id="ingredient_name" name="ingredient_name" type="text" placeholder="E.g. Flour" />
+            </div>
+
+            <div class="form-group">
+                <label for="meal_ingredient_quantity">Quantity</label>
+                <input id="meal_ingredient_quantity" name="meal_ingredient_quantity" type="text" placeholder="E.g. 1/2 cup" />
+            </div>
+
+            <input type="hidden" name="meal_id" value="<%= meal_id %>" />
+
+            <input type="submit" value="Add" />
+        </form>
+    </div>
+
+    <div class="ingredients-display">
+        <%-  %>
+    </div>
+</section>
