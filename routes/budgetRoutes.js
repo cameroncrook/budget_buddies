@@ -25,5 +25,9 @@ router.get("/logs/:sub_id", utilities.checkAuthorization, budgetController.build
 
 router.get("/get-share-code", budgetController.getShareCode);
 
+router.get("/settings", budgetController.buildSettings);
+
+router.post("/edit-budget-day", budgetController.changeBudgetResetDay);
+
 module.exports = router;
 

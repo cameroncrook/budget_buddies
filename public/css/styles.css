@@ -1,15 +1,43 @@
 @import url("https://use.typekit.net/psd6dgn.css");
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+@import url("https://use.typekit.net/psd6dgn.css");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 h1, h2, h3, h4, h5, h6 {
   font-family: "utopia-std-headline", serif;
   font-weight: 400;
   font-style: normal;
 }
 
-p, input, a, span, label {
+p, input, a, span, label, textarea {
   font-family: "Lato", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "utopia-std-headline", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+p, input, a, span, label, textarea {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  background-color: #3b413c;
+}
+
+header {
+  padding-left: 20px;
+  color: #ffb6c1;
+}
+
+.note {
+  font-style: italic;
+  font-size: 14px;
 }
 
 nav {
@@ -35,8 +63,52 @@ nav svg {
   height: 25px;
 }
 
-body {
-  background-color: #3b413c;
+.standard-form {
+  display: flex;
+  flex-direction: column;
+  color: #fefefe;
+  padding: 25px;
+}
+.standard-form .form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+.standard-form label {
+  font-size: 20px;
+}
+.standard-form input, .standard-form select, .standard-form a {
+  border: 1px #3b413c solid;
+  border-radius: 10px;
+  height: 50px;
+  font-size: 20px;
+  padding-left: 15px;
+  margin-bottom: 20px;
+}
+.standard-form a {
+  background-color: #e3d888;
+  color: #333;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+}
+.standard-form textarea {
+  border: 1px #3b413c solid;
+  border-radius: 10px;
+  font-size: 20px;
+  padding-top: 15px;
+  padding-left: 15px;
+  margin-bottom: 20px;
+  height: 100px;
+}
+.standard-form input[type=submit] {
+  background-color: #ffb6c1;
+  cursor: pointer;
+  box-shadow: 0px 12px 18px -6px rgba(0, 0, 0, 0.3);
 }
 
 .account-layout {
@@ -47,11 +119,6 @@ body {
 .account-layout header {
   display: flex;
   align-items: center;
-}
-
-header {
-  padding-left: 20px;
-  color: #ffb6c1;
 }
 
 .budget-layout {
@@ -105,6 +172,30 @@ header {
   width: 20px;
 }
 
+.settings {
+  color: #fefefe;
+  padding: 25px;
+  margin-bottom: 50px;
+}
+.settings h2, .settings h3 {
+  color: #add8e6;
+}
+.settings__share {
+  text-align: center;
+  word-break: break-word;
+}
+.settings__accounts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+}
+.settings__accounts--item {
+  background-color: #fefefe;
+  color: #333;
+  padding: 5px;
+  margin: 0;
+}
+
 .account-form {
   width: 100%;
   height: 100%;
@@ -152,42 +243,6 @@ header {
 .account-form__submit a {
   color: #28965a;
   font-size: 20px;
-}
-
-.standard-form {
-  display: flex;
-  flex-direction: column;
-  color: #fefefe;
-  padding: 25px;
-}
-.standard-form > div {
-  display: flex;
-  flex-direction: column;
-}
-.standard-form label {
-  font-size: 20px;
-}
-.standard-form input, .standard-form select {
-  border: 1px #3b413c solid;
-  border-radius: 10px;
-  height: 50px;
-  font-size: 20px;
-  padding-left: 15px;
-  margin-bottom: 20px;
-}
-.standard-form textarea {
-  border: 1px #3b413c solid;
-  border-radius: 10px;
-  font-size: 20px;
-  padding-top: 15px;
-  padding-left: 15px;
-  margin-bottom: 20px;
-  height: 100px;
-}
-.standard-form input[type=submit] {
-  background-color: #ffb6c1;
-  cursor: pointer;
-  box-shadow: 0px 12px 18px -6px rgba(0, 0, 0, 0.3);
 }
 
 .log-form {

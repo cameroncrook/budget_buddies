@@ -1,6 +1,7 @@
 const crypt = require('crypto');
 const accountModel = require('../database/accountModels');
 const bcrypt = require("bcryptjs");
+const { title } = require('process');
 
 function buildLogin(req, res) {
     res.render("account/login", { title: "Budget Buddies", layout: 'layouts/layout' });
@@ -16,7 +17,7 @@ async function login(req, res) {
 
         req.session.user = user;
 
-        return res.redirect("/");
+        return res.redirect("/budget");
     } else {
         console.log("login failed");
 

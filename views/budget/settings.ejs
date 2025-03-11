@@ -1,0 +1,30 @@
+
+<section class="settings">
+    <h2>Share Settings</h2>
+
+    <div class="settings__share">
+        <p class="note">Send the link below to your partner. They will then create an account for the budget.</p>
+        <h3>Share Link</h3>
+        <p>http://budgetbuddies.fieldtechinnovations.com/account/register/<%= shareCode %></p>
+        <button id="link-copy">Copy</button>
+    </div>
+
+    <h3>Accounts Registered on this Budget</h3>
+    <div class="settings__accounts">
+        <%- budgetAccountsHtml %>
+    </div>
+
+    <p class="note">Keep your budget safe. Don't recognize an account here? Contact Cameron at <a href="mailto:cameronbcrook@gmail.com">cameronbcrook@gmail.com</a>.</p>
+</section>
+
+<section class="settings">
+    <h2>Budget Settings</h2>
+
+    <form class="standard-form" method="post" action="/budget/edit-budget-day">
+        <label style="margin-bottom: 5px;" for="bg_budget_reset">Budget Reset Day</label>
+        <div class="form-group">
+            <input style="text-align: center;" id="bg_budget_reset" name="bg_budget_reset" type="number" min="1" max="28" value="<%= budgetResetDay %>">
+        </div>
+        <input type="submit" value="Change">
+    </form>
+</section>

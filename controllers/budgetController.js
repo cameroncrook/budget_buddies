@@ -1,5 +1,6 @@
 const budgetModel = require('../database/budgetModels');
 const utilities = require('../utilities/');
+const templates = require('../utilities/templates');
 
 async function buildDashboard(req, res) {
     const user = req.session.user;
@@ -77,7 +78,8 @@ async function updateSubCategory(req, res) {
 async function getSubCategories(req, res) {
     const cat_id = req.params.cat_id;
 
-    const dateRanges = utilities.getLogDateRange();
+    const resetDay = await budgetModel.getBudgetResetDay(req.session.user.bg_id);
+    const dateRanges = utilities.getLogDateRange(resetDay);
     const response = await budgetModel.getSubCategories(cat_id, dateRanges);
 
     res.json(response);
@@ -116,7 +118,8 @@ async function buildLogs(req, res) {
     const sub_id = req.params.sub_id;
     const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
 
-    const dateRanges = utilities.getLogDateRange();
+    const resetDay = await budgetModel.getBudgetResetDay(req.session.user.bg_id);
+    const dateRanges = utilities.getLogDateRange(resetDay);
     const logsData = await budgetModel.getLogs(sub_id, dateRanges);
 
     const logElements = utilities.buildLogEntries(logsData);
@@ -144,4 +147,29 @@ async function renderBudgetEdit(req, res) {
     res.render('budget/editSubCategory', { name: budget_data.sub_name, budget: sub_budget, budget_name: budget, id: sub_id })
 }
 
-module.exports = { buildDashboard, buildLog, createCategory, editCategory, deleteCategory, createSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, getShareCode, createLog, removeLog, editLog, buildLogs, renderBudgetEdit };
+async function buildSettings(req, res) {
+    const bg_id = req.session.user.bg_id;
+
+    const budget = await budgetModel.getBudgetName(bg_id);
+    const shareCode = await budgetModel.getBudgetShareCode(bg_id);
+    const budgetAccounts = await budgetModel.getBudgetAccounts(bg_id);
+    const budgetAccountsHtml = templates.budgetAccountsTemplate(budgetAccounts);
+    const budgetResetDay = await budgetModel.getBudgetResetDay(bg_id);
+
+    return res.render('budget/settings', { budget_name: budget, shareCode, budgetAccountsHtml, budgetResetDay });
+}
+
+async function changeBudgetResetDay(req, res) {
+    const { bg_budget_reset } = req.body;
+    const bg_id = req.session.user.bg_id;
+    
+    const response = await budgetModel.editBudgetResetDay(bg_budget_reset, bg_id);
+
+    if (response) {
+        return res.redirect('/budget/settings');
+    } else {
+        alert("Failed to update budget reset day");
+    }
+}
+
+module.exports = { buildDashboard, buildLog, createCategory, editCategory, deleteCategory, createSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, getShareCode, createLog, removeLog, editLog, buildLogs, renderBudgetEdit, buildSettings, changeBudgetResetDay };

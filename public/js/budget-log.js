@@ -7,10 +7,11 @@ async function getSubCategories() {
 
     const response = await fetch(`/budget/get-sub-categories/${cat_id}`);
     const data = await response.json();
+    console.log(data);
 
     let subCatOptions = '';
     data.forEach(subCategory => {
-        subCatOptions += `<option value="${subCategory.sub_id}">${subCategory.sub_name}</option>`
+        subCatOptions += `<option value="${subCategory.sub_id}">${subCategory.sub_name} - ${subCategory.sub_remaining != null ? subCategory.sub_remaining : subCategory.sub_budget} remaining</option>`
     });
 
     document.querySelector('#sub_id').innerHTML = subCatOptions;

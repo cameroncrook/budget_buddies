@@ -99,6 +99,46 @@
 
 
 
+// ----------------------------------
+// settings
+// ----------------------------------
+.settings {
+
+    color: $text-color-alt;
+    padding: 25px;
+    margin-bottom: 50px;
+
+    h2, h3 {
+        color: $primary;
+    }
+
+    &__share {
+        text-align: center;
+        word-break: break-word;
+    }
+
+    &__accounts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 5px;
+
+        &--item {
+            background-color: $text-color-alt;
+            color: $text-color;
+            padding: 5px;
+            margin: 0;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 
