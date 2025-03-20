@@ -1,6 +1,7 @@
 const express = require('express');
 const accountRoutes = require('./routes/accountRoutes');
 const budgetRoutes = require('./routes/budgetRoutes');
+const statsRoutes = require('./routes/statsRoutes');
 const static = require('./routes/static');
 const expressLayouts = require('express-ejs-layouts');
 const baseController = require('./controllers/baseController');
@@ -57,6 +58,11 @@ app.use("/budget", utilites.requireLogin, (req, res, next) => {
     app.set('layout', 'layouts/budget_layout');
     next();
 }, budgetRoutes);
+
+app.use("/stats", (req, res, next) => {
+    app.set('layout', 'layouts/budget_layout');
+    next();
+}, statsRoutes);
 
 app.use("/account", (req, res, next) => {
     app.set('layout', 'layouts/account_layout');

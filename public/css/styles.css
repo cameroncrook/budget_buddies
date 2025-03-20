@@ -172,6 +172,10 @@ nav svg {
   width: 20px;
 }
 
+.chart {
+  max-height: 70vh;
+}
+
 .settings {
   color: #fefefe;
   padding: 25px;
