@@ -44,6 +44,8 @@ app.use(methodOverride('X-HTTP-Method')) //          Microsoft
 app.use(methodOverride('X-HTTP-Method-Override')) // Google/GData
 app.use(methodOverride('X-Method-Override'))
 
+
+
 // ------------------------------------
 // Routes
 // ------------------------------------
@@ -59,7 +61,7 @@ app.use("/budget", utilites.requireLogin, (req, res, next) => {
     next();
 }, budgetRoutes);
 
-app.use("/stats", (req, res, next) => {
+app.use("/stats", utilites.requireLogin, (req, res, next) => {
     app.set('layout', 'layouts/budget_layout');
     next();
 }, statsRoutes);
@@ -72,3 +74,11 @@ app.use("/account", (req, res, next) => {
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`);
 })
+
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    app.set('layout', 'layouts/layout');
+    res.status(500);
+    res.render('error');
+});

@@ -38,6 +38,11 @@ a {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+.bg-primary-gradient {
+    background: $primary-gradient;
+    color: var(--text-w-background);
+    fill: var(--text-w-background);
+}
 
 .bg {
     &--primary {

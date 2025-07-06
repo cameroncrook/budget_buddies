@@ -119,4 +119,21 @@ p, input, a, span, label, textarea {
   width: 25px;
 }
 
+.add-category {
+  margin-top: 50px;
+  padding: 20px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  box-shadow: 0px 2px 18px 0px var(--shadow-color);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+}
+.add-category__icon {
+  width: 80%;
+}
+
 /*# sourceMappingURL=dashboard.css.map */

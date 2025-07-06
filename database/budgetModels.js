@@ -1,11 +1,11 @@
 const pool = require('./connection');
 
-async function addCategory(cat_name, cat_color, bg_id) {
+async function addCategory(cat_name, bg_id) {
     try {
         await pool.query(
-            `INSERT INTO public.budget_category (cat_name, cat_color, bg_id)
-            VALUES ($1, $2, $3)
-            `, [cat_name, cat_color, bg_id]
+            `INSERT INTO public.budget_category (cat_name, bg_id)
+            VALUES ($1, $2)
+            `, [cat_name, bg_id]
         )
 
         return true;

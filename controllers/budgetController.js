@@ -36,23 +36,22 @@ async function buildDashboard(req, res) {
 }
 
 function renderCreateCategory(req, res) {
-    const endpoint = "/create";
+    const endpoint = "create";
     const category = {cat_id: "", cat_name: ""};
 
     res.render('budget/category', {category, endpoint, edit: false, scripts: ''});
 }
-async function createCategory(req, res) {
-    const { cat_name, cat_color } = req.body;
+async function createCategory(req, res, next) {
+    const { cat_name } = req.body;
 
     const user = req.session.user;
 
-    const response = await budgetModel.addCategory(cat_name, cat_color, user.bg_id);
+    const response = await budgetModel.addCategory(cat_name, user.bg_id);
 
     if (response) {
         res.redirect("/budget/");
     } else {
-        console.log("failed");
-        res.redirect("/budget/");
+        next(new Error());
     }
 }
 async function renderEditCategory(req, res) {

@@ -149,4 +149,4 @@ const generateUniqueSlug = async (name) => {
 };
 
 
-module.exports = { requireLogin, buildCategoryOptions, buildLogEntries, checkAuthorization, checkAuthorizationForCategory, getLogDateRange, buildCategoriesObject, generateUniqueSlug };
+module.exports = { requireLogin, buildCategoryOptions, buildLogEntries, checkAuthorization, checkAuthorizationForCategory, getLogDateRange, buildCategoriesObject, generateUniqueSlug};
