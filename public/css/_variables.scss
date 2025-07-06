@@ -1,5 +1,5 @@
 @import url("https://use.typekit.net/psd6dgn.css");
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Quicksand:wght@300..700&display=swap');
 
 $primary: #add8e6; 
 $secondary: #ffb6c1; 
@@ -10,10 +10,62 @@ $accent3: #28965a;
 $text-color: #333;
 $text-color-alt: #fefefe;
 
-$font-heading: "utopia-std-headline", serif;
-$font-body: "Lato", sans-serif;
+:root {
+    --primary: #6CE5E8;
+    --accent1: #41B8D5;
+    --accent2: #2D8BBA;
+    --accent3: #2F5F98;
+    --accent4: #31356E;
+    --background: #1E1E1E;
+    --text: #FEFEFE;
+    --text-w-background: #1E1E1E;
+    --accent: #E4E4E4;
+    --shadow-color: rgba(255, 255, 255, 0.3);
+}
+[data-theme='light-blue'] {
+    --primary: #6CE5E8;
+    --accent1: #41B8D5;
+    --accent2: #2D8BBA;
+    --accent3: #2F5F98;
+    --accent4: #31356E;
+    --background: #FEFEFE;
+    --text: #1E1E1E;
+    --text-w-background: #FEFEFE;
+    --accent: #E4E4E4;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+[data-theme='light-pink'] {
+    --primary: #FAADE3;
+    --accent1: #D541A7;
+    --accent2: #BA2D93;
+    --accent3: #982F7E;
+    --accent4: #6E3161;
+    --background: #FEFEFE;
+    --text: #1E1E1E;
+    --text-w-background: #FEFEFE;
+    --accent: #E4E4E4;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+[data-theme='dark-pink'] {
+    --primary: #FAADE3;
+    --accent1: #D541A7;
+    --accent2: #BA2D93;
+    --accent3: #982F7E;
+    --accent4: #6E3161;
+    --background: #1E1E1E;
+    --text: #FEFEFE;
+    --text-w-background: #1E1E1E;
+    --accent: #E4E4E4;
+    --shadow-color: rgba(255, 255, 255, 0.3);
+}
 
-$box-shadow-standard: 0px 12px 18px -6px rgba(0, 0, 0, 0.3);
+$primary-gradient: linear-gradient(to right, var(--primary), var(--accent1), var(--accent2), var(--accent3), var(--accent4));
+
+$font-heading: "DM Serif Display", serif;
+$font-body: "Quicksand", sans-serif;
+
+$box-shadow-standard: 0px 12px 18px -6px var(--shadow-color);
+$box-shadow-card: 0px 2px 18px 0px var(--shadow-color);
 
 h1, h2, h3, h4, h5, h6 {
     font-family: $font-heading;

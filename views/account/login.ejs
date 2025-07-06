@@ -1,18 +1,16 @@
-<form class="account-form" action="/account/login" method="post">
-    <div class="account-form__inputs">
-        <div>
-            <label for="account_username">Username</label>
-            <input id="account_username" name="account_username" type="text">
-        </div>
-    
-        <div>
-            <label for="account_password">Password</label>
-            <input id="account_password" name="account_password" type="password">
-        </div>
+<form class="standard-form" action="/account/login" method="post">
+    <div class="standard-form__form-group">
+        <label for="account_username">Username</label>
+        <input id="account_username" name="account_username" type="text">
+    </div>
+
+    <div class="standard-form__form-group">
+        <label for="account_password">Password</label>
+        <input id="account_password" name="account_password" type="password">
     </div>
     
-    <div class="account-form__submit">
+    <div class="standard-form__form-group">
         <input type="submit" value="Login">
-        <a href="/account/create-budget">Create a budget</a>
+        <a class="text-center" href="/account/create-budget">Create a budget</a>
     </div>
 </form>

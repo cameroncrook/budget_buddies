@@ -1,24 +1,24 @@
-<form class="account-form" action="/account/register" method="post">
-    <div class="account-form__inputs">
-        <div>
-            <label for="account_firstname">First Name</label>
-            <input id="account_firstname" name="account_firstname" type="text">
-        </div>
+<h2>Create a '<%= budgetName %>' account</h2>
 
-        <div>
-            <label for="account_username">Username</label>
-            <input id="account_username" name="account_username" type="text">
-        </div>
-        
-        <div>
-            <label for="account_password">Password</label>
-            <input id="account_password" name="account_password" type="text">
-        </div>
+<form class="standard-form" action="/account/register" method="post">
+    <div class="standard-form__form-group">
+        <label for="account_firstname">First Name</label>
+        <input id="account_firstname" name="account_firstname" type="text">
+    </div>
+
+    <div class="standard-form__form-group">
+        <label for="account_username">Username</label>
+        <input id="account_username" name="account_username" type="text">
+    </div>
+    
+    <div class="standard-form__form-group">
+        <label for="account_password">Password</label>
+        <input id="account_password" name="account_password" type="text">
     </div>
 
     <input type="hidden" name="bg_code" value="<%= shareCode %>">
     
-    <div class="account-form__submit">
+    <div class="standard-form__form-group">
         <input type="submit" value="Register">
     </div>
 </form>

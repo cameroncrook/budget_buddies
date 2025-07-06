@@ -1,0 +1,26 @@
+<form class="standard-form" method="POST" action="/budget/sub-category<%= endpoint %>">
+    <div class="standard-form__form-group">
+        <label for="cat_id">Category:</label>
+        <select id="cat_id" name="cat_id" required>
+            <%- categoryOptions %>
+        </select>
+    </div>
+    <div class="standard-form__form-group">
+        <label for="sub_name">Subcategory Name:</label>
+        <input type="text" id="sub_name" name="sub_name" value="<%= subcategory.sub_name %>" maxlength="25" pattern="[A-Za-z0-9 ]+" required title="Only letters, numbers, and spaces are allowed. Max 25 characters.">
+    </div>
+    <div class="standard-form__form-group">
+        <label for="sub_budget">Budget Amount:</label>
+        <input type="number" id="sub_budget" name="sub_budget" value="<%= subcategory.sub_budget %>" step="0.01" min="0" required>
+    </div>
+    <div class="standard-form__form-group">
+        <label for="is_savings">Is Savings?</label>
+        <input type="hidden" name="is_savings" value="<%= subcategory.is_savings ? 'true' : 'false' %>">
+        <input type="checkbox" id="is_savings" <%= subcategory.is_savings ? 'checked' : '' %>>
+    </div>
+    <% if (edit) { %>
+        <input type="hidden" name="sub_id" value="<%= subcategory.sub_id %>">
+    <% } %>
+     
+    <input type="submit" value="Submit"/>
+</form>

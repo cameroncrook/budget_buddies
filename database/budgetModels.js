@@ -14,7 +14,20 @@ async function addCategory(cat_name, cat_color, bg_id) {
         return false;
     }
 }
+async function getCategory(cat_id) {
+    try {
+        const result = await pool.query(
+            `SELECT cat_id, cat_name FROM public.budget_category
+            WHERE cat_id = $1
+            `, [cat_id]
+        );
 
+        return result.rows[0];
+    } catch(err) {
+        console.log(`Error while getting category: ${err}`);
+        return false;
+    }
+}
 async function deleteCategory(cat_id) {
     try {
         await pool.query(
@@ -30,13 +43,13 @@ async function deleteCategory(cat_id) {
     }
 }
 
-async function editCategory(cat_id, cat_name, cat_color) {
+async function editCategory(cat_id, cat_name) {
     try {
         await pool.query(
             `UPDATE public.budget_category
-            SET cat_name=$1, cat_color=$2
-            WHERE cat_id = $3
-            `, [cat_name, cat_color, cat_id]
+            SET cat_name=$1
+            WHERE cat_id = $2
+            `, [cat_name, cat_id]
         )
 
         return true;
@@ -49,7 +62,7 @@ async function editCategory(cat_id, cat_name, cat_color) {
 async function getCategories(bg_id) {
     try {
         const result = await pool.query(
-            `SELECT cat_id, cat_name, cat_color FROM public.budget_category
+            `SELECT cat_id, cat_name FROM public.budget_category
             WHERE bg_id = $1
             `, [bg_id]
         )
@@ -62,11 +75,15 @@ async function getCategories(bg_id) {
     }
 }
 
-async function addSubCategory(cat_id, sub_name, sub_budget) {
+
+
+
+
+async function addSubCategory(cat_id, sub_name, slug, sub_budget, is_savings) {
     try {
         const result = await pool.query(
-            `INSERT INTO public.sub_category (cat_id, sub_name, sub_budget)
-            VALUES ($1,$2,$3)`, [cat_id, sub_name, sub_budget]
+            `INSERT INTO public.sub_category (cat_id, sub_name, slug, sub_budget, is_savings)
+            VALUES ($1,$2,$3,$4,$5)`, [cat_id, sub_name, slug, sub_budget, is_savings]
         )
 
         return true;
@@ -124,6 +141,59 @@ async function getSubCategory(sub_id) {
     }
 }
 
+async function getAllSubCategories(bg_id, dateRanges) {
+    try {
+        const result = await pool.query(
+            `SELECT 
+                s.cat_id, 
+                s.sub_id,
+                s.sub_name,
+                s.sub_budget,
+                s.is_savings,
+                CASE
+                    WHEN s.is_savings THEN sa.savings_total
+                    ELSE s.sub_budget - (SELECT COALESCE(SUM(exp_cost), 0) FROM public.expenditure WHERE sub_id = s.sub_id AND exp_date BETWEEN '${dateRanges.start_year}/${dateRanges.start_month}/${dateRanges.start_day}' AND '${dateRanges.end_year}/${dateRanges.end_month}/${dateRanges.end_day}')
+                END AS sub_remaining
+            FROM public.budget_category c
+            INNER JOIN public.sub_category s
+            ON s.cat_id = c.cat_id
+            LEFT JOIN public.savings sa
+            ON sa.sub_id = s.sub_id
+            WHERE c.bg_id = $1
+            ORDER BY s.cat_id;`, [bg_id]
+        )
+
+        return result.rows;
+    } catch (err) {
+        console.log(`Error while getting sub categories: ${err}`);
+
+        return false;
+    }
+}
+
+async function slugExists(slug, bg_id) {
+    try {
+        const result = await pool.query(
+            `SELECT s.slug FROM public.sub_category s
+            INNER JOIN budget_category b
+            ON b.cat_id = s.cat_id
+            WHERE s.slug=$1 AND b.bg_id=$2;`, [slug, bg_id]
+        )
+
+        console.log(result);
+        if (result.rows.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err) {
+        console.log(`Error while checking slug: ${err}`);
+
+        return false;
+    }
+}
+
+// No Longer in Use
 async function getSubCategories(cat_id, dateRanges) {
     try {
         
@@ -141,6 +211,11 @@ async function getSubCategories(cat_id, dateRanges) {
     }
 
 }
+
+
+
+
+
 
 async function getBudgetShareCode(bg_id) {
     try {
@@ -258,6 +333,20 @@ async function getBudgetIdFromSub(sub_id) {
     }
 }
 
+async function getBudgetIdFromCategory(cat_id) {
+    try {
+        const result = await pool.query(
+            `SELECT bg_id FROM public.budget_category
+            WHERE cat_id = $1;`, [cat_id]
+        )
+
+        return result.rows[0].bg_id;
+    } catch (err) {
+        console.log(`Error while getting budget_id from category: ${err}`); 
+        return false;
+    }
+}
+
 async function getTotalBudget(bp_id) {
     try {
         const result = await pool.query(
@@ -323,4 +412,4 @@ async function editBudgetResetDay(bg_budget_reset, bg_id) {
     }
 }
 
-module.exports = { addCategory, getCategories, deleteCategory, editCategory, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getBudgetShareCode, getBudgetName, getLogs, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getTotalBudget, getBudgetResetDay, getBudgetAccounts, editBudgetResetDay }
+module.exports = { addCategory, getCategory, getCategories, deleteCategory, editCategory, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getAllSubCategories, getBudgetShareCode, getBudgetName, getLogs, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getBudgetIdFromCategory, getTotalBudget, getBudgetResetDay, getBudgetAccounts, editBudgetResetDay, slugExists }

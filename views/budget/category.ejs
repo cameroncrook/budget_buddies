@@ -1,0 +1,10 @@
+<form class="standard-form" method="post" action="/budget/category/<%=endpoint%>">
+    <div class="standard-form__form-group">
+        <label for="cat_name">Category Name</label>
+        <input type="text" id="cat_name" name="cat_name" maxlength="25" value="<%= category.cat_name %>" required>
+    </div>
+    <% if (edit) { %>
+        <input type="hidden" name="cat_id" value="<%= category.cat_id %>">
+    <% } %>
+    <input type="submit">
+</form>

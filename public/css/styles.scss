@@ -1,570 +1,223 @@
 @import 'variables';
-@import 'parts';
+@import 'utility';
 
-// ----------------------------------
-// Layouts
-// ----------------------------------
-
-
-.account-layout {
-    // sizing and spacing
-    height: 97vh;
-
-    // display
-    display: grid;
-    grid-template-rows: 150px 1fr;
-
-    header {
-        display: flex;
-        align-items: center;
-    }
+html {
+    font-size: 18px;
 }
 
-.budget-layout {
-    margin: 0;
-
-    position: relative;
-    min-height: 100vh;
-
-    main {
-        padding-bottom: 100px;
-    }
-}
-
-
-
-
-
-
-
-// ----------------------------------
-// Utilities
-// ----------------------------------
-.overlay {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    background-color: $primary;
+body {
+    background-color: var(--background);
     padding: 20px;
-    text-align: center;
-    border-radius: 5px;
+}
 
-    max-width: 85%;
+header {
+    @include flexbox(row, flex-start, center);
+}
 
-    font-size: 20px;
-    z-index: 99;
+main {
+    margin-bottom: 110px;
+}
 
-    &--lg {
-        width: 80%;
-        height: 50%;
+a {
+    color: var(--accent2);
+}
+
+.note {
+    font-style: italic;
+    font-size: 14px;
+}
+
+
+// ----------------------------------
+// Colors
+// ----------------------------------
+
+.primary-gradient {
+    background: $primary-gradient;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.bg {
+    &--primary {
+        background-color: var(--primary);
+        color: var(--text-w-background);
+        
+        svg {
+            fill: var(--text-w-background);
+        }
+
+        a {
+            color: var(--accent3);
+        }
+    }
+
+    &--accent1 {
+        background-color: var(--accent1);
+        color: var(--text-w-background);
+        
+        svg {
+            fill: var(--text-w-background);
+        }
+
+        a {
+            color: var(--accent4);
+        }
+    }
+
+    &--accent2 {
+        background-color: var(--accent2);
+        color: var(--text-w-background);
+        
+        svg {
+            fill: var(--text-w-background);
+        }
+    }
+
+    &--accent3 {
+        background-color: var(--accent3);
+        color: var(--text-w-background);
+        
+        svg {
+            fill: var(--text-w-background);
+        }
+    }
+
+    &--accent4 {
+        background-color: var(--accent4);
+        color: var(--text-w-background);
+        
+        svg {
+            fill: var(--text-w-background);
+        }
     }
 }
 
-.d-none {
-    display: none !important;
+
+
+
+
+// ----------------------------------
+// Packages
+// ----------------------------------
+.text-center {
+    text-align: center;
 }
 
-.button {
-    background-color: $secondary;
-    border-radius: 5px;
-    box-shadow: $box-shadow-standard;
-    padding-right: 10px;
-    padding-left: 10px;
+.hidden {
+    display: none;
+}
+
+
+
+
+// ----------------------------------
+// Ham menu
+// ----------------------------------
+.ham-menu {
+    height: 50px;
+    width: 45px;
+    @include flexbox(column, space-evenly, center);
     cursor: pointer;
 
-    &--text-icon {
-        display: flex;
-        justify-content: space-between;
+    div {
+        width: 100%;
+        height: 2px;
+        background-color: var(--text);
 
-        p {
-            color: $accent1;
-            margin-right: 5px;
-        }
-
-        svg {
-            width: 20px;
-        }
+        transition: opacity 0.1s ease-in-out, transform 0.3s ease-in-out;
     }
 }
-
-
-
-
-
-
-
-
-
-
-// ----------------------------------
-// Stats
-// ----------------------------------
-.chart {
-    max-height: 70vh;
-}
-
-
-
-
-
-
-
-
-
-
-// ----------------------------------
-// settings
-// ----------------------------------
-.settings {
-
-    color: $text-color-alt;
-    padding: 25px;
-    margin-bottom: 50px;
-
-    h2, h3 {
-        color: $primary;
-    }
-
-    &__share {
-        text-align: center;
-        word-break: break-word;
-    }
-
-    &__accounts {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 5px;
-
-        &--item {
-            background-color: $text-color-alt;
-            color: $text-color;
-            padding: 5px;
-            margin: 0;
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ----------------------------------
-// Account form
-// ----------------------------------
-.account-form {
-    // sizing and spacing
-    width: 100%;
-    height: 100%;
-
-    // display
-    display: grid;
-    grid-template-rows: 2fr 1fr;
-
-    // styles
-    color: #fefefe;
-
-    input {
-        border: 1px $accent1 solid;
-        border-radius: 10px;
-        height: 50px;
-
-        font-size: 20px;
-    }
-
-    label {
-        font-size: 22px;
-    }
-
-    &__inputs {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        > div {
-            display: flex;
-            flex-direction: column;
-            width: 89%;
-            margin-bottom: 40px;
-        }
-
-        label {
-            margin-bottom: 5px;
-        }
-
-        input {
-            padding-left: 15px;
-        }
-    }
-
-    &__submit {
-        // display
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-
-        input {
-            width: 89%;
-            background-color: $secondary;
-        }
-
-        a {
-            color: $accent3;
-            font-size: 20px;
-        }
-    }
-}
-
-
-
-
-
-
-
-
-// ----------------------------------
-// log form
-// ----------------------------------
-.log-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    color: #fefefe;
-
-    input, label, select, textarea {
-        width: 89%;
-    }
-
-    label {
-        font-size: 20px;
-    }
-
-    input, select {
-        border: 1px $accent1 solid;
-        border-radius: 10px;
-        height: 50px;
-
-        font-size: 20px;
-        padding-left: 15px;
-        margin-bottom: 20px;
-    }
-
-    textarea {
-        border: 1px $accent1 solid;
-        border-radius: 10px;
-
-        font-size: 20px;
-        padding-top: 15px;
-        padding-left: 15px;
-        margin-bottom: 20px;
-
-        height: 100px;
-    }
-
-    &__submit {
-        background-color: $secondary;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-// ----------------------------------
-// delete-form
-// ----------------------------------
-
-.delete-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #fefefe;
-    text-align: center;
-
-    &__heading {
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    &__sub-text {
-        font-style: italic;
-    }
-
-    &__delete {
-        background-color: $primary;
-    }
-
-    button {
-        font-size: 20px;
-        border: none;
-        border-radius: 15px;
-        padding: 20px;
-        margin: 0 15px 0 15px;
-        cursor: pointer;
-    }
-}
-
-
-
-
-
-
-
-
-
-// ----------------------------------
-// Dashboard
-// ----------------------------------
-.total-budget {
-    text-align: center;
-    color: $accent2;
-
-    &__amount {
-        font-weight: bold;
-        font-size: 50px;
-        margin-top: 0px;
-    }
-    
-    &__sub-title {
-        font-style: italic;
-        font-size: 16px;
-    }
-}
-
-.category-display {
-    margin: 30px;
-}
-
-.add-category {
-    display: flex;
+.ham-menu.active {
+    position: relative;
     justify-content: center;
 
-    margin-bottom: 30px;
-
-    &__icon {
-        // sizing
-        width: 75px;
-        height: 75px;
-
-        // styles
-        border-radius: 50%;
-        background-color: $secondary;
-
-        // display
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        img {
-            width: 30px;
-        }
-    }
-}
-
-.category-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.category {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 15px;
-    width: 95%;
-    overflow: hidden;
-
-    position: relative;
-
-    &__form {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-
-        input:not(input[type="color"]) {
-            border: none;
-            padding: 5px;
-
-            border-radius: 5px;
-        }
-
-        input[type="color"] {
-            width: 25px;
-            height: 25px;
-        }
-
-        select {
-            border: none;
-            padding: 5px;
-            border-radius: 5px;
-
-            max-width: 75px;
-        }
-
-        input[type="submit"] {
-            background-color: $primary;
-        }
-    }
-
-    &__card {
-        p {
-            font-size: 22px;
-        }
-
-        width: 100%;
-        
-        height: 70px;
-    }
-
-    &__settings {
-        background-color: #fefefe;
-        border-radius: 25px;
-        padding: 5px;
-        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-
-        display: flex;
-        align-items: center;
-        grid-column-gap: 7px;
-
+    div {
         position: absolute;
-        right: 10px;
-        top: (70px * .5);
-        transform: translateY(-(30px * .5));
-        z-index: 1;
-        
-
-        img {
-            width: 40px;
-            cursor: pointer;
-        }
-
-        .category-edit {
-            margin-left: 5px;
-        }
+        top: 50%;
+        left: 0;
+        transform: translate(-50%, -50%);
     }
 
-    &__budgets {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        width: 100%;
-        margin-top: 20px;
-
-        a {
-            text-decoration: none;
-            width: 100%;
-        }
-
-        &__card {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-
-            max-width: 100%;
-            padding: 5px;
-            margin-bottom: 5px;
-
-            p {
-                align-self: center;
-                color: $accent1;
-            }
-
-            div {
-                text-align: center;
-            }
-        }
-
-        &__add {
-            width: 25px;
-        }
+    :nth-child(1) {
+        transform: rotate(45deg);
     }
-}
-
-.create-budget-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-
-    width: 100%;
-    height: 100%;
-
-    .form-input-field {
-        width: 85%;
-        display: flex;
-        flex-direction: column;
-
-        text-align: start;
-
-        input {
-            height: 40px;
-            border: 1px solid $accent1;
-            border-radius: 5px;
-
-            font-size: 20px;
-            padding-left: 15px;
-        }
+    :nth-child(2) {
+        opacity: 0;
     }
-
-    .form-actions {
-        display: flex;
-        justify-content: space-evenly;
-
-        width: 100%;
-
-        input {
-            height: 40px;
-            width: 40%;
-
-            border: none;
-            box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        input[type="submit"] {
-            background-color: $secondary;
-        }
+    :nth-child(3) {
+        transform: rotate(-45deg);
     }
 }
 
 
-.log {
+
+
+
+// ----------------------------------
+// Bottom Nav Bar
+// ----------------------------------
+nav {
+    // position
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+
     // display
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    @include gridbox(4);
+
+    // styles
+    
 
     // sizing and spacing
-    padding: 5px;
+    height: 75px;
+    width: 100%;
 
-    // style
-    color: #fefefe;
-
-    > p {
-        align-self: center;
+    a {
+        width: 100%;
+        height: 100%;
+        @include flexbox(row, center, center);
     }
+
+    svg {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+
+
+// ----------------------------------
+// standard form
+// ----------------------------------
+.standard-form {
+
+   &__form-group {
+    @include flexbox(column);
+    margin: 25px 0;
+   }
+
+   label {
+    font-size: 1.4rem;
+    margin-bottom: 3px;
+   }
+
+   input, select {
+    height: 40px;
+    padding: 5px;
+    font-size: 1.2rem;
+    border-radius: 15px;
+   }
+
+   input[type="submit"] {
+    background-color: var(--accent1);
+    border: none;
+    box-shadow: $box-shadow-standard;
+    margin-bottom: 10px;
+    height: 50px;
+    cursor: pointer;
+   }
 }
 

@@ -65,7 +65,7 @@ app.use("/stats", (req, res, next) => {
 }, statsRoutes);
 
 app.use("/account", (req, res, next) => {
-    app.set('layout', 'layouts/account_layout');
+    app.set('layout', 'layouts/layout');
     next();
 }, accountRoutes);
 

@@ -1,96 +1,98 @@
 
+
+
 // ---------------------------------------------------------
 // loop through category cards
 // ---------------------------------------------------------
-const categoryCards = document.querySelectorAll('.category');
-categoryCards.forEach(card => {
-    card.querySelector('.category__card').addEventListener('click', function () {
-        card.querySelector('.category__budgets').classList.toggle('d-none');
+// const categoryCards = document.querySelectorAll('.category');
+// categoryCards.forEach(card => {
+//     card.querySelector('.category__card').addEventListener('click', function () {
+//         card.querySelector('.category__budgets').classList.toggle('d-none');
 
-        const ariaExpanded = card.getAttribute('aria-expanded') == "true";
+//         const ariaExpanded = card.getAttribute('aria-expanded') == "true";
 
-        card.setAttribute('aria-expanded', !ariaExpanded);
-    })
+//         card.setAttribute('aria-expanded', !ariaExpanded);
+//     })
 
-    card.querySelector('.category__budgets__add').addEventListener('click', function () {
-        const budgetForm = `
-        <form class="create-budget-form" action="/budget/create-sub-category" method="post">
-            <div class="form-input-field">
-                <label for="sub_name">Name</label>
-                <input type="text" id="sub_name" name="sub_name" required>
-            </div>
-            <div class="form-input-field">
-                <label for="sub_budget">Budget</label>
-                <input type="number" id="sub_budget" name="sub_budget" step="0.01" min="0" placeholder="0.00" required>
-            </div>
-            <div class="form-actions">
-                <input class="form-cancel" type="button" value="CANCEL">
-                <input type="submit" value="CREATE">
-            </div>
-            <input type="hidden" name="cat_id" value="${card.getAttribute('data-id')}">
-        </form>
-        `
+//     card.querySelector('.category__budgets__add').addEventListener('click', function () {
+//         const budgetForm = `
+//         <form class="create-budget-form" action="/budget/create-sub-category" method="post">
+//             <div class="form-input-field">
+//                 <label for="sub_name">Name</label>
+//                 <input type="text" id="sub_name" name="sub_name" required>
+//             </div>
+//             <div class="form-input-field">
+//                 <label for="sub_budget">Budget</label>
+//                 <input type="number" id="sub_budget" name="sub_budget" step="0.01" min="0" placeholder="0.00" required>
+//             </div>
+//             <div class="form-actions">
+//                 <input class="form-cancel" type="button" value="CANCEL">
+//                 <input type="submit" value="CREATE">
+//             </div>
+//             <input type="hidden" name="cat_id" value="${card.getAttribute('data-id')}">
+//         </form>
+//         `
 
-        const popupContainer = document.createElement('div');
-        popupContainer.innerHTML = budgetForm;
-        popupContainer.className = "overlay overlay--lg";
+//         const popupContainer = document.createElement('div');
+//         popupContainer.innerHTML = budgetForm;
+//         popupContainer.className = "overlay overlay--lg";
 
-        // cancel button
-        popupContainer.querySelector('.form-cancel').addEventListener('click', function () {
-            document.querySelector('body').removeChild(popupContainer);
-        })
+//         // cancel button
+//         popupContainer.querySelector('.form-cancel').addEventListener('click', function () {
+//             document.querySelector('body').removeChild(popupContainer);
+//         })
 
-        document.querySelector('body').appendChild(popupContainer);
-    })
+//         document.querySelector('body').appendChild(popupContainer);
+//     })
 
-    const id = card.getAttribute('data-id');
+//     const id = card.getAttribute('data-id');
 
-    const settingsIcon = card.querySelector('.category-settings');
-    const deleteIcon = card.querySelector('.category-delete');
-    const editIcon = card.querySelector('.category-edit');
+//     const settingsIcon = card.querySelector('.category-settings');
+//     const deleteIcon = card.querySelector('.category-delete');
+//     const editIcon = card.querySelector('.category-edit');
 
-    // settings icon click
-    settingsIcon.addEventListener('click', function () {
-        deleteIcon.classList.toggle('d-none');
-        editIcon.classList.toggle('d-none');
-    })
+//     // settings icon click
+//     settingsIcon.addEventListener('click', function () {
+//         deleteIcon.classList.toggle('d-none');
+//         editIcon.classList.toggle('d-none');
+//     })
 
-    // delete icon click
-    deleteIcon.addEventListener('click', async function () {
-        await fetch('/budget/delete-category', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cat_id: id
-            })
-        })
+//     // delete icon click
+//     deleteIcon.addEventListener('click', async function () {
+//         await fetch('/budget/delete-category', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 cat_id: id
+//             })
+//         })
 
-        document.querySelector('.category-display').removeChild(card);
-    })
+//         document.querySelector('.category-display').removeChild(card);
+//     })
 
-    // edit icon click
-    editIcon.addEventListener('click', function () {
-        const cat_name = card.querySelector('.category__name').textContent;
-        const cat_color = rgbToHex(card.style.backgroundColor);
+//     // edit icon click
+//     editIcon.addEventListener('click', function () {
+//         const cat_name = card.querySelector('.category__name').textContent;
+//         const cat_color = rgbToHex(card.style.backgroundColor);
 
-        card.innerHTML = buildCategoryForm("/budget/edit-category", cat_name, cat_color.toLowerCase(), id);
+//         card.innerHTML = buildCategoryForm("/budget/edit-category", cat_name, cat_color.toLowerCase(), id);
 
-        const colorSelect = card.querySelector('#cat_color');
-        colorSelect.addEventListener('change', function () {
-        card.style.backgroundColor = colorSelect.value;
-    })
-    })
-})
+//         const colorSelect = card.querySelector('#cat_color');
+//         colorSelect.addEventListener('change', function () {
+//         card.style.backgroundColor = colorSelect.value;
+//     })
+//     })
+// })
 
-async function buildSubBudgets(budget_id) {
-    const response = await fetch(`/budgets/get-sub-categories/${budget_id}`)
+// async function buildSubBudgets(budget_id) {
+//     const response = await fetch(`/budgets/get-sub-categories/${budget_id}`)
 
-    const data = response.json();
+//     const data = response.json();
 
-    console.log(data);
-}
+//     console.log(data);
+// }
 
 
 

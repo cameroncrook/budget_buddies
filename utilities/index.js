@@ -20,52 +20,20 @@ async function checkAuthorization(req, res, next) {
         return res.redirect("/budget/");
     }
 }
+async function checkAuthorizationForCategory(req, res, next) {
+    const cat_id = req.params.cat_id;
+    const target_id = await budgetModel.getBudgetIdFromCategory(cat_id);
+    const authorized_id = req.session.user.bg_id;
 
-async function buildCategoryCards(categories, dateRanges) {
-    let html = '';
-    for (const category of categories) {
-        const budgets = await budgetModel.getSubCategories(category.cat_id, dateRanges);
-
-        let budgetHtml = '';
-        budgets.forEach(budget => {
-            // const remaining_budget = budget.sub_remaining != null ? budget.sub_remaining : budget.sub_budget;
-
-            budgetHtml += `
-            <a href="/budget/logs/${budget.sub_id}"><div class="category__budgets__card">
-                <p>${budget.sub_name}</p>
-                <div>
-                    <p><strong>Available</strong></p>
-                    <p>${budget.sub_remaining != null ? budget.sub_remaining : budget.sub_budget}</p>
-                </div>
-                <div>
-                    <p><strong>Budget</strong></p>
-                    <p>${budget.sub_budget}</p>
-                </div>
-            </div></a>
-            `
-        })
-
-        html += `
-        <div class="category" style="background-color: ${category.cat_color}" data-id="${category.cat_id}" aria-expanded="true">
-            <div class="category__card">
-                <p class="category__name">${category.cat_name}</p>
-            </div>
-            <div class="category__settings">
-                <img class="category-edit d-none" src="/images/pencil.png" alt="edit">
-                <img class="category-delete d-none" src="/images/trash.png" alt="delete">
-                <img class="category-settings" src="/images/settings.png" alt="settings">
-            </div>
-            <div class="category__budgets">
-                ${budgetHtml}
-                <img class="category__budgets__add" src="/images/add.png" alt="Add new sub category">
-            </div>
-        </div>
-        `
-    };
-
-    return html;
+    if (target_id == authorized_id) {
+        next();
+    } else {
+        return res.redirect("/budget/");
+    }
 }
 
+
+// delete or move
 function buildCategoryOptions(categories) {
     let html = '';
     categories.forEach(category => {
@@ -75,6 +43,7 @@ function buildCategoryOptions(categories) {
     return html;
 }
 
+// delete or move
 function buildLogEntries(logs) {
     let html = '';
     logs.forEach(log => {
@@ -140,4 +109,44 @@ function getLogDateRange(setDay) {
     return dateRanges;
 }
 
-module.exports = { requireLogin, buildCategoryCards, buildCategoryOptions, buildLogEntries, checkAuthorization, getLogDateRange };
+function buildCategoriesObject(categories, sub_categories) {
+    const subCatMap = {};
+    sub_categories.forEach((sub_cat) => {
+        if (!subCatMap[sub_cat.cat_id]) {
+            subCatMap[sub_cat.cat_id] = []
+        }
+
+        subCatMap[sub_cat.cat_id].push(sub_cat);
+    })
+
+    
+    const categoryObject = categories.map((category) => {
+        let sub_category = [];
+        if (subCatMap[category.cat_id.toString()]) {
+            sub_category = subCatMap[category.cat_id.toString()];
+        }
+
+        return {
+            cat_id: category.cat_id,
+            cat_name: category.cat_name,
+            cat_sub_budgets: sub_category
+        }
+    })
+
+    return categoryObject;
+}
+
+const generateUniqueSlug = async (name) => {
+  const baseSlug = name.toLowerCase().replace(/\s+/g, '-');
+  let slug = baseSlug;
+  let count = 1;
+
+  while (await db.slugExists(slug)) {
+    slug = `${baseSlug}-${count++}`;
+  }
+
+  return slug;
+};
+
+
+module.exports = { requireLogin, buildCategoryOptions, buildLogEntries, checkAuthorization, checkAuthorizationForCategory, getLogDateRange, buildCategoriesObject, generateUniqueSlug };
