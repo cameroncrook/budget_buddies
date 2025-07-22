@@ -75,7 +75,7 @@ app.listen(port, () => {
     console.log(`App is listening on port ${port}`);
 })
 
-
+// Catch all server errors
 app.use((err, req, res, next) => {
     console.error(err.stack);
     app.set('layout', 'layouts/layout');

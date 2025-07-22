@@ -97,6 +97,11 @@ a {
             fill: var(--text-w-background);
         }
     }
+
+    &--warning {
+        background-color: $warning-color;
+        color: $text-color-alt;
+    }
 }
 
 
@@ -214,6 +219,14 @@ nav {
     padding: 5px;
     font-size: 1.2rem;
     border-radius: 15px;
+   }
+
+   &__delete {
+    border: none;
+    box-shadow: $box-shadow-standard;
+    margin-bottom: 10px;
+    height: 50px !important;
+    cursor: pointer;
    }
 
    input[type="submit"] {

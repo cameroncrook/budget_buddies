@@ -15,12 +15,17 @@
     </div>
     <div class="standard-form__form-group">
         <label for="is_savings">Is Savings?</label>
-        <input type="hidden" name="is_savings" value="<%= subcategory.is_savings ? 'true' : 'false' %>">
-        <input type="checkbox" id="is_savings" <%= subcategory.is_savings ? 'checked' : '' %>>
+        <!-- <input type="hidden" name="is_savings" value="<%= subcategory.is_savings ? 'true' : 'false' %>"> -->
+        <input type="checkbox" id="is_savings" name="is_savings" <%= subcategory.is_savings ? 'checked' : '' %>>
     </div>
     <% if (edit) { %>
         <input type="hidden" name="sub_id" value="<%= subcategory.sub_id %>">
     <% } %>
      
-    <input type="submit" value="Submit"/>
+    <div>
+        <input type="submit" value="<%= edit ? 'Update' : 'Create' %>" class="standard-form__submit">
+        <% if (edit) { %>
+            <input type="button" value="Delete Sub Category" class="standard-form__delete bg--warning">
+        <% } %>
+    </div>
 </form>

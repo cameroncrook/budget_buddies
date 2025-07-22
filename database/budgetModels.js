@@ -109,13 +109,14 @@ async function removeSubCategory(sub_id) {
     }
 }
 
-async function editSubCategory(sub_id, sub_name, sub_budget) {
+async function editSubCategory(sub_id, cat_id, sub_name, slug, sub_budget, is_savings) {
     try {
+
         const result = await pool.query(
             `UPDATE public.sub_category
-            SET sub_name=$1, sub_budget=$2
-            WHERE sub_id=$3`, [sub_name, sub_budget, sub_id]
-        )
+            SET cat_id=$1, sub_name=$2, slug=$3, sub_budget=$4, is_savings=$5
+            WHERE sub_id=$6`, [cat_id, sub_name, slug, sub_budget, is_savings, sub_id]
+        );
 
         return true;
     } catch (err) {
@@ -128,7 +129,7 @@ async function editSubCategory(sub_id, sub_name, sub_budget) {
 async function getSubCategory(sub_id) {
     try {
         const result = await pool.query(
-            `SELECT sub_name, sub_budget
+            `SELECT *
             FROM public.sub_category
             WHERE sub_id=$1`, [sub_id]
         )
@@ -171,16 +172,26 @@ async function getAllSubCategories(bg_id, dateRanges) {
     }
 }
 
-async function slugExists(slug, bg_id) {
+async function slugExists(slug, bg_id, sub_id) {
     try {
-        const result = await pool.query(
-            `SELECT s.slug FROM public.sub_category s
-            INNER JOIN budget_category b
-            ON b.cat_id = s.cat_id
-            WHERE s.slug=$1 AND b.bg_id=$2;`, [slug, bg_id]
-        )
+        let result;
+        if (sub_id) {
+            result = await pool.query(
+                `SELECT s.slug FROM public.sub_category s
+                INNER JOIN budget_category b
+                ON b.cat_id = s.cat_id
+                WHERE s.slug=$1 AND s.sub_id!=$2 AND b.bg_id=$3;`, [slug, sub_id, bg_id]
+            )
+        } else {
+            result = await pool.query(
+                `SELECT s.slug FROM public.sub_category s
+                INNER JOIN budget_category b
+                ON b.cat_id = s.cat_id
+                WHERE s.slug=$1 AND b.bg_id=$2;`, [slug, bg_id]
+            )
+        }
 
-        console.log(result);
+        // If the slug exists, then it returns true
         if (result.rows.length > 0) {
             return true;
         } else {

@@ -22,7 +22,7 @@ async function buildDashboard(req, res) {
         const subCategoryHtml = item.cat_sub_budgets.reduce((html, sub_budget) => html + templates.subCategoryCardTemplate(sub_budget), '');
 
         const color = colorThemes[COL_INDEX];
-        if (COL_INDEX < colorThemes.length) {
+        if (COL_INDEX < colorThemes.length - 1) {
             COL_INDEX++;
         } else {
             COL_INDEX = 0;
@@ -64,7 +64,7 @@ async function renderEditCategory(req, res) {
         category,
         endpoint,
         edit: true,
-        scripts: '<script src="/js/category.js" defer></script>'
+        scripts: '<script src="/js/budget-category.js" defer></script>'
     });
 }
 async function editCategory(req, res) {
@@ -74,13 +74,16 @@ async function editCategory(req, res) {
 
     res.redirect("/budget/");
 }
-
 async function deleteCategory(req, res) {
-    const { cat_id } = req.body;
+    const cat_id = req.params.cat_id;
 
     const response = await budgetModel.deleteCategory(cat_id);
-
-    res.status(201).send("success");
+    if (response) {
+        res.redirect("/budget/");
+    } else {
+        // Throw a 500 error
+        next(new Error());
+    }
 }
 
 
@@ -110,27 +113,53 @@ async function renderCreateSubCategory(req, res) {
 async function createSubCategory(req, res) {
     const { cat_id, sub_name, sub_budget, is_savings } = req.body;
 
-    const slug = sub_name.toString().toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
+    const slug = utilities.generateUniqueSlug(sub_name, req.session.user.bg_id);
 
     const response = await budgetModel.addSubCategory(cat_id, sub_name, slug, sub_budget, (is_savings === 'true'));
 
-    res.redirect("/budget/");
+    if (response) {
+        res.redirect("/budget/");
+    } else {
+        next (new Error());
+    }
+    
 }
 async function renderEditSubCategory(req, res) {
     const sub_id = req.params.sub_id;
-    const endpoint = "edit/" + sub_id;
+    const endpoint = "/edit/" + sub_id;
+
+    const subCategory = await budgetModel.getSubCategory(sub_id);
+
+    const categories = await budgetModel.getCategories(req.session.user.bg_id);
+    const categoryOptions = templates.buildCategoryOptions(categories, subCategory.cat_id);
+
+    if (subCategory) {
+        res.render('budget/subCategory', { categoryOptions, subcategory: subCategory, endpoint, edit: true, scripts: '<script src="/js/budget-subCategory.js" defer></script>' });
+    } else {
+        next(new Error());
+    }
 }
 async function editSubCategory(req, res) {
-    const { sub_id, sub_name, sub_budget } = req.body;
+    const { sub_id, cat_id, sub_name, slug, sub_budget, is_savings } = req.body;
 
+    const response = budgetModel.editSubCategory(sub_id, cat_id, sub_name, slug, sub_budget, is_savings == 'on' ? true : false);
+
+    if (response) {
+        res.redirect(`/budget/${sub_id}`);
+    } else {
+        next(new Error());
+    }
 }
 async function deleteSubCategory(req, res) {
-    // const { sub_id } = req.body;
     const sub_id = req.params.sub_id;
 
     const response = await budgetModel.removeSubCategory(sub_id);
-
-    res.status(201).send("success");
+    if (response) {
+        res.redirect("/budget/");
+    } else {
+        // Throw a 500 error
+        next(new Error());
+    }
 }
 
 
@@ -156,8 +185,18 @@ async function getSubCategories(req, res) {
 
 
 
+// remove this in the future
+async function renderBudgetEdit(req, res) {
+    const sub_id = req.params.sub_id;
+    const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
 
+    const budget_data = await budgetModel.getSubCategory(sub_id);
 
+    let sub_budget = budget_data.sub_budget.replace('$', '');
+    sub_budget = parseInt(sub_budget);
+
+    res.render('budget/editSubCategory', { name: budget_data.sub_name, budget: sub_budget, budget_name: budget, id: sub_id })
+}
 
 async function buildLog(req, res) {
     const bg_id = req.session.user.bg_id;
@@ -198,7 +237,7 @@ async function buildLogs(req, res) {
 
     const logElements = utilities.buildLogEntries(logsData);
 
-    res.render('budget/logs', { logElements, sub_id, budget_name: budget })
+    res.render('budget/logs', { logElements, sub_id, budget_name: budget, scripts: '' })
 }
 
 async function getShareCode(req, res) {
@@ -207,18 +246,6 @@ async function getShareCode(req, res) {
     const shareCode = await budgetModel.getBudgetShareCode(bg_id);
 
     res.json({shareCode: shareCode.bg_sharecode});
-}
-
-async function renderBudgetEdit(req, res) {
-    const sub_id = req.params.sub_id;
-    const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
-
-    const budget_data = await budgetModel.getSubCategory(sub_id);
-
-    let sub_budget = budget_data.sub_budget.replace('$', '');
-    sub_budget = parseInt(sub_budget);
-
-    res.render('budget/editSubCategory', { name: budget_data.sub_name, budget: sub_budget, budget_name: budget, id: sub_id })
 }
 
 async function buildSettings(req, res) {

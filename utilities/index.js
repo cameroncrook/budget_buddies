@@ -136,12 +136,12 @@ function buildCategoriesObject(categories, sub_categories) {
     return categoryObject;
 }
 
-const generateUniqueSlug = async (name) => {
-  const baseSlug = name.toLowerCase().replace(/\s+/g, '-');
+async function generateUniqueSlug(name, bg_id, sub_id = null) {
+  const baseSlug = name.toString().toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
   let slug = baseSlug;
   let count = 1;
 
-  while (await db.slugExists(slug)) {
+  while (await budgetModel.slugExists(slug, sub_id, bg_id)) {
     slug = `${baseSlug}-${count++}`;
   }
 
