@@ -44,7 +44,7 @@ function subCategoryCardTemplate(sub_category) {
     // add savings indicator
     return `
     <ul>
-        <li><a href="/budget/${sub_category.sub_id}">${sub_category.sub_name}</a></li>
+        <li><a href="/budget/${sub_category.slug}">${sub_category.sub_name}</a></li>
         <li>${sub_category.sub_remaining}</li>
         <li>${sub_category.sub_budget}</li>
     </ul>

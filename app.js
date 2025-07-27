@@ -2,6 +2,7 @@ const express = require('express');
 const accountRoutes = require('./routes/accountRoutes');
 const budgetRoutes = require('./routes/budgetRoutes');
 const statsRoutes = require('./routes/statsRoutes');
+const settingsRoutes = require('./routes/settingsRoutes');
 const static = require('./routes/static');
 const expressLayouts = require('express-ejs-layouts');
 const baseController = require('./controllers/baseController');
@@ -70,6 +71,11 @@ app.use("/account", (req, res, next) => {
     app.set('layout', 'layouts/layout');
     next();
 }, accountRoutes);
+
+app.use("/settings", utilites.requireLogin, (req, res, next) => {
+    app.set('layout', 'layouts/bbudget_layout');
+    next();
+}, settingsRoutes);
 
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`);

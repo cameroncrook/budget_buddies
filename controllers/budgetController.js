@@ -1,13 +1,13 @@
 const budgetModel = require('../database/budgetModels');
+const settingsModel = require('../database/settingsModels');
 const utilities = require('../utilities/');
 const templates = require('../utilities/templates');
 
 async function buildDashboard(req, res) {
     const user = req.session.user;
-    const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
     const totalBudget = await budgetModel.getTotalBudget(req.session.user.bg_id);
 
-    const resetDay = await budgetModel.getBudgetResetDay(user.bg_id);
+    const resetDay = await settingsModel.getBudgetResetDay(user.bg_id);
     const dateRanges = utilities.getLogDateRange(resetDay);
 
     const categories = await budgetModel.getCategories(user.bg_id);
@@ -32,7 +32,7 @@ async function buildDashboard(req, res) {
     }, '');
 
     const scripts = '<script src="/js/budget.js" defer></script>';
-    res.render('budget/dashboard', {scripts, budget_name: budget, total: totalBudget, categoryCards });
+    res.render('budget/dashboard', {scripts, total: totalBudget, categoryCards });
 }
 
 function renderCreateCategory(req, res) {
@@ -74,7 +74,7 @@ async function editCategory(req, res) {
 
     res.redirect("/budget/");
 }
-async function deleteCategory(req, res) {
+async function deleteCategory(req, res, next) {
     const cat_id = req.params.cat_id;
 
     const response = await budgetModel.deleteCategory(cat_id);
@@ -89,7 +89,24 @@ async function deleteCategory(req, res) {
 
 
 
+async function renderSubCategory(req, res, next) {
+    const slug = req.params.slug;
 
+    const subCategory = await budgetModel.getSubCategoryBySlug(slug, req.session.user.bg_id);
+    if (subCategory) {
+        const sub_id = subCategory.sub_id;
+
+        const resetDay = await settingsModel.getBudgetResetDay(req.session.user.bg_id);
+        const dateRanges = utilities.getLogDateRange(resetDay);
+        const logsData = await budgetModel.getLogs(sub_id, dateRanges);
+
+        const logElements = utilities.buildLogEntries(logsData);
+
+        res.render('budget/logs', { logElements, sub_id, scripts: '' })
+    } else {
+        next(new Error("Subcategory not found"));
+    }
+}
 async function renderCreateSubCategory(req, res) {
     const cat_id = req.query.category;
     const endpoint = "/create";
@@ -172,41 +189,18 @@ async function updateSubCategory(req, res) {
     res.redirect(`/budget/logs/${sub_id}`);
 }
 
-async function getSubCategories(req, res) {
-    const cat_id = req.params.cat_id;
-
-    const resetDay = await budgetModel.getBudgetResetDay(req.session.user.bg_id);
-    const dateRanges = utilities.getLogDateRange(resetDay);
-    const response = await budgetModel.getSubCategories(cat_id, dateRanges);
-
-    res.json(response);
-}
 
 
 
-
-// remove this in the future
-async function renderBudgetEdit(req, res) {
-    const sub_id = req.params.sub_id;
-    const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
-
-    const budget_data = await budgetModel.getSubCategory(sub_id);
-
-    let sub_budget = budget_data.sub_budget.replace('$', '');
-    sub_budget = parseInt(sub_budget);
-
-    res.render('budget/editSubCategory', { name: budget_data.sub_name, budget: sub_budget, budget_name: budget, id: sub_id })
-}
 
 async function buildLog(req, res) {
     const bg_id = req.session.user.bg_id;
-    const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
 
     const categories = await budgetModel.getCategories(bg_id);
 
     const category_options = utilities.buildCategoryOptions(categories);
 
-    res.render('budget/log', { budget_name: budget, category_options});
+    res.render('budget/log', { category_options});
 }
 
 async function createLog(req, res) {
@@ -227,50 +221,4 @@ async function editLog(req, res) {
 
 }
 
-async function buildLogs(req, res) {
-    const sub_id = req.params.sub_id;
-    const budget = await budgetModel.getBudgetName(req.session.user.bg_id);
-
-    const resetDay = await budgetModel.getBudgetResetDay(req.session.user.bg_id);
-    const dateRanges = utilities.getLogDateRange(resetDay);
-    const logsData = await budgetModel.getLogs(sub_id, dateRanges);
-
-    const logElements = utilities.buildLogEntries(logsData);
-
-    res.render('budget/logs', { logElements, sub_id, budget_name: budget, scripts: '' })
-}
-
-async function getShareCode(req, res) {
-    const bg_id = req.session.user.bg_id;
-
-    const shareCode = await budgetModel.getBudgetShareCode(bg_id);
-
-    res.json({shareCode: shareCode.bg_sharecode});
-}
-
-async function buildSettings(req, res) {
-    const bg_id = req.session.user.bg_id;
-
-    const budget = await budgetModel.getBudgetName(bg_id);
-    const shareCode = await budgetModel.getBudgetShareCode(bg_id);
-    const budgetAccounts = await budgetModel.getBudgetAccounts(bg_id);
-    const budgetAccountsHtml = templates.budgetAccountsTemplate(budgetAccounts);
-    const budgetResetDay = await budgetModel.getBudgetResetDay(bg_id);
-
-    return res.render('budget/settings', { budget_name: budget, shareCode, budgetAccountsHtml, budgetResetDay, scripts: '' });
-}
-
-async function changeBudgetResetDay(req, res) {
-    const { bg_budget_reset } = req.body;
-    const bg_id = req.session.user.bg_id;
-    
-    const response = await budgetModel.editBudgetResetDay(bg_budget_reset, bg_id);
-
-    if (response) {
-        return res.redirect('/budget/settings');
-    } else {
-        alert("Failed to update budget reset day");
-    }
-}
-
-module.exports = { buildDashboard, buildLog, renderCreateCategory, createCategory, renderEditCategory, editCategory, deleteCategory, renderCreateSubCategory, createSubCategory, renderEditSubCategory, editSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, getShareCode, createLog, removeLog, editLog, buildLogs, renderBudgetEdit, buildSettings, changeBudgetResetDay };
+module.exports = { buildDashboard, buildLog, renderCreateCategory, createCategory, renderEditCategory, editCategory, deleteCategory, renderSubCategory, renderCreateSubCategory, createSubCategory, renderEditSubCategory, editSubCategory, deleteSubCategory, updateSubCategory, createLog, removeLog, editLog };
