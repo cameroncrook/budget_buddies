@@ -60,4 +60,51 @@ function buildCategoryOptions(categories, selectedCategory = null) {
     return html;
 }
 
-module.exports = { budgetAccountsTemplate, categoryCardTemplate, subCategoryCardTemplate, buildCategoryOptions };
+function buildBudgetProgressBar(budgetTotals) {
+    const totalBudget = budgetTotals.total_budget || 0;
+    const totalExpense = budgetTotals.total_expense || 0;
+
+    const barWidth = Math.round((totalExpense / totalBudget) * 100);
+    const innerBar = `<div class="progress-bar__inner" style="max-width: ${barWidth}%;"></div>`;
+
+    return innerBar;
+}
+
+function buildCategoryChart(categoryTotals) {
+
+    let barHtml = '';
+    let highestBudget = categoryTotals[0].category_budget || 0;
+    categoryTotals.forEach((category) => {
+        const budget = category.category_budget || 0;
+        const expenses = category.category_expenses || 0;
+
+        let outerHeight = Math.round((budget / highestBudget) * 100);
+        let innerHeight = Math.round((expenses / budget) * 100);
+
+        if (outerHeight > 100) {
+            outerHeight = 100;
+        }
+        if (innerHeight > 100) {
+            innerHeight = 100;
+        }
+
+
+        barHtml += `
+        <div class="chart__section">
+            <p class="chart__chart-bar__label">${budget}</p>
+            <div class="chart__chart-bar" style="max-height: ${outerHeight}%">
+                <div class="chart__chart-bar__inner" style="max-height: ${innerHeight}%;">
+                    <span class="chart__chart-bar__label">${expenses}</span>
+                </div>
+            </div>
+            <div class="chart__divider"></div>
+            <p class="chart__section__label">${category.cat_name}</p>
+        </div>`;
+
+        // labelHtml += `<p>${category.cat_name}</p>`;
+    })
+
+    return barHtml;
+}
+
+module.exports = { budgetAccountsTemplate, categoryCardTemplate, subCategoryCardTemplate, buildCategoryOptions, buildBudgetProgressBar, buildCategoryChart };

@@ -5,7 +5,6 @@ const templates = require('../utilities/templates');
 
 async function buildDashboard(req, res) {
     const user = req.session.user;
-    const totalBudget = await budgetModel.getTotalBudget(req.session.user.bg_id);
 
     const resetDay = await settingsModel.getBudgetResetDay(user.bg_id);
     const dateRanges = utilities.getLogDateRange(resetDay);
@@ -32,14 +31,14 @@ async function buildDashboard(req, res) {
     }, '');
 
     const scripts = '<script src="/js/budget.js" defer></script>';
-    res.render('budget/dashboard', {scripts, total: totalBudget, categoryCards });
+    res.render('budget/dashboard', {scripts, categoryCards, styles: '<link rel="stylesheet" href="/css/dashboard.css">' });
 }
 
 function renderCreateCategory(req, res) {
     const endpoint = "create";
     const category = {cat_id: "", cat_name: ""};
 
-    res.render('budget/category', {category, endpoint, edit: false, scripts: ''});
+    res.render('budget/category', {category, endpoint, edit: false, scripts: '', styles: ''});
 }
 async function createCategory(req, res, next) {
     const { cat_name } = req.body;
@@ -64,7 +63,8 @@ async function renderEditCategory(req, res) {
         category,
         endpoint,
         edit: true,
-        scripts: '<script src="/js/budget-category.js" defer></script>'
+        scripts: '<script src="/js/budget-category.js" defer></script>',
+        styles: ''
     });
 }
 async function editCategory(req, res) {
@@ -102,7 +102,7 @@ async function renderSubCategory(req, res, next) {
 
         const logElements = utilities.buildLogEntries(logsData);
 
-        res.render('budget/logs', { logElements, sub_id, scripts: '' })
+        res.render('budget/logs', { logElements, sub_id, scripts: '', styles: '' })
     } else {
         next(new Error("Subcategory not found"));
     }
@@ -125,7 +125,7 @@ async function renderCreateSubCategory(req, res) {
     const edit = false;
 
     const scripts = '<script src="/js/sub-budget.js" defer></script>';
-    res.render('budget/subCategory', {cat_id, endpoint, categoryOptions, subcategory, edit, scripts});
+    res.render('budget/subCategory', {cat_id, endpoint, categoryOptions, subcategory, edit, scripts, styles: ''});
 }
 async function createSubCategory(req, res) {
     const { cat_id, sub_name, sub_budget, is_savings } = req.body;
@@ -151,7 +151,7 @@ async function renderEditSubCategory(req, res) {
     const categoryOptions = templates.buildCategoryOptions(categories, subCategory.cat_id);
 
     if (subCategory) {
-        res.render('budget/subCategory', { categoryOptions, subcategory: subCategory, endpoint, edit: true, scripts: '<script src="/js/budget-subCategory.js" defer></script>' });
+        res.render('budget/subCategory', { categoryOptions, subcategory: subCategory, endpoint, edit: true, scripts: '<script src="/js/budget-subCategory.js" defer></script>', styles: '' });
     } else {
         next(new Error());
     }
@@ -200,7 +200,7 @@ async function buildLog(req, res) {
 
     const category_options = utilities.buildCategoryOptions(categories);
 
-    res.render('budget/log', { category_options});
+    res.render('budget/log', { category_options, scripts: '', styles: ''} );
 }
 
 async function createLog(req, res) {

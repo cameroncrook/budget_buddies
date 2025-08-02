@@ -1,27 +1,26 @@
-
 <section>
-    <div class="total-budget">
-        <p class="total-budget__sub-title">planned budget amount</p>
-        <p class="total-budget__amount"><%= budgetTotal %></p>
+    <h2>Current Period</h2>
+    <div class="progress-bar">
+        <%- currentInnerBar %>
     </div>
-    <canvas id="budget-overview-chart" class="chart"></canvas>
+    <p class="progress-bar__label"><%= currentLabel %></p>
 </section>
 
+<section>
+    <h2>Spending Categories</h2>
+    <div class="stats-box">
+        <p>Scroll to view more</p>
+        <div class="">
+            <div class="chart">
+                <%- barHtml %>
+            </div>
+        </div>
+    </div>
+</section>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script defer>
-    const chartData = JSON.parse('<%- JSON.stringify(chartData) %>');
-
-    const ctx = document.getElementById('budget-overview-chart').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: chartData.labels,
-            datasets: [{
-                data: chartData.values.map(value => Number(value.replace('$', '').trim())),
-                backgroundColor: chartData.colors
-            }]
-        }
-    });
-</script>
-
+<section>
+    <h2>Spending Trends</h2>
+    <div class="stats-box">
+        <p>Coming Soon!</p>
+    </div>
+</section>

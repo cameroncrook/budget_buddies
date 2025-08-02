@@ -1,42 +1,51 @@
 const pool = require('./connection');
 
-async function getBudgetData(bg_id) {
-    try {
-        const result = await pool.query(`
-            SELECT cat_name, cat_color, SUM(sc.sub_budget) as "total"
-            FROM public.budget_category bc
-            INNER JOIN sub_category sc
-                ON sc.cat_id = bc.cat_id
-            WHERE bc.bg_id = $1
-            GROUP BY bc.cat_id
-            ORDER BY total DESC;
-        `, [bg_id]);
-
-        return result.rows;
-    } catch (err) {
-        console.log(`An error occured getting budget data: ${err}`);
-
-        return false;
-    }
-}
-
-async function getTotalBudget(bp_id) {
+async function getBudgetTotals(bg_id, date_ranges) {
     try {
         const result = await pool.query(
-            `SELECT SUM(sc.sub_budget) as total FROM public.budget_plan bp
-            INNER JOIN public.budget_category bc
-            ON bp.bg_id = bc.bg_id
-            INNER JOIN public.sub_category sc
-            ON bc.cat_id = sc.cat_id
-            WHERE bp.bg_id = $1;`, [bp_id]
+            `SELECT
+                (SELECT SUM(s.sub_budget)
+                    FROM public.budget_category c
+                    JOIN public.sub_category s ON s.cat_id = c.cat_id
+                    WHERE c.bg_id = $1
+                ) AS total_budget,
+                (SELECT SUM(e.exp_cost)
+                    FROM public.expenditure e
+                    JOIN public.sub_category s ON s.sub_id = e.sub_id
+                    JOIN public.budget_category c ON c.cat_id = s.cat_id
+                    WHERE c.bg_id = $1
+                    AND e.exp_date BETWEEN '2024-01-01' AND '2024-12-31'
+                ) AS total_expense;`, [bg_id]
         )
 
-        return result.rows[0].total;
-    } catch (err) {
-        console.log(`Error while getting total budget: ${err}`);
-
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error fetching budget totals:', error);
         return false;
     }
 }
 
-module.exports = { getBudgetData, getTotalBudget };
+async function getCategoryTotals(bg_id, date_ranges) {
+    try {
+        const result = await pool.query(
+            `SELECT 
+                c.cat_id, 
+                c.cat_name,
+                (SELECT SUM(sub_budget) FROM sub_category WHERE cat_id = c.cat_id) AS category_budget,
+                SUM(e.exp_cost) AS category_expenses
+            FROM budget_category c
+            JOIN sub_category s ON c.cat_id = s.cat_id
+            LEFT JOIN expenditure e ON s.sub_id = e.sub_id
+            WHERE c.bg_id = $1
+            GROUP BY c.cat_id
+            ORDER BY category_budget DESC;`, [bg_id]
+        );
+
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching category totals:', error);
+        return false;
+    }
+}
+
+module.exports = { getBudgetTotals, getCategoryTotals };

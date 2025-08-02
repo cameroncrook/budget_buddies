@@ -1,0 +1,176 @@
+@import url("https://use.typekit.net/psd6dgn.css");
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Quicksand:wght@300..700&display=swap");
+:root {
+  --primary: #6CE5E8;
+  --accent1: #41B8D5;
+  --accent2: #2D8BBA;
+  --accent3: #2F5F98;
+  --accent4: #31356E;
+  --background: #1E1E1E;
+  --text: #FEFEFE;
+  --text-w-background: #1E1E1E;
+  --accent: #E4E4E4;
+  --shadow-color: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme=light-blue] {
+  --primary: #6CE5E8;
+  --accent1: #41B8D5;
+  --accent2: #2D8BBA;
+  --accent3: #2F5F98;
+  --accent4: #31356E;
+  --background: #FEFEFE;
+  --text: #1E1E1E;
+  --text-w-background: #FEFEFE;
+  --accent: #E4E4E4;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme=light-pink] {
+  --primary: #FAADE3;
+  --accent1: #D541A7;
+  --accent2: #BA2D93;
+  --accent3: #982F7E;
+  --accent4: #6E3161;
+  --background: #FEFEFE;
+  --text: #1E1E1E;
+  --text-w-background: #FEFEFE;
+  --accent: #E4E4E4;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme=dark-pink] {
+  --primary: #FAADE3;
+  --accent1: #D541A7;
+  --accent2: #BA2D93;
+  --accent3: #982F7E;
+  --accent4: #6E3161;
+  --background: #1E1E1E;
+  --text: #FEFEFE;
+  --text-w-background: #1E1E1E;
+  --accent: #E4E4E4;
+  --shadow-color: rgba(255, 255, 255, 0.3);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+p, input, a, span, label, textarea {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h2 {
+  font-size: 18px;
+  margin-left: 5px;
+}
+
+section {
+  margin: 50px 0;
+}
+
+.horizontal-scroll {
+  overflow-x: scroll;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: var(--primary);
+  width: 100%;
+  height: 50px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0px 12px 18px -6px var(--shadow-color);
+}
+.progress-bar__inner {
+  background-color: var(--accent2);
+  border-radius: 15px;
+  height: 100%;
+  animation-name: progress-bar-fill;
+  animation-duration: 1.5s;
+}
+.progress-bar__label {
+  text-align: right;
+  letter-spacing: 1.5px;
+  margin-right: 15px;
+}
+
+.chart {
+  height: 325px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fill, 75px);
+  grid-template-rows: 1fr;
+  justify-content: center;
+  align-items: flex-end;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.chart__divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--text);
+}
+.chart__section {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 25px 250px 5px 1fr;
+}
+.chart__section__label {
+  text-align: center;
+}
+.chart__chart-bar {
+  background-color: var(--primary);
+  width: 65px;
+  height: 100%;
+  justify-self: center;
+  align-self: flex-end;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  box-shadow: 0px 12px 18px -6px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  animation-name: chart-bar-vertical-fill;
+  animation-duration: 1.5s;
+}
+.chart__chart-bar__inner {
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent2);
+  border-radius: 10px 10px 0 0;
+  animation-name: chart-bar-vertical-fill;
+  animation-duration: 2.5s;
+  overflow: hidden;
+}
+.chart__chart-bar__label {
+  color: var(--text);
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+@keyframes progress-bar-fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes chart-bar-vertical-fill {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
+/*# sourceMappingURL=stats.css.map */

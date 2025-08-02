@@ -1,0 +1,122 @@
+@import 'variables';
+@import 'utility';
+
+h2 {
+  font-size: 18px;
+  margin-left: 5px;
+}
+
+section {
+    margin: 50px 0;
+}
+
+.horizontal-scroll {
+    overflow-x: scroll;
+    overflow: hidden;;
+}
+
+.progress-bar {
+    background-color: var(--primary);
+    width: 100%;
+    height: 50px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: $box-shadow-standard;
+
+    &__inner {
+        background-color: var(--accent2);
+        border-radius: 15px;
+        height: 100%;
+        animation-name: progress-bar-fill;
+        animation-duration: 1.5s;
+    }
+
+    &__label {
+        text-align: right;
+        letter-spacing: 1.5px;
+        margin-right: 15px;
+    }
+}
+
+.chart {
+    height: 325px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(auto-fill, 75px);
+    grid-template-rows: 1fr;
+    justify-content: center;
+    align-items: flex-end;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    &__divider {
+        width: 100%;
+        height: 1px;
+        background-color: var(--text);
+    }
+
+    &__section {
+        height: 100%;
+        display: grid;
+        grid-template-rows: 25px 250px 5px 1fr;
+
+        &__label {
+            text-align: center;
+        }
+    }
+
+    &__chart-bar {
+        background-color: var(--primary);
+        width: 65px;
+        height: 100%;
+        justify-self: center;
+        align-self: flex-end;
+        border-radius: 10px 10px 0 0;
+        overflow: hidden;
+        box-shadow: $box-shadow-standard;
+
+        @include flexbox(column, flex-end, center);
+        text-align: center;
+
+        animation-name: chart-bar-vertical-fill;
+        animation-duration: 1.5s;
+        
+
+        &__inner {
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent2);
+            border-radius: 10px 10px 0 0;
+            animation-name: chart-bar-vertical-fill;
+            animation-duration: 2.5s;
+            overflow: hidden;
+        }
+
+        &__label {
+            color: var(--text);
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: center;
+        }
+    }
+}
+
+
+// Animations
+@keyframes progress-bar-fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes chart-bar-vertical-fill {
+    from {
+        height: 0;
+    }
+    to {
+        height: 100%;
+    }
+}
