@@ -5,9 +5,8 @@ categorySelect.addEventListener('change', getSubCategories);
 async function getSubCategories() {
     const cat_id = categorySelect.value;
 
-    const response = await fetch(`/budget/get-sub-categories/${cat_id}`);
+    const response = await fetch(`http://localhost:5500/budget/get-sub-categories/${cat_id}`);
     const data = await response.json();
-    console.log(data);
 
     let subCatOptions = '';
     data.forEach(subCategory => {

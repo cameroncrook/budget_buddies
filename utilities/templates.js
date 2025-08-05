@@ -60,6 +60,28 @@ function buildCategoryOptions(categories, selectedCategory = null) {
     return html;
 }
 
+function buildSubCategoryOptions(subCategories) {
+    let organizedSubCategories = {};
+    subCategories.map(subCateogry => {
+        if (!organizedSubCategories[subCateogry.cat_id]) {
+            organizedSubCategories[subCateogry.cat_id] = [];
+        }
+        organizedSubCategories[subCateogry.cat_id].push(subCateogry);
+    })
+
+    let html = '';
+
+    Object.keys(organizedSubCategories).forEach(catId => {
+        const subCategoryHtml = organizedSubCategories[catId].reduce((html, subCategory) => html + `<option value="${subCategory.sub_id}">${subCategory.sub_name} - ${subCategory.sub_remaining != null ? subCategory.sub_remaining : subCategory.sub_budget} remaining</option>`, '');
+
+        html += `<div data-category="${catId}" class="hidden">
+            ${subCategoryHtml}
+        </div>`;
+    });
+
+    return html;
+}
+
 function buildBudgetProgressBar(budgetTotals) {
     const totalBudget = budgetTotals.total_budget || 0;
     const totalExpense = budgetTotals.total_expense || 0;
@@ -100,11 +122,9 @@ function buildCategoryChart(categoryTotals) {
             <div class="chart__divider"></div>
             <p class="chart__section__label">${category.cat_name}</p>
         </div>`;
-
-        // labelHtml += `<p>${category.cat_name}</p>`;
     })
 
     return barHtml;
 }
 
-module.exports = { budgetAccountsTemplate, categoryCardTemplate, subCategoryCardTemplate, buildCategoryOptions, buildBudgetProgressBar, buildCategoryChart };
+module.exports = { budgetAccountsTemplate, categoryCardTemplate, subCategoryCardTemplate, buildCategoryOptions, buildSubCategoryOptions, buildBudgetProgressBar, buildCategoryChart };

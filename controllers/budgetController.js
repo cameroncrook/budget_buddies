@@ -178,6 +178,19 @@ async function deleteSubCategory(req, res) {
         next(new Error());
     }
 }
+async function getSubCategories(req, res) {
+    const cat_id = req.params.cat_id;
+    const resetDay = await settingsModel.getBudgetResetDay(req.session.user.bg_id);
+    const dateRanges = utilities.getLogDateRange(resetDay);
+
+    const subCategories = await budgetModel.getSubCategories(cat_id, dateRanges);
+
+    if (subCategories) {
+        res.json(subCategories);
+    } else {
+        next(new Error());
+    }
+}
 
 
 // remove this in the future
@@ -195,12 +208,20 @@ async function updateSubCategory(req, res) {
 
 async function buildLog(req, res) {
     const bg_id = req.session.user.bg_id;
+    // const resetDay = await settingsModel.getBudgetResetDay(bg_id);
+    // const dateRanges = utilities.getLogDateRange(resetDay);
 
     const categories = await budgetModel.getCategories(bg_id);
+    // const sub_categories = await budgetModel.getAllSubCategories(bg_id, dateRanges);
 
-    const category_options = utilities.buildCategoryOptions(categories);
+    if (categories) {
+        const category_options = utilities.buildCategoryOptions(categories);
+        // const sub_category_options = templates.buildSubCategoryOptions(sub_categories);
 
-    res.render('budget/log', { category_options, scripts: '', styles: ''} );
+        res.render('budget/log', { category_options, scripts: '<script src="/js/budget-log.js" defer></script>', styles: ''} );
+    } else {
+        next(new Error());
+    }
 }
 
 async function createLog(req, res) {
@@ -221,4 +242,4 @@ async function editLog(req, res) {
 
 }
 
-module.exports = { buildDashboard, buildLog, renderCreateCategory, createCategory, renderEditCategory, editCategory, deleteCategory, renderSubCategory, renderCreateSubCategory, createSubCategory, renderEditSubCategory, editSubCategory, deleteSubCategory, updateSubCategory, createLog, removeLog, editLog };
+module.exports = { buildDashboard, buildLog, renderCreateCategory, createCategory, renderEditCategory, editCategory, deleteCategory, renderSubCategory, renderCreateSubCategory, createSubCategory, renderEditSubCategory, editSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, createLog, removeLog, editLog };

@@ -1,27 +1,37 @@
-<form action="/budget/create-log" method="post" class="log-form">
-    <label for="cat_id">Category</label>
-    <select id="cat_id" name="cat_id">
-        <%- category_options %>
-    </select>
+<form action="/budget/create-log" method="post" class="standard-form">
+    <div class="standard-form__form-group">
+        <label for="cat_id">Category</label>
+        <select id="cat_id" name="cat_id">
+            <%- category_options %>
+        </select>
+    </div>
 
-    <label for="sub_id">Sub Category</label>
-    <select id="sub_id" name="sub_id">
+    <div class="standard-form__form-group">
+        <label for="sub_id">Sub Category</label>
+        <select id="sub_id" name="sub_id">
+            
+        </select>
+    </div>
 
-    </select>
+    <div class="standard-form__form-group">
+        <label for="exp_for">Name</label>
+        <input id="exp_for" name="exp_for" type="text" required>
+    </div>
 
-    <label for="exp_for">Name</label>
-    <input id="exp_for" name="exp_for" type="text" required>
+    <div class="standard-form__form-group">
+        <label for="exp_cost">Cost</label>
+        <input type="number" name="exp_cost" id="exp_cost" step="0.01" min="0" placeholder="0.00" required>
+    </div>
 
-    <label for="exp_cost">Cost</label>
-    <input type="number" name="exp_cost" id="exp_cost" step="0.01" min="0" placeholder="0.00" required>
+    <div class="standard-form__form-group">
+        <label for="exp_date">Date</label>
+        <input type="date" name="exp_date" id="exp_date" required>
+    </div>
 
-    <label for="exp_date">Date</label>
-    <input type="date" name="exp_date" id="exp_date" required>
-
-    <label for="exp_description">Notes</label>
-    <textarea name="exp_description" id="exp_description"></textarea>
+    <div class="standard-form__form-group">
+        <label for="exp_description">Notes</label>
+        <textarea name="exp_description" id="exp_description"></textarea>
+    </div>
         
     <input class="log-form__submit" type="submit" value="Submit">
 </form>
-
-<script src="/js/budget-log.js"></script>

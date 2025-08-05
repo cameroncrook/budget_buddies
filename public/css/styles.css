@@ -252,5 +252,8 @@ nav svg {
   height: 50px;
   cursor: pointer;
 }
+.standard-form textarea {
+  height: 100px;
+}
 
 /*# sourceMappingURL=styles.css.map */
