@@ -84,4 +84,18 @@ async function createBudget(req, res) {
     }
 }
 
-module.exports = { buildLogin, buildRegister, buildCreateBudget, createBudget, register, login, logout };
+async function editColorTheme(req, res) {
+    const { account_color_mode } = req.body;
+    const account_id = req.session.user.account_id;
+
+    const result = await accountModel.editAccountColorMode(account_id, account_color_mode);
+
+    if (result) {
+        return res.redirect('/settings');
+    } else {
+        console.log("Failed to update color mode");
+        return res.redirect('/settings');
+    }
+}
+
+module.exports = { buildLogin, buildRegister, buildCreateBudget, createBudget, register, login, logout, editColorTheme };

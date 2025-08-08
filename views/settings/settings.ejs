@@ -1,3 +1,21 @@
+<section class="color-mode">
+    <h2>Color Mode</h2>
+    <form method="post" action="/account/color-theme/edit">
+        <div class="color-mode__slider-container">
+            <div class="color-mode__slider-track">
+                <% if (colorMode == 'light-pink') { %>
+                    <div class="color-mode__slider right"></div>
+                <% } else { %>
+                    <div class="color-mode__slider left"></div>
+                <% } %>
+            </div>
+        </div>
+
+        <input id="account_color_mode" type="hidden" name="account_color_mode" value="<%= colorMode %>" />
+
+        <input type="submit" value="Change Color Mode" class="color-mode__submit" disabled>
+    </form>
+</section>
 
 <section class="settings">
     <h2>Share Settings</h2>
@@ -28,5 +46,3 @@
         <input id="bg_budget_reset_btn" type="submit" value="Change" disabled>
     </form>
 </section>
-
-<script src="/js/budget-settings.js"></script>

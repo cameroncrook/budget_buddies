@@ -13,4 +13,6 @@ router.post("/register", accountController.register);
 router.get("/create-budget", accountController.buildCreateBudget);
 router.post("/create-budget", accountController.createBudget);
 
+router.post("/color-theme/edit", accountController.editColorTheme);
+
 module.exports = router;

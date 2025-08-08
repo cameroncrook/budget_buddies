@@ -1,4 +1,5 @@
 const settingsModel = require('../database/settingsModels');
+const accountModel = require('../database/accountModels');
 templates = require('../utilities/templates');
 
 async function buildSettings(req, res) {
@@ -9,7 +10,9 @@ async function buildSettings(req, res) {
     const budgetAccountsHtml = templates.budgetAccountsTemplate(budgetAccounts);
     const budgetResetDay = await settingsModel.getBudgetResetDay(bg_id);
 
-    return res.render('settings/settings', { shareCode, budgetAccountsHtml, budgetResetDay, scripts: '', styles: '' });
+    const colorMode = await accountModel.getAccountColorMode(req.session.user.account_id);
+
+    return res.render('settings/settings', { shareCode, budgetAccountsHtml, budgetResetDay, scripts: '<script src="/js/budget-settings.js" defer ></script>', styles: '<link rel="stylesheet" href="/css/settings.css" />', colorMode });
 }
 
 async function changeBudgetResetDay(req, res) {

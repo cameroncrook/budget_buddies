@@ -41,4 +41,26 @@ async function getAccount(account_username) {
     }
 }
 
-module.exports = { addBudget, addAccount, getAccount };
+async function getAccountColorMode(account_id) {
+    try {
+        const result = await pool.query(`SELECT account_color_mode FROM public.account WHERE account_id = $1`, [account_id]);
+
+        return result.rows[0].account_color_mode;
+    }
+    catch (err) {
+        console.log(`Error while retrieving account color mode: ${err}`);
+        return null;
+    }
+}
+async function editAccountColorMode(account_id, color_mode) {
+    try {
+        const result = await pool.query(`UPDATE public.account SET account_color_mode = $1 WHERE account_id = $2`, [color_mode, account_id]);
+
+        return true;
+    } catch (err) {
+        console.log(`Error while updating account color mode: ${err}`);
+        return false;
+    }
+}
+
+module.exports = { addBudget, addAccount, getAccount, getAccountColorMode, editAccountColorMode };

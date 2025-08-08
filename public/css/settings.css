@@ -1,0 +1,123 @@
+@import url("https://use.typekit.net/psd6dgn.css");
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Quicksand:wght@300..700&display=swap");
+:root {
+  --primary: #6CE5E8;
+  --accent1: #41B8D5;
+  --accent2: #2D8BBA;
+  --accent3: #2F5F98;
+  --accent4: #31356E;
+  --background: #1E1E1E;
+  --text: #FEFEFE;
+  --text-w-background: #1E1E1E;
+  --accent: #E4E4E4;
+  --shadow-color: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme=light-blue] {
+  --primary: #6CE5E8;
+  --accent1: #41B8D5;
+  --accent2: #2D8BBA;
+  --accent3: #2F5F98;
+  --accent4: #31356E;
+  --background: #FEFEFE;
+  --text: #1E1E1E;
+  --text-w-background: #FEFEFE;
+  --accent: #E4E4E4;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme=light-pink] {
+  --primary: #FAADE3;
+  --accent1: #D541A7;
+  --accent2: #BA2D93;
+  --accent3: #982F7E;
+  --accent4: #6E3161;
+  --background: #FEFEFE;
+  --text: #1E1E1E;
+  --text-w-background: #FEFEFE;
+  --accent: #E4E4E4;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme=dark-pink] {
+  --primary: #FAADE3;
+  --accent1: #D541A7;
+  --accent2: #BA2D93;
+  --accent3: #982F7E;
+  --accent4: #6E3161;
+  --background: #1E1E1E;
+  --text: #FEFEFE;
+  --text-w-background: #1E1E1E;
+  --accent: #E4E4E4;
+  --shadow-color: rgba(255, 255, 255, 0.3);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+p, input, a, span, label, textarea {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+section {
+  margin: 50px 0;
+  padding: 0 20px;
+}
+section h2 {
+  text-align: center;
+}
+
+.color-mode {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.color-mode form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 20px;
+}
+.color-mode__slider-track {
+  height: 25px;
+  width: 75px;
+  background-color: var(--primary);
+  border-radius: 25px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s ease-in-out;
+}
+.color-mode__slider {
+  height: 100%;
+  width: 33%;
+  background-color: var(--accent3);
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+.color-mode__slider.left {
+  transform: translateX(0);
+}
+.color-mode__slider.right {
+  transform: translateX(200%);
+}
+.color-mode__submit {
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 2px 18px 0px var(--shadow-color);
+  padding: 5px;
+}
+.color-mode__submit:not(:disabled) {
+  background-color: var(--primary);
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=settings.css.map */

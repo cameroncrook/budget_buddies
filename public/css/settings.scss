@@ -1,0 +1,64 @@
+@import 'variables';
+@import 'utility';
+
+section {
+    margin: 50px 0;
+    padding: 0 20px;
+
+    h2 {
+        text-align: center;
+    }
+}
+
+.color-mode {
+    @include flexbox(column, center, center);
+
+    form {
+        @include flexbox(column, center, center);
+        row-gap: 20px;
+    }
+
+    &__slider-track {
+        height: 25px;
+        width: 75px;
+        background-color: var(--primary);
+        border-radius: 25px;
+        cursor: pointer;
+
+        // display
+        position: relative;
+
+        // animation
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    &__slider {
+        height: 100%;
+        width: 33%;
+        background-color: var(--accent3);
+        border-radius: 50%;
+
+        position: absolute;
+        left: 0;
+        transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+
+        &.left {
+            transform: translateX(0);
+        }
+        &.right {
+            transform: translateX(200%);
+        }
+    }
+
+    &__submit {
+        border: none;
+        border-radius: 5px;
+        box-shadow: $box-shadow-card;
+        padding: 5px;
+
+        &:not(:disabled) {
+            background-color: var(--primary);
+            cursor: pointer;
+        }
+    }
+}
