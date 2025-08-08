@@ -120,4 +120,44 @@ section h2 {
   cursor: pointer;
 }
 
+.share {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.share__share {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 25px;
+  width: 100%;
+}
+.share .button {
+  height: 100px;
+  font-size: 1.2rem;
+}
+
+.budget {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.budget form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 15px;
+}
+.budget form .form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 /*# sourceMappingURL=settings.css.map */

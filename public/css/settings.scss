@@ -62,3 +62,33 @@ section {
         }
     }
 }
+
+.share {
+    @include flexbox(column, center, center);
+    text-align: center;
+
+    &__share {
+        @include flexbox(row, center, center);
+        column-gap: 25px;
+        width: 100%;
+    }
+
+    .button {
+        height: 100px;
+        font-size: 1.2rem;
+    }
+}
+
+.budget {
+    @include flexbox(column, center, center);
+
+    form {
+        @include flexbox(column, center, center);
+        row-gap: 15px;
+
+        .form-group {
+            @include flexbox(column, center, center);
+        }
+    }
+
+}

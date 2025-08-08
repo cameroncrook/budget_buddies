@@ -17,25 +17,52 @@
     </form>
 </section>
 
-<section class="settings">
-    <h2>Share Settings</h2>
+<section class="share">
+    <h2>Share With Your Budget Buddy!</h2>
 
-    <div class="settings__share">
-        <p class="note">Send the link below to your partner. They will then create an account for the budget.</p>
-        <h3>Share Link</h3>
-        <p>http://budgetbuddies.fieldtechinnovations.com/account/register/<%= shareCode %></p>
-        <button id="link-copy">Copy</button>
+    <p class="note">Share this code with your partner to allow them to join your budget.</p>
+    <div class="share__share">
+        <button id="share-link" class="button">Share Link</button>
+        <button id="share-button" class="button bg-primary-gradient">Share</button>
     </div>
+        
+    <script>
+        document.getElementById('share-link').addEventListener('click', function() {
+            const shareCode = '<%= shareCode %>';
+            const shareUrl = `http://budgetbuddies.fieldtechinnovations.com/account/register/${shareCode}`;
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                document.getElementById('share-link').textContent = 'Link Copied!';
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        });
+
+        document.getElementById('share-button').addEventListener('click', function() {
+            const shareCode = '<%= shareCode %>';
+            const shareUrl = `http://budgetbuddies.fieldtechinnovations.com/account/register/${shareCode}`;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join My Budget',
+                    text: 'I would like you to join my budget on Budget Buddies!',
+                    url: shareUrl
+                }).then(() => {
+                    console.log('Share successful');
+                }).catch(err => {
+                    console.error('Share failed:', err);
+                });
+            } else {
+                alert('Sharing not supported in this browser.');
+            }
+        });
+    </script>
 
     <h3>Accounts Registered on this Budget</h3>
     <div class="settings__accounts">
         <%- budgetAccountsHtml %>
     </div>
-
-    <p class="note">Keep your budget safe. Don't recognize an account here? Contact Cameron at <a href="mailto:cameronbcrook@gmail.com">cameronbcrook@gmail.com</a>.</p>
 </section>
 
-<section class="settings">
+<section class="budget">
     <h2>Budget Settings</h2>
 
     <form class="standard-form" method="post" action="/budget/edit-budget-day">
