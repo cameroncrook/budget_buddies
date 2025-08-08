@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const { title } = require('process');
 
 function buildLogin(req, res) {
-    res.render("account/login", { title: "Budget Buddies", layout: 'layouts/layout' });
+    res.render("account/login", { message: "", layout: 'layouts/layout' });
 }
 
 async function login(req, res) {
@@ -19,9 +19,9 @@ async function login(req, res) {
 
         return res.redirect("/budget");
     } else {
-        console.log("login failed");
 
-        return res.redirect("/account/login");
+        // return res.redirect("/account/login");
+        res.render("account/login", {message: '<p class="bg--warning">Invalid username or password</p>'});
     }
 }
 

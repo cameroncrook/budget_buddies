@@ -1,4 +1,5 @@
 const settingsModel = require('../database/settingsModels');
+templates = require('../utilities/templates');
 
 async function buildSettings(req, res) {
     const bg_id = req.session.user.bg_id;
@@ -6,9 +7,9 @@ async function buildSettings(req, res) {
     const shareCode = await settingsModel.getBudgetShareCode(bg_id);
     const budgetAccounts = await settingsModel.getBudgetAccounts(bg_id);
     const budgetAccountsHtml = templates.budgetAccountsTemplate(budgetAccounts);
-    const budgetResetDay = await budgetModel.getBudgetResetDay(bg_id);
+    const budgetResetDay = await settingsModel.getBudgetResetDay(bg_id);
 
-    return res.render('budget/settings', { shareCode, budgetAccountsHtml, budgetResetDay, scripts: '' });
+    return res.render('settings/settings', { shareCode, budgetAccountsHtml, budgetResetDay, scripts: '', styles: '' });
 }
 
 async function changeBudgetResetDay(req, res) {

@@ -127,4 +127,52 @@ function buildCategoryChart(categoryTotals) {
     return barHtml;
 }
 
-module.exports = { budgetAccountsTemplate, categoryCardTemplate, subCategoryCardTemplate, buildCategoryOptions, buildSubCategoryOptions, buildBudgetProgressBar, buildCategoryChart };
+function buildLogEntries(logs) {
+    let html = '';
+    logs.forEach(log => {
+        const date = new Date(log.exp_date).toLocaleDateString();
+
+        html += `
+        <table class="log">
+            <thead>
+                <th colspan="3">${log.exp_for}</th>
+            </thead>
+            <tbody>
+                <tr class="log__main">
+                    <td>${log.account_firstname}</td>
+                    <td>${date}</td>
+                    <td>$${log.exp_cost}</td>
+                    <td>
+                        <form action="/budget/log/delete/${log.exp_id}" method="POST">
+                            <button type="submit" class="log__delete bg--warning">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5A2,2 0 0,0 3,6V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V6A2,2 0 0,0 19,4M19,20H5V8H19V20M7.5,10H9.5V18H7.5V10M10.5,10H12.5V18H10.5V10M13.5,10H15.5V18H13.5V10Z"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr class="log__description hidden">
+                    <td colspan="3">${log.exp_description}</td>
+                </tr>
+            </tbody>
+        </table>
+        `
+
+        // html += `
+        // <div class="log">
+        //     <div class="log__title">
+        //         <p>${log.exp_for}</p>
+        //         <p>${date}</p>
+        //     </div>
+        //     <p>${log.exp_cost}</p>
+        //     <form action="/budget/log/delete/${log.exp_id}" method="POST">
+        //     <button type="submit" class="bg--warning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5A2,2 0 0,0 3,6V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V6A2,2 0 0,0 19,4M19,20H5V8H19V20M7.5,10H9.5V18H7.5V10M10.5,10H12.5V18H10.5V10M13.5,10H15.5V18H13.5V10Z"/></svg></button>
+        //     </form>
+        // </div>`
+    })
+
+    return html;
+}
+
+module.exports = { budgetAccountsTemplate, categoryCardTemplate, subCategoryCardTemplate, buildCategoryOptions, buildSubCategoryOptions, buildBudgetProgressBar, buildCategoryChart, buildLogEntries };

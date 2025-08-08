@@ -133,12 +133,18 @@ a {
 .bg--accent2 svg {
   fill: var(--text-w-background);
 }
+.bg--accent2 a {
+  color: var(--accent4);
+}
 .bg--accent3 {
   background-color: var(--accent3);
   color: var(--text-w-background);
 }
 .bg--accent3 svg {
   fill: var(--text-w-background);
+}
+.bg--accent3 a {
+  color: var(--primary);
 }
 .bg--accent4 {
   background-color: var(--accent4);
@@ -147,9 +153,13 @@ a {
 .bg--accent4 svg {
   fill: var(--text-w-background);
 }
+.bg--accent4 a {
+  color: var(--primary);
+}
 .bg--warning {
   background-color: #e53935;
   color: #fefefe;
+  fill: var(--text-w-background);
 }
 
 .text-center {
@@ -204,7 +214,8 @@ nav {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(1, 1fr);
-  height: 75px;
+  background-color: var(--background);
+  height: 50px;
   width: 100%;
 }
 nav a {
@@ -254,6 +265,26 @@ nav svg {
 }
 .standard-form textarea {
   height: 100px;
+}
+
+.button {
+  border-radius: 15px;
+  box-shadow: 0px 12px 18px -6px var(--shadow-color);
+  padding: 10px;
+  width: 150px;
+}
+.button--w-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.button--w-icon svg {
+  width: 20px;
+  height: 20px;
+}
+.button p {
+  margin: 0;
 }
 
 /*# sourceMappingURL=styles.css.map */

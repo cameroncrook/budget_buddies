@@ -78,6 +78,10 @@ a {
         svg {
             fill: var(--text-w-background);
         }
+
+        a {
+            color: var(--accent4);
+        }
     }
 
     &--accent3 {
@@ -86,6 +90,10 @@ a {
         
         svg {
             fill: var(--text-w-background);
+        }
+
+        a {
+            color: var(--primary);
         }
     }
 
@@ -96,11 +104,16 @@ a {
         svg {
             fill: var(--text-w-background);
         }
+
+        a {
+            color: var(--primary);
+        }
     }
 
     &--warning {
         background-color: $warning-color;
         color: $text-color-alt;
+        fill: var(--text-w-background);
     }
 }
 
@@ -179,10 +192,11 @@ nav {
     @include gridbox(4);
 
     // styles
+    background-color: var(--background);
     
 
     // sizing and spacing
-    height: 75px;
+    height: 50px;
     width: 100%;
 
     a {
@@ -243,3 +257,31 @@ nav {
    }
 }
 
+
+
+
+
+
+
+
+// ----------------------------------
+// Buttons
+// ----------------------------------
+.button {
+    border-radius: 15px;
+    box-shadow: $box-shadow-standard;
+    padding: 10px;
+    width: 150px;
+
+    &--w-icon {
+        @include flexbox(row, space-around, center);
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    p {
+        margin: 0;
+    }
+}

@@ -1,0 +1,35 @@
+@import 'variables';
+@import 'utility';
+
+.sub-category-actions {
+    @include flexbox(row, flex-end, center);
+    padding: 20px;
+}
+
+.log {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+
+    th {
+        text-align: start;
+    }
+
+    &__main {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 50px;
+    }
+
+    &__delete {
+        width: 100%;
+        height: 25px;
+        border: none;
+        border-radius: 5px;
+        box-shadow: $box-shadow-standard;
+        cursor: pointer;
+
+        svg {
+            width: 20px;
+        }
+    }
+}

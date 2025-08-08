@@ -13,7 +13,7 @@ require("dotenv").config();
 const pool = require("./database/connection");
 const utilites = require("./utilities/");
 
-// http://localhost:5500/account/register/f51052b13b83b403eede89ef59ef28ba51109151
+
 // ------------------------------------
 // app setup
 // ------------------------------------
@@ -73,7 +73,7 @@ app.use("/account", (req, res, next) => {
 }, accountRoutes);
 
 app.use("/settings", utilites.requireLogin, (req, res, next) => {
-    app.set('layout', 'layouts/bbudget_layout');
+    app.set('layout', 'layouts/budget_layout');
     next();
 }, settingsRoutes);
 

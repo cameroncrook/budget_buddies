@@ -243,7 +243,7 @@ async function getLogs(sub_id, dateRanges) {
     try {
         // TODO: If Start day is `1` then it just goes by month
         const result = await pool.query(
-            `SELECT a.account_firstname, e.exp_for, e.exp_cost, e.exp_description, e.exp_date 
+            `SELECT a.account_firstname, e.exp_id, e.exp_for, e.exp_cost, e.exp_description, e.exp_date 
             FROM expenditure e
                 INNER JOIN account a
                 ON a.account_id = e.account_id

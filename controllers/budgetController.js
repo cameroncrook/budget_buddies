@@ -100,9 +100,9 @@ async function renderSubCategory(req, res, next) {
         const dateRanges = utilities.getLogDateRange(resetDay);
         const logsData = await budgetModel.getLogs(sub_id, dateRanges);
 
-        const logElements = utilities.buildLogEntries(logsData);
+        const logElements = templates.buildLogEntries(logsData);
 
-        res.render('budget/logs', { logElements, sub_id, scripts: '', styles: '' })
+        res.render('budget/logs', { logElements, sub_id, scripts: '', styles: '<link rel="stylesheet" href="/css/logs.css">' })
     } else {
         next(new Error("Subcategory not found"));
     }
@@ -231,11 +231,19 @@ async function createLog(req, res) {
 
     const response = await budgetModel.addLog(sub_id, exp_for, exp_description, exp_date, exp_cost, account_id);
 
-    res.redirect("/budget/log");
+    res.redirect("/budget/log/add");
 }
 
 async function removeLog(req, res) {
+    const log_id = req.params.log_id;
 
+    const response = await budgetModel.deleteLog(log_id);
+    if (response) {
+        res.redirect("/budget/");
+    } else {
+        // Throw a 500 error
+        next(new Error());
+    }
 }
 
 async function editLog(req, res) {

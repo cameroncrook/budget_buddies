@@ -43,26 +43,6 @@ function buildCategoryOptions(categories) {
     return html;
 }
 
-// delete or move
-function buildLogEntries(logs) {
-    let html = '';
-    logs.forEach(log => {
-        const date = new Date(log.exp_date).toLocaleDateString();
-
-        html += `
-        <div class="log">
-            <p>${log.account_firstname}</p>
-            <div class="log__title">
-                <p>${log.exp_for}</p>
-                <p>${date}</p>
-            </div>
-            <p>${log.exp_cost}</p>
-        </div>`
-    })
-
-    return html;
-}
-
 function getLogDateRange(setDay) {
     let dateRanges = {};
 
@@ -149,4 +129,4 @@ async function generateUniqueSlug(name, bg_id, sub_id = null) {
 };
 
 
-module.exports = { requireLogin, buildCategoryOptions, buildLogEntries, checkAuthorization, checkAuthorizationForCategory, getLogDateRange, buildCategoriesObject, generateUniqueSlug};
+module.exports = { requireLogin, buildCategoryOptions, checkAuthorization, checkAuthorizationForCategory, getLogDateRange, buildCategoriesObject, generateUniqueSlug};
