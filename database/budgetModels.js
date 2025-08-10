@@ -98,10 +98,11 @@ async function addSubCategory(cat_id, sub_name, slug, sub_budget, is_savings) {
     try {
         const result = await pool.query(
             `INSERT INTO public.sub_category (cat_id, sub_name, slug, sub_budget, is_savings)
-            VALUES ($1,$2,$3,$4,$5)`, [cat_id, sub_name, slug, sub_budget, is_savings]
+            VALUES ($1,$2,$3,$4,$5)
+            RETURNING sub_id;`, [cat_id, sub_name, slug, sub_budget, is_savings]
         )
 
-        return true;
+        return result.rows[0].sub_id; // Return the newly created sub_id
     } catch (err) {
         console.log(`Error while inserting new sub category: ${err}`);
 
@@ -239,6 +240,118 @@ async function getSubCategories(cat_id, dateRanges) {
 
 }
 
+async function subCategoryIsSavings(sub_id) {
+    try {
+        const result = await pool.query(
+            `SELECT is_savings FROM public.sub_category
+            WHERE sub_id = $1;`, [sub_id]
+        )
+
+        return result.rows[0].is_savings;
+    } catch (err) {
+        console.log(`Error while getting is_savings: ${err}`);
+
+        return false;
+    }
+}
+async function getSavings(sub_id) {
+    try {
+        const result = await pool.query(
+            `SELECT *
+            FROM public.savings 
+            WHERE sub_id=$1;`, [sub_id]
+        )
+
+        return result.rows;
+    } catch (err) {
+        console.log(`Error while getting savings: ${err}`);
+
+        return false;
+    }
+}
+async function addSavings(sub_id, savings_total) {
+    try {
+        const result = await pool.query(
+            `INSERT INTO public.savings (sub_id, savings_total)
+            VALUES ($1, $2)`, [sub_id, savings_total]
+        )
+
+        return true;
+    } catch (err) {
+        console.log(`Error while adding savings: ${err}`);
+
+        return false;
+    }
+}
+async function updateSavingsTotal(sub_id, savings_total) {
+    let currentDate = new Date();
+    currentDate = currentDate.toISOString().split('T')[0]; // Format date to YYYY-MM-DD
+
+    try {
+        const result = await pool.query(
+            `UPDATE public.savings
+            SET savings_total=$1, savings_last_update=$2
+            WHERE sub_id=$3`, [savings_total, currentDate, sub_id]
+        )
+
+        return true;
+    } catch (err) {
+        console.log(`Error while updating savings total: ${err}`);
+
+        return false;
+    }
+}
+async function addToSavings(sub_id, addition) {
+    let currentDate = new Date();
+    currentDate = currentDate.toISOString().split('T')[0];
+
+    try {
+        const result = await pool.query(
+            `UPDATE public.savings
+            SET savings_total=((SELECT savings_total FROM savings WHERE sub_id=$1) + $2), savings_last_update=$3
+            WHERE sub_id=$1;`, [sub_id, addition, currentDate]
+        )
+
+        return true;
+    } catch (err) {
+        console.log(`Error while adding to savings: ${err}`);
+
+        return false;
+    }
+}
+async function reduceFromSavings(sub_id, amount) {
+    let currentDate = new Date();
+    currentDate = currentDate.toISOString().split('T')[0];
+
+    try {
+        const result = await pool.query(
+            `UPDATE public.savings
+            SET savings_total = ((SELECT savings_total FROM savings WHERE sub_id=$1) - $2), savings_last_update = $3
+            WHERE sub_id = $1;`, [sub_id, amount, currentDate]
+        )
+
+        return true;
+    } catch (err) {
+        console.log(`Error while reducing from savings: ${err}`);
+
+        return false;
+    }
+}
+async function removeSavings(sub_id) {
+    try {
+        const result = await pool.query(
+            `DELETE FROM public.savings
+            WHERE sub_id=$1`, [sub_id]
+        )
+
+        return true;
+    } catch (err) {
+        console.log(`Error while removing savings: ${err}`);
+
+        return false;
+    }
+}
+
 async function getLogs(sub_id, dateRanges) {
     try {
         // TODO: If Start day is `1` then it just goes by month
@@ -259,7 +372,20 @@ async function getLogs(sub_id, dateRanges) {
         return false;
     }
 }
+async function getLogDatabyId(exp_id) {
+    try {
+        const result = await pool.query(
+            `SELECT sub_id, exp_cost FROM public.expenditure
+            WHERE exp_id=$1`, [exp_id]
+        )
 
+        return result.rows[0];
+    } catch (err) {
+        console.log(`Error while getting log by id: ${err}`);
+
+        return false;
+    }
+}
 async function addLog(sub_id, exp_for, exp_description, exp_date, exp_cost, account_id) {
     try {
         const result = await pool.query(
@@ -358,4 +484,4 @@ async function getTotalBudget(bp_id) {
     }
 }
 
-module.exports = { addCategory, getCategory, getCategories, deleteCategory, editCategory, getSubCategoryBySlug, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getAllSubCategories, getLogs, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getBudgetIdFromCategory, getTotalBudget, slugExists }
+module.exports = { addCategory, getCategory, getCategories, deleteCategory, editCategory, getSubCategoryBySlug, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getAllSubCategories, getSavings, subCategoryIsSavings, addSavings, updateSavingsTotal, addToSavings, reduceFromSavings, removeSavings, getLogs, getLogDatabyId, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getBudgetIdFromCategory, getTotalBudget, slugExists }

@@ -135,14 +135,20 @@ async function renderCreateSubCategory(req, res) {
     const scripts = '<script src="/js/sub-budget.js" defer></script>';
     res.render('budget/subCategory', {cat_id, endpoint, categoryOptions, subcategory, edit, scripts, styles: '', colorMode});
 }
-async function createSubCategory(req, res) {
+async function createSubCategory(req, res, next) {
     const { cat_id, sub_name, sub_budget, is_savings } = req.body;
 
-    const slug = utilities.generateUniqueSlug(sub_name, req.session.user.bg_id);
+    const slug = await utilities.generateUniqueSlug(sub_name, req.session.user.bg_id);
+
+    const isSavings = is_savings === 'true';
 
     const response = await budgetModel.addSubCategory(cat_id, sub_name, slug, sub_budget, (is_savings === 'true'));
 
     if (response) {
+        if (isSavings) {
+            await budgetModel.addSavings(response, sub_budget);
+        };
+
         res.redirect("/budget/");
     } else {
         next (new Error());
@@ -234,18 +240,40 @@ async function buildLog(req, res) {
     }
 }
 
-async function createLog(req, res) {
+async function createLog(req, res, next) {
     const {sub_id, exp_for, exp_description, exp_date, exp_cost} = req.body;
 
     const account_id = req.session.user.account_id;
 
+    const is_savings = await budgetModel.subCategoryIsSavings(sub_id);
+    if (is_savings) {
+        const savingsResponse = await budgetModel.reduceFromSavings(sub_id, parseFloat(exp_cost));
+
+        if (!savingsResponse) {
+            next(new Error());
+        }
+    }
+
     const response = await budgetModel.addLog(sub_id, exp_for, exp_description, exp_date, exp_cost, account_id);
 
-    res.redirect("/budget/log/add");
+    if (response) {
+        res.redirect("/budget/log/add");
+    } else {
+        next(new Error());
+    }
 }
 
-async function removeLog(req, res) {
+async function removeLog(req, res, next) {
     const log_id = req.params.log_id;
+
+    const LogData = await budgetModel.getLogDatabyId(log_id);
+    const isSavings = await budgetModel.subCategoryIsSavings(LogData.sub_id);
+    if (isSavings) {
+        const savingsResponse = await budgetModel.addToSavings(LogData.sub_id, LogData.exp_cost);
+        if (!savingsResponse) {
+            next(new Error());
+        }
+    }
 
     const response = await budgetModel.deleteLog(log_id);
     if (response) {
