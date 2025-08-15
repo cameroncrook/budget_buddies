@@ -18,6 +18,11 @@
         <!-- <input type="hidden" name="is_savings" value="<%= subcategory.is_savings ? 'true' : 'false' %>"> -->
         <input type="checkbox" id="is_savings" name="is_savings" <%= subcategory.is_savings ? 'checked' : '' %>>
     </div>
+
+    <% if (subcategory.is_savings) { %>
+        <a href="/budget/savings/<%= subcategory.sub_id %>" class="standard-form__link">Edit Savings</a>
+    <% } %>
+
     <% if (edit) { %>
         <input type="hidden" name="sub_id" value="<%= subcategory.sub_id %>">
     <% } %>

@@ -221,14 +221,24 @@ async function slugExists(slug, bg_id, sub_id) {
     }
 }
 
-// No Longer in Use
+
 async function getSubCategories(cat_id, dateRanges) {
     try {
         
         const result = await pool.query(
-            `SELECT s.*, (sub_budget - (SELECT SUM(exp_cost) as total FROM public.expenditure WHERE sub_id = s.sub_id AND exp_date BETWEEN '${dateRanges.start_year}/${dateRanges.start_month}/${dateRanges.start_day}' AND '${dateRanges.end_year}/${dateRanges.end_month}/${dateRanges.end_day}')) AS sub_remaining
+            `SELECT 
+                s.sub_id,
+                s.sub_name,
+                s.sub_budget,
+                s.is_savings,
+                CASE
+                    WHEN s.is_savings THEN sa.savings_total
+                    ELSE s.sub_budget - (SELECT COALESCE(SUM(exp_cost), 0) FROM public.expenditure WHERE sub_id = s.sub_id AND exp_date BETWEEN '${dateRanges.start_year}/${dateRanges.start_month}/${dateRanges.start_day}' AND '${dateRanges.end_year}/${dateRanges.end_month}/${dateRanges.end_day}')
+                END AS sub_remaining
             FROM public.sub_category s
-            WHERE cat_id=$1;`, [cat_id]
+            LEFT JOIN savings sa
+            ON s.sub_id = sa.sub_id
+            WHERE s.cat_id=$1;`, [cat_id]
         )
 
         return result.rows;
@@ -262,7 +272,7 @@ async function getSavings(sub_id) {
             WHERE sub_id=$1;`, [sub_id]
         )
 
-        return result.rows;
+        return result.rows[0];
     } catch (err) {
         console.log(`Error while getting savings: ${err}`);
 
@@ -308,8 +318,8 @@ async function addToSavings(sub_id, addition) {
     try {
         const result = await pool.query(
             `UPDATE public.savings
-            SET savings_total=((SELECT savings_total FROM savings WHERE sub_id=$1) + $2), savings_last_update=$3
-            WHERE sub_id=$1;`, [sub_id, addition, currentDate]
+            SET savings_total = ((SELECT savings_total FROM savings WHERE sub_id = $1) + $2), savings_last_update = $3
+            WHERE sub_id = $1;`, [sub_id, addition, currentDate]
         )
 
         return true;
@@ -347,6 +357,27 @@ async function removeSavings(sub_id) {
         return true;
     } catch (err) {
         console.log(`Error while removing savings: ${err}`);
+
+        return false;
+    }
+}
+async function getAllSavings() {
+    try {
+        const result = await pool.query(
+            `SELECT 
+                bp.bg_budget_reset,
+                sc.sub_id,
+                sc.sub_budget
+            FROM budget_plan bp
+            INNER JOIN budget_category bc ON bp.bg_id = bc.bg_id
+            INNER JOIN sub_category sc ON bc.cat_id = sc.cat_id
+            INNER JOIN savings s ON sc.sub_id = s.sub_id;
+            `, []
+        )
+
+        return result.rows;
+    } catch (err) {
+        console.log(`Error while getting all savings: ${err}`);
 
         return false;
     }
@@ -484,4 +515,4 @@ async function getTotalBudget(bp_id) {
     }
 }
 
-module.exports = { addCategory, getCategory, getCategories, deleteCategory, editCategory, getSubCategoryBySlug, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getAllSubCategories, getSavings, subCategoryIsSavings, addSavings, updateSavingsTotal, addToSavings, reduceFromSavings, removeSavings, getLogs, getLogDatabyId, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getBudgetIdFromCategory, getTotalBudget, slugExists }
+module.exports = { addCategory, getCategory, getCategories, deleteCategory, editCategory, getSubCategoryBySlug, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getAllSubCategories, getSavings, subCategoryIsSavings, addSavings, updateSavingsTotal, addToSavings, reduceFromSavings, removeSavings, getAllSavings, getLogs, getLogDatabyId, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getBudgetIdFromCategory, getTotalBudget, slugExists }

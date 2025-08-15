@@ -27,5 +27,8 @@ router.post("/log/add", budgetController.createLog);
 router.post("/log/delete/:log_id", budgetController.removeLog);
 router.post("/log/edit/:log_id", budgetController.editLog);
 
+router.get('/savings/:sub_id', utilities.checkAuthorization, budgetController.renderEditSavings);
+router.post('/savings/:sub_id', utilities.checkAuthorization, budgetController.editSavings);
+
 module.exports = router;
 

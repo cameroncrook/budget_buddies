@@ -134,7 +134,7 @@ a {
   fill: var(--text-w-background);
 }
 .bg--accent2 a {
-  color: var(--accent4);
+  color: var(--primary);
 }
 .bg--accent3 {
   background-color: var(--accent3);
@@ -265,6 +265,17 @@ nav svg {
 }
 .standard-form textarea {
   height: 100px;
+  padding: 5px;
+  font-size: 1.2rem;
+}
+.standard-form__link {
+  display: block;
+  text-decoration: none;
+  margin: 25px 0;
+  font-size: 1.4rem;
+}
+.standard-form__link:hover {
+  text-decoration: underline;
 }
 
 .button {

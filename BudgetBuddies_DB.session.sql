@@ -1,7 +1,8 @@
-SELECT c.bg_id, SUM(s.sub_budget) as total_budget, SUM(e.exp_cost) as total_spent FROM public.sub_category s
-JOIN public.budget_category c
-ON s.cat_id = c.cat_id
-JOIN public.expenditure e
-ON e.sub_id = s.sub_id
-GROUP BY c.bg_id
-HAVING c.bg_id = 1 AND e.exp_date BETWEEN '2024-01-01' AND '2024-12-31';
+SELECT 
+    bp.bg_budget_reset,
+    sc.sub_id,
+    sc.sub_budget
+FROM budget_plan bp
+INNER JOIN budget_category bc ON bp.bg_id = bc.bg_id
+INNER JOIN sub_category sc ON bc.cat_id = sc.cat_id
+INNER JOIN savings s ON sc.sub_id = s.sub_id;

@@ -1,0 +1,10 @@
+<form class="standard-form" action="/budget/savings/<%= savings.sub_id %>" method="post">
+    <input type="hidden" name="sub_id" value="<%= savings.sub_id %>" >
+
+    <div class="standard-form__form-group">
+        <label for="savings_total">Total</label>
+        <input type="number" name="savings_total" id="savings_total" value="<%= savings.savings_total %>" step="0.01" min="0" placeholder="0.00" required>
+    </div>
+
+    <input type="submit" value="Update" class="standard-form__submit">
+</form>

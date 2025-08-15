@@ -288,4 +288,26 @@ async function editLog(req, res) {
 
 }
 
-module.exports = { buildDashboard, buildLog, renderCreateCategory, createCategory, renderEditCategory, editCategory, deleteCategory, renderSubCategory, renderCreateSubCategory, createSubCategory, renderEditSubCategory, editSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, createLog, removeLog, editLog };
+async function renderEditSavings(req, res) {
+    const sub_id = req.params.sub_id;
+    const colorMode = await accountModel.getAccountColorMode(req.session.user.account_id);
+
+    const savings = await budgetModel.getSavings(sub_id);
+
+    if (savings) {
+        res.render('budget/editSavings', { savings, scripts: '', styles: '', colorMode });
+    }
+}
+async function editSavings(req, res, next) {
+    const { sub_id, savings_total } = req.body;
+
+    const response = await budgetModel.updateSavingsTotal(sub_id, savings_total);
+
+    if (response) {
+        res.redirect(`/budget/savings/${sub_id}`);
+    } else {
+        next(new Error());
+    }
+}
+
+module.exports = { buildDashboard, buildLog, renderCreateCategory, createCategory, renderEditCategory, editCategory, deleteCategory, renderSubCategory, renderCreateSubCategory, createSubCategory, renderEditSubCategory, editSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, createLog, removeLog, editLog, renderEditSavings, editSavings };

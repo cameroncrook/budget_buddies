@@ -12,6 +12,8 @@ const session = require("express-session")
 require("dotenv").config();
 const pool = require("./database/connection");
 const utilites = require("./utilities/");
+const cron = require('node-cron');
+const budgetRollOver = require("./utilities/budgetRollOver");
 
 
 // ------------------------------------
@@ -44,6 +46,25 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('X-HTTP-Method')) //          Microsoft
 app.use(methodOverride('X-HTTP-Method-Override')) // Google/GData
 app.use(methodOverride('X-Method-Override'))
+
+
+
+
+
+// ------------------------------------
+// Scheduled Jobs
+// ------------------------------------
+cron.schedule('0 2 * * *', async () => {
+    try {
+        await budgetRollOver();
+        console.log('Budget rollover completed successfully');
+    } catch (error) {
+        console.error('Error during budget rollover:', error);
+    }
+});
+
+
+
 
 
 

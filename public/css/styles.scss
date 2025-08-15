@@ -80,7 +80,7 @@ a {
         }
 
         a {
-            color: var(--accent4);
+            color: var(--primary);
         }
     }
 
@@ -254,6 +254,19 @@ nav {
 
    textarea {
     height: 100px;
+    padding: 5px;
+    font-size: 1.2rem;
+   }
+
+   &__link {
+    display: block;
+    text-decoration: none;
+    margin: 25px 0;
+    font-size: 1.4rem;
+
+    &:hover {
+        text-decoration: underline;
+    }
    }
 }
 
