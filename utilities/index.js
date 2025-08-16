@@ -43,7 +43,7 @@ function buildCategoryOptions(categories) {
     return html;
 }
 
-function getLogDateRange(setDay) {
+function getLogDateRange(setDay, returnString=false) {
     let dateRanges = {};
 
     const currentDate = new Date();
@@ -86,7 +86,14 @@ function getLogDateRange(setDay) {
     }
     
 
-    return dateRanges;
+    if (returnString) {
+        const startDate = `${dateRanges.start_year}/${dateRanges.start_month}/${dateRanges.start_day}`;
+        const endDate = `${dateRanges.end_year}/${dateRanges.end_month}/${dateRanges.end_day}`;
+
+        return {startDate, endDate};
+    } else {
+        return dateRanges;
+    }
 }
 
 function buildCategoriesObject(categories, sub_categories) {

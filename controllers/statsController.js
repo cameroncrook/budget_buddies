@@ -10,7 +10,7 @@ async function buildDashboard(req, res) {
     const colorMode = await accountModel.getAccountColorMode(req.session.user.account_id);
 
     const setDay = await settingsModel.getBudgetResetDay(bg_id);
-    const dateRanges = utilities.getLogDateRange(setDay);
+    const dateRanges = utilities.getLogDateRange(setDay, true);
 
     const budgetTotals = await statsModel.getBudgetTotals(bg_id, dateRanges);
     const categoryTotals = await statsModel.getCategoryTotals(bg_id, dateRanges);
