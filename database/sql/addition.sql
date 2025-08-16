@@ -34,3 +34,12 @@ UNIQUE (cat_id, slug);
 
 ALTER TABLE budget_category
 DROP COLUMN IF EXISTS cat_color;
+
+CREATE TABLE IF NOT EXISTS public.balance {
+    balance_id SERIAL PRIMARY,
+    balance_amount NUMERIC(10, 2) NOT NULL,
+    balance_date DATE DEFAULT CURRENT_DATE,
+    bg_id INT NOT NULL,
+
+    FOREIGN KEY (bg_id) REFERENCES budget_plan(bg_id) ON DELETE CASCADE
+};

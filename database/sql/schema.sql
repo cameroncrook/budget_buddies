@@ -24,6 +24,18 @@ CREATE TABLE IF NOT EXISTS public.account (
 
 
 
+CREATE TABLE IF NOT EXISTS public.balance (
+    balance_id SERIAL PRIMARY KEY,
+    balance_amount NUMERIC(10, 2) NOT NULL,
+    balance_date DATE DEFAULT CURRENT_DATE NOT NULL,
+    bg_id INT NOT NULL,
+
+    FOREIGN KEY (bg_id) REFERENCES budget_plan(bg_id) ON DELETE CASCADE
+);
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS public.budget_category (
     cat_id SERIAL PRIMARY KEY,

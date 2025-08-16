@@ -20,7 +20,28 @@ async function buildDashboard(req, res) {
     const currentLabel = `${budgetTotals.total_expense || 0} / ${budgetTotals.total_budget || 0}`;
     const barHtml = templates.buildCategoryChart(categoryTotals);
 
-    res.render('stats/dashboard', {currentInnerBar, currentLabel, barHtml, styles: '<link rel="stylesheet" href="/css/stats.css">', scripts: '', colorMode});
+    // Balances
+    const balances = await budgetModel.getBalances(bg_id);
+    balances.forEach((item) => {
+        item.balance_date = new Date(item.balance_date).toLocaleDateString();
+    });
+    const balanceChartData = utilities.getChartData('balance_date', 'balance_amount', balances, 5);
+    const balanceChart = `https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify({
+        type: 'line',
+        data: {
+            labels: balanceChartData.labels.reverse(),
+            datasets: [
+            {
+                label: 'Balance',
+                data: balanceChartData.values.reverse()
+            }
+            ]
+        }
+    }))}`;
+
+    const balanceEntries = templates.buildBalanceEntries(balances);
+
+    res.render('stats/dashboard', {currentInnerBar, currentLabel, barHtml, balanceChart, balanceEntries, styles: '<link rel="stylesheet" href="/css/stats.css">', scripts: '<script src="/js/stats.js" defer></script>', colorMode});
 }
 
 module.exports = { buildDashboard };

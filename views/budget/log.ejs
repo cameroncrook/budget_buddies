@@ -1,37 +1,57 @@
-<form action="/budget/log/add" method="post" class="standard-form">
-    <div class="standard-form__form-group">
-        <label for="cat_id">Category</label>
-        <select id="cat_id" name="cat_id">
-            <%- category_options %>
-        </select>
-    </div>
+<div class="tabs tabs--2">
+    <button data-for="1">Expenditure</button>
+    <button data-for="2">Balance</button>
+</div>
+<div class="tabs__items">
+    <form action="/budget/log/add" method="post" class="standard-form tabs__item active" id="expenditure-form" data-item="1">
+        <div class="standard-form__form-group">
+            <label for="cat_id">Category</label>
+            <select id="cat_id" name="cat_id">
+                <%- category_options %>
+            </select>
+        </div>
 
-    <div class="standard-form__form-group">
-        <label for="sub_id">Sub Category</label>
-        <select id="sub_id" name="sub_id">
+        <div class="standard-form__form-group">
+            <label for="sub_id">Sub Category</label>
+            <select id="sub_id" name="sub_id">
+                
+            </select>
+        </div>
+
+        <div class="standard-form__form-group">
+            <label for="exp_for">Name</label>
+            <input id="exp_for" name="exp_for" type="text" required>
+        </div>
+
+        <div class="standard-form__form-group">
+            <label for="exp_cost">Cost</label>
+            <input type="number" name="exp_cost" id="exp_cost" step="0.01" min="0" placeholder="0.00" required>
+        </div>
+
+        <div class="standard-form__form-group">
+            <label for="exp_date">Date</label>
+            <input type="date" name="exp_date" id="exp_date" required>
+        </div>
+
+        <div class="standard-form__form-group">
+            <label for="exp_description">Notes</label>
+            <textarea name="exp_description" id="exp_description"></textarea>
+        </div>
             
-        </select>
-    </div>
+        <input type="submit" value="Submit" class="standard-form__submit">
+    </form>
 
-    <div class="standard-form__form-group">
-        <label for="exp_for">Name</label>
-        <input id="exp_for" name="exp_for" type="text" required>
-    </div>
+    <form action="/budget/balance/create" method="post" class="standard-form tabs__item" id="balance-form" data-item="2">
+        <div class="standard-form__form-group">
+            <label for="balance_amount">Balance</label>
+            <input type="number" name="balance_amount" id="balance_amount" step="0.01" min="0" placeholder="0.00" required>
+        </div>
 
-    <div class="standard-form__form-group">
-        <label for="exp_cost">Cost</label>
-        <input type="number" name="exp_cost" id="exp_cost" step="0.01" min="0" placeholder="0.00" required>
-    </div>
+        <div class="standard-form__form-group">
+            <label for="balance_date">Date</label>
+            <input type="date" name="balance_date" id="balance_date" required>
+        </div>
 
-    <div class="standard-form__form-group">
-        <label for="exp_date">Date</label>
-        <input type="date" name="exp_date" id="exp_date" required>
-    </div>
-
-    <div class="standard-form__form-group">
-        <label for="exp_description">Notes</label>
-        <textarea name="exp_description" id="exp_description"></textarea>
-    </div>
-        
-    <input class="log-form__submit" type="submit" value="Submit">
-</form>
+        <input type="submit" value="Submit" class="standard-form__submit">
+    </form>
+</div>

@@ -30,3 +30,4 @@ day = (day < 10 ? '0' : '') + day;
 
 const formattedDate = `${year}-${month}-${day}`;
 document.getElementById("exp_date").value = formattedDate;
+document.getElementById("balance_date").value = formattedDate;

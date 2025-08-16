@@ -175,4 +175,26 @@ function buildLogEntries(logs) {
     return html;
 }
 
-module.exports = { budgetAccountsTemplate, categoryCardTemplate, subCategoryCardTemplate, buildCategoryOptions, buildSubCategoryOptions, buildBudgetProgressBar, buildCategoryChart, buildLogEntries };
+function buildBalanceEntries(balances) {
+    let html = '';
+    balances.forEach((item) => {
+        html += `
+        <tr>
+            <td>${item.balance_date}</td>
+            <td>${item.balance_amount}</td>
+            <td>
+                <form class="balance-delete-form" action="/budget/balance/delete/${item.balance_id}" method="POST">
+                    <button type="submit" class="balance-table__delete bg--warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5A2,2 0 0,0 3,6V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V6A2,2 0 0,0 19,4M19,20H5V8H19V20M7.5,10H9.5V18H7.5V10M10.5,10H12.5V18H10.5V10M13.5,10H15.5V18H13.5V10Z"/>
+                        </svg>
+                    </button>
+                </form>
+            </td>
+        </tr>`
+    });
+
+    return html;
+}
+
+module.exports = { budgetAccountsTemplate, categoryCardTemplate, subCategoryCardTemplate, buildCategoryOptions, buildSubCategoryOptions, buildBudgetProgressBar, buildCategoryChart, buildLogEntries, buildBalanceEntries };

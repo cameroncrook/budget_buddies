@@ -463,6 +463,51 @@ async function updateLog(exp_id, sub_id, exp_for, exp_description, exp_date, exp
     }
 }
 
+async function addBalance(balance_amount, balance_date, bg_id) {
+    try {
+        const result = await pool.query(
+            `INSERT INTO public.balance (balance_amount, balance_date, bg_id)
+            VALUES ($1, $2, $3);`, [balance_amount, balance_date, bg_id]
+        );
+
+        return true;
+    } catch (err) {
+        console.log(`Error while inserting new balance: ${err}`);
+
+        return false;
+    }
+}
+async function deleteBalance(balance_id) {
+    try {
+        const result = await pool.query(
+            `DELETE FROM public.balance
+            WHERE balance_id=$1`, [balance_id]
+        );
+
+        return true;
+    } catch (err) {
+        console.log(`Error while deleting balance: ${err}`);
+
+        return false;
+    }
+}
+async function getBalances(bg_id) {
+    try {
+        const result = await pool.query(
+            `SELECT balance_id, balance_amount, balance_date
+            FROM public.balance
+            WHERE bg_id=$1
+            ORDER BY balance_date DESC;`, [bg_id]
+        );
+
+        return result.rows;
+    } catch (err) {
+        console.log(`Error while getting balance: ${err}`);
+
+        return false;
+    }
+}
+
 async function getBudgetIdFromSub(sub_id) {
     try {
         const result = await pool.query(
@@ -515,4 +560,4 @@ async function getTotalBudget(bp_id) {
     }
 }
 
-module.exports = { addCategory, getCategory, getCategories, deleteCategory, editCategory, getSubCategoryBySlug, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getAllSubCategories, getSavings, subCategoryIsSavings, addSavings, updateSavingsTotal, addToSavings, reduceFromSavings, removeSavings, getAllSavings, getLogs, getLogDatabyId, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getBudgetIdFromCategory, getTotalBudget, slugExists }
+module.exports = { addCategory, getCategory, getCategories, deleteCategory, editCategory, getSubCategoryBySlug, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getAllSubCategories, getSavings, subCategoryIsSavings, addSavings, updateSavingsTotal, addToSavings, reduceFromSavings, removeSavings, getAllSavings, getLogs, getLogDatabyId, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getBudgetIdFromCategory, getTotalBudget, slugExists, addBalance, deleteBalance, getBalances }

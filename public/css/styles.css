@@ -247,6 +247,7 @@ nav svg {
   padding: 5px;
   font-size: 1.2rem;
   border-radius: 15px;
+  border: 1px solid;
 }
 .standard-form__delete {
   border: none;
@@ -259,7 +260,7 @@ nav svg {
   background-color: var(--accent1);
   border: none;
   box-shadow: 0px 12px 18px -6px var(--shadow-color);
-  margin-bottom: 10px;
+  margin-bottom: 100px;
   height: 50px;
   cursor: pointer;
 }
@@ -267,6 +268,7 @@ nav svg {
   height: 100px;
   padding: 5px;
   font-size: 1.2rem;
+  border-radius: 15px;
 }
 .standard-form__link {
   display: block;
@@ -298,6 +300,48 @@ nav svg {
 }
 .button p {
   margin: 0;
+}
+
+.tabs {
+  display: grid;
+  box-shadow: 0px 2px 18px 0px var(--shadow-color);
+  background-color: var(--accent);
+  margin: 25px 0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.tabs button {
+  width: 100%;
+  height: 50px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+.tabs button:hover {
+  background-color: var(--accent1);
+  color: var(--text-w-background);
+}
+.tabs--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.tabs__items {
+  position: relative;
+  overflow: hidden;
+  height: 800px;
+}
+.tabs__items .tabs__item {
+  position: absolute;
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+.tabs__items .tabs__item:nth-child(1) {
+  transform: translateX(-150%);
+}
+.tabs__items .tabs__item:nth-child(2) {
+  transform: translateX(150%);
+}
+.tabs__items .tabs__item.active {
+  transform: translateX(0) !important;
 }
 
 /*# sourceMappingURL=styles.css.map */

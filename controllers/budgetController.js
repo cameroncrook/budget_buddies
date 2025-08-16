@@ -234,7 +234,7 @@ async function buildLog(req, res) {
         const category_options = utilities.buildCategoryOptions(categories);
         // const sub_category_options = templates.buildSubCategoryOptions(sub_categories);
 
-        res.render('budget/log', { category_options, scripts: '<script src="/js/budget-log.js" defer></script>', styles: '', colorMode} );
+        res.render('budget/log', { category_options, scripts: '<script src="/js/budget-log.js" defer></script><script src="/js/tabs.js" defer></script>', styles: '', colorMode} );
     } else {
         next(new Error());
     }
@@ -310,4 +310,28 @@ async function editSavings(req, res, next) {
     }
 }
 
-module.exports = { buildDashboard, buildLog, renderCreateCategory, createCategory, renderEditCategory, editCategory, deleteCategory, renderSubCategory, renderCreateSubCategory, createSubCategory, renderEditSubCategory, editSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, createLog, removeLog, editLog, renderEditSavings, editSavings };
+async function createBalance(req, res, next) {
+    const { balance_amount, balance_date } = req.body;
+    const bg_id = req.session.user.bg_id;
+
+    const response = await budgetModel.addBalance(balance_amount, balance_date, bg_id);
+
+    if (response) {
+        res.redirect('/budget/log/add');
+    } else {
+        next(new Error());
+    }
+}
+async function removeBalance(req, res, next) {
+    const balance_id = req.params.balance_id;
+
+    const response = await budgetModel.deleteBalance(balance_id);
+
+    if (response) {
+        res.redirect('/budget');
+    } else {
+        next(new Error());
+    }
+}
+
+module.exports = { buildDashboard, buildLog, renderCreateCategory, createCategory, renderEditCategory, editCategory, deleteCategory, renderSubCategory, renderCreateSubCategory, createSubCategory, renderEditSubCategory, editSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, createLog, removeLog, editLog, renderEditSavings, editSavings, createBalance, removeBalance };

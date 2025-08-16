@@ -30,5 +30,8 @@ router.post("/log/edit/:log_id", budgetController.editLog);
 router.get('/savings/:sub_id', utilities.checkAuthorization, budgetController.renderEditSavings);
 router.post('/savings/:sub_id', utilities.checkAuthorization, budgetController.editSavings);
 
+router.post('/balance/create', budgetController.createBalance);
+router.post('/balance/delete/:balance_id', budgetController.removeBalance);
+
 module.exports = router;
 

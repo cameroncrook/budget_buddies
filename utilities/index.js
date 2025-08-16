@@ -128,5 +128,21 @@ async function generateUniqueSlug(name, bg_id, sub_id = null) {
   return slug;
 };
 
+function getChartData(labelColumn, valueColumn, data, limit) {
+    let labels = [];
+    let values = [];
 
-module.exports = { requireLogin, buildCategoryOptions, checkAuthorization, checkAuthorizationForCategory, getLogDateRange, buildCategoriesObject, generateUniqueSlug};
+    if (data.length < limit) {
+        limit = data.length;
+    }
+
+    for (let i=0; i < limit; i++) {
+        labels.push(data[i][labelColumn]);
+        values.push(data[i][valueColumn]);
+    }
+
+    return {labels, values};
+}
+
+
+module.exports = { requireLogin, buildCategoryOptions, checkAuthorization, checkAuthorizationForCategory, getLogDateRange, buildCategoriesObject, generateUniqueSlug, getChartData};
