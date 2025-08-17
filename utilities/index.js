@@ -128,7 +128,7 @@ async function generateUniqueSlug(name, bg_id, sub_id = null) {
   let slug = baseSlug;
   let count = 1;
 
-  while (await budgetModel.slugExists(slug, sub_id, bg_id)) {
+  while (await budgetModel.slugExists(slug, bg_id, sub_id)) {
     slug = `${baseSlug}-${count++}`;
   }
 

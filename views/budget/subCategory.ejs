@@ -13,11 +13,12 @@
         <label for="sub_budget">Budget Amount:</label>
         <input type="number" id="sub_budget" name="sub_budget" value="<%= subcategory.sub_budget %>" step="0.01" min="0" required>
     </div>
+    <% if (!edit) { %>
     <div class="standard-form__form-group">
         <label for="is_savings">Is Savings?</label>
-        <!-- <input type="hidden" name="is_savings" value="<%= subcategory.is_savings ? 'true' : 'false' %>"> -->
         <input type="checkbox" id="is_savings" name="is_savings" <%= subcategory.is_savings ? 'checked' : '' %>>
     </div>
+    <% } %>
 
     <% if (subcategory.is_savings) { %>
         <a href="/budget/savings/<%= subcategory.sub_id %>" class="standard-form__link">Edit Savings</a>

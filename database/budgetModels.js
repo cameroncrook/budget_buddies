@@ -125,13 +125,13 @@ async function removeSubCategory(sub_id) {
     }
 }
 
-async function editSubCategory(sub_id, cat_id, sub_name, slug, sub_budget, is_savings) {
+async function editSubCategory(sub_id, cat_id, sub_name, slug, sub_budget) {
     try {
 
         const result = await pool.query(
             `UPDATE public.sub_category
-            SET cat_id=$1, sub_name=$2, slug=$3, sub_budget=$4, is_savings=$5
-            WHERE sub_id=$6`, [cat_id, sub_name, slug, sub_budget, is_savings, sub_id]
+            SET cat_id=$1, sub_name=$2, slug=$3, sub_budget=$4
+            WHERE sub_id=$5`, [cat_id, sub_name, slug, sub_budget, sub_id]
         );
 
         return true;

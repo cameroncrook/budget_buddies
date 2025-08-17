@@ -17,6 +17,20 @@ async function addBudget(name, code) {
     }
 }
 
+async function getBudgetByCode(code) {
+    try {
+        const result = await pool.query(
+            `SELECT bg_name FROM budget_plan
+            WHERE bg_sharecode=$1`, [code]
+        );
+
+        return result.rows[0].bg_name;
+    } catch (err) {
+        console.log(`Error while getting budget name from code: ${err}`);
+        return false;
+    }
+}
+
 async function addAccount(account_firstname, account_username, account_password, bg_code) {
     try {
         const result = await pool.query(`INSERT INTO public.account (account_firstname, account_username, account_password, bg_id)
@@ -63,4 +77,4 @@ async function editAccountColorMode(account_id, color_mode) {
     }
 }
 
-module.exports = { addBudget, addAccount, getAccount, getAccountColorMode, editAccountColorMode };
+module.exports = { addBudget, addAccount, getAccount, getAccountColorMode, editAccountColorMode, getBudgetByCode };

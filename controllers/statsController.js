@@ -15,6 +15,9 @@ async function buildDashboard(req, res) {
     const budgetTotals = await statsModel.getBudgetTotals(bg_id, dateRanges);
     const categoryTotals = await statsModel.getCategoryTotals(bg_id, dateRanges);
 
+    if (!categoryTotals || categoryTotals.length < 1) {
+        return res.render('stats/no-results', { styles: '', scripts: '', colorMode});
+    }
 
     const currentInnerBar = templates.buildBudgetProgressBar(budgetTotals);
     const currentLabel = `${budgetTotals.total_expense || 0} / ${budgetTotals.total_budget || 0}`;
@@ -26,7 +29,7 @@ async function buildDashboard(req, res) {
         item.balance_date = new Date(item.balance_date).toLocaleDateString();
     });
     const balanceChartData = utilities.getChartData('balance_date', 'balance_amount', balances, 5);
-    const balanceChart = `https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify({
+    const balanceChart = balances && balances.length > 0 ? `<img src="https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify({
         type: 'line',
         data: {
             labels: balanceChartData.labels.reverse(),
@@ -37,7 +40,7 @@ async function buildDashboard(req, res) {
             }
             ]
         }
-    }))}`;
+    }))}" alt="balance chart" >` : '<p>No recorded balances yet</p>';
 
     const balanceEntries = templates.buildBalanceEntries(balances);
 

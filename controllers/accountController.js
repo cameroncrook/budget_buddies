@@ -11,13 +11,12 @@ async function login(req, res) {
     const { account_username, account_password } = req.body;
 
     const user = await accountModel.getAccount(account_username);
-
-    if (await bcrypt.compare(account_password, user.account_password)) {
+    if (user && await bcrypt.compare(account_password, user.account_password)) {
         delete user.account_password;
 
         req.session.user = user;
 
-        return res.redirect("/budget");
+        res.redirect("/budget");
     } else {
 
         // return res.redirect("/account/login");
@@ -37,13 +36,21 @@ async function logout(req, res) {
     });
 }
 
-function buildRegister(req, res) {
+async function buildRegister(req, res) {
     const shareCode = req.params.shareCode;
 
-    res.render("account/register", { 
-        title: "Register",
-        shareCode
-    });
+    const budgetName = await accountModel.getBudgetByCode(shareCode);
+
+    if (budgetName) {
+        res.render("account/register", { 
+            title: "Register",
+            budgetName,
+            shareCode
+        });
+    } else {
+        res.redirect("/");
+    }
+    
 }
 
 async function register(req, res) {
@@ -55,13 +62,13 @@ async function register(req, res) {
     } catch (err) {
         console.log(`Error while encrypting password: ${err}`);
 
-        return res.redirect(`/account/register/${bg_code}`);
+        res.redirect(`/account/register/${bg_code}`);
     }
 
     const result = await accountModel.addAccount(account_firstname, account_username, hashedpassword, bg_code);
 
     if (result) {
-        return res.redirect('/budget/');
+        res.render("account/login", {message: '<p class="bg--accent1">Account Created Successfully!</p>'});
     } else {
         return res.redirect(`/account/register/${bg_code}`);
     }

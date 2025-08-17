@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS public.savings (
     sub_id INT PRIMARY KEY REFERENCES sub_category(sub_id) ON DELETE CASCADE,
     savings_total NUMERIC(10, 2),
     savings_last_update DATE DEFAULT CURRENT_DATE
-)
+);
 
 CREATE TABLE IF NOT EXISTS public.expenditure (
     exp_id SERIAL PRIMARY KEY,

@@ -172,12 +172,13 @@ async function renderEditSubCategory(req, res) {
     }
 }
 async function editSubCategory(req, res) {
-    const { sub_id, cat_id, sub_name, slug, sub_budget, is_savings } = req.body;
+    const { sub_id, cat_id, sub_name, sub_budget } = req.body;
 
-    const response = budgetModel.editSubCategory(sub_id, cat_id, sub_name, slug, sub_budget, is_savings == 'on' ? true : false);
+    const newSlug = await utilities.generateUniqueSlug(sub_name, req.session.user.bg_id);
+    const response = budgetModel.editSubCategory(sub_id, cat_id, sub_name, newSlug, sub_budget);
 
     if (response) {
-        res.redirect(`/budget/${sub_id}`);
+        res.redirect(`/budget/${newSlug}`);
     } else {
         next(new Error());
     }

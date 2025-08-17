@@ -7,7 +7,7 @@ if (form) {
         if (confirm("Are you sure you want to delete this category? This will remove all sub-cateogries and logs associated with it.")) {
             const actionSplit = form.action.split('/');
             const lastSegment = actionSplit.pop();
-            form.action = '/budget/sub-category/delete/' + lastSegment;
+            form.action = '/budget/category/delete/' + lastSegment;
             
             form.submit();
         }
