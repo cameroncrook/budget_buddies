@@ -29,7 +29,7 @@
     <script>
         document.getElementById('share-link').addEventListener('click', function() {
             const shareCode = '<%= shareCode %>';
-            const shareUrl = `http://budgetbuddies.fieldtechinnovations.com/account/register/${shareCode}`;
+            const shareUrl = `https://budgetbuddies.fieldtechinnovations.com/account/register/${shareCode}`;
             navigator.clipboard.writeText(shareUrl).then(() => {
                 document.getElementById('share-link').textContent = 'Link Copied!';
             }).catch(err => {
@@ -39,7 +39,7 @@
 
         document.getElementById('share-button').addEventListener('click', function() {
             const shareCode = '<%= shareCode %>';
-            const shareUrl = `http://budgetbuddies.fieldtechinnovations.com/account/register/${shareCode}`;
+            const shareUrl = `https://budgetbuddies.fieldtechinnovations.com/account/register/${shareCode}`;
             if (navigator.share) {
                 navigator.share({
                     title: 'Join My Budget',
