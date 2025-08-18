@@ -12,6 +12,8 @@ async function buildDashboard(req, res) {
     const setDay = await settingsModel.getBudgetResetDay(bg_id);
     const dateRanges = utilities.getLogDateRange(setDay, true);
 
+    const total = await statsModel.getBudgetTotal(bg_id);
+
     const budgetTotals = await statsModel.getBudgetTotals(bg_id, dateRanges);
     const categoryTotals = await statsModel.getCategoryTotals(bg_id, dateRanges);
 
@@ -44,7 +46,7 @@ async function buildDashboard(req, res) {
 
     const balanceEntries = templates.buildBalanceEntries(balances);
 
-    res.render('stats/dashboard', {currentInnerBar, currentLabel, barHtml, balanceChart, balanceEntries, styles: '<link rel="stylesheet" href="/css/stats.css">', scripts: '<script src="/js/stats.js" defer></script>', colorMode});
+    res.render('stats/dashboard', {total, currentInnerBar, currentLabel, barHtml, balanceChart, balanceEntries, styles: '<link rel="stylesheet" href="/css/stats.css">', scripts: '<script src="/js/stats.js" defer></script>', colorMode});
 }
 
 module.exports = { buildDashboard };

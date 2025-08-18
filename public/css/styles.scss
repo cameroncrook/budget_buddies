@@ -135,6 +135,34 @@ a {
 
 
 
+
+
+// ----------------------------------
+// Buttons
+// ----------------------------------
+.btn {
+    border: none;
+    border-radius: 5px;
+    box-shadow: $box-shadow-card;
+    text-decoration: none;
+    margin: 25px 0;
+    display: block;
+    text-align: center;
+
+    &--back {
+        font-size: 1.2rem;
+        padding: 5px;
+        width: 75px;
+    }
+}
+
+
+
+
+
+
+
+
 // ----------------------------------
 // Ham menu
 // ----------------------------------
@@ -214,7 +242,7 @@ nav {
 
 
 // ----------------------------------
-// standard form
+// Forms
 // ----------------------------------
 .standard-form {
 
@@ -270,6 +298,31 @@ nav {
         text-decoration: underline;
     }
    }
+}
+
+.small-form {
+    @include flexbox(row, flex-start, flex-end);
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 10px;
+
+    &__form-group {
+        @include flexbox(column);
+    }
+
+    input, select {
+        height: 25px;
+        border-radius: 5px;
+        border: 1px solid;
+    }
+
+    input[type="submit"] {
+        background-color: var(--accent1);
+        border: none;
+        box-shadow: $box-shadow-standard;
+        height: 30px;
+        cursor: pointer;
+    }
 }
 
 

@@ -143,7 +143,7 @@ function buildLogEntries(logs) {
                     <td>${date}</td>
                     <td>$${log.exp_cost}</td>
                     <td>
-                        <form action="/budget/log/delete/${log.exp_id}" method="POST">
+                        <form class="log__delete-form" action="/budget/log/delete/${log.exp_id}" method="POST">
                             <button type="submit" class="log__delete bg--warning">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5A2,2 0 0,0 3,6V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V6A2,2 0 0,0 19,4M19,20H5V8H19V20M7.5,10H9.5V18H7.5V10M10.5,10H12.5V18H10.5V10M13.5,10H15.5V18H13.5V10Z"/>
@@ -152,7 +152,7 @@ function buildLogEntries(logs) {
                         </form>
                     </td>
                 </tr>
-                <tr class="log__description hidden">
+                <tr class="log__description">
                     <td colspan="3">${log.exp_description}</td>
                 </tr>
             </tbody>

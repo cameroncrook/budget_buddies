@@ -170,6 +170,21 @@ a {
   display: none;
 }
 
+.btn {
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 2px 18px 0px var(--shadow-color);
+  text-decoration: none;
+  margin: 25px 0;
+  display: block;
+  text-align: center;
+}
+.btn--back {
+  font-size: 1.2rem;
+  padding: 5px;
+  width: 75px;
+}
+
 .ham-menu {
   height: 50px;
   width: 45px;
@@ -278,6 +293,34 @@ nav svg {
 }
 .standard-form__link:hover {
   text-decoration: underline;
+}
+
+.small-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+.small-form__form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+.small-form input, .small-form select {
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid;
+}
+.small-form input[type=submit] {
+  background-color: var(--accent1);
+  border: none;
+  box-shadow: 0px 12px 18px -6px var(--shadow-color);
+  height: 30px;
+  cursor: pointer;
 }
 
 .button {

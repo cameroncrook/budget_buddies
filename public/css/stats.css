@@ -82,6 +82,14 @@ section {
   overflow: hidden;
 }
 
+.total {
+  text-align: center;
+}
+.total h2 {
+  font-size: 1.4rem;
+  color: var(--accent2);
+}
+
 .progress-bar {
   background-color: var(--primary);
   width: 100%;

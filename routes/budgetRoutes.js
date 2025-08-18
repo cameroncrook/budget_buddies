@@ -18,6 +18,7 @@ router.get("/sub-category/edit/:sub_id", utilities.checkAuthorization, budgetCon
 router.post("/sub-category/edit/:sub_id", utilities.checkAuthorization, budgetController.editSubCategory);
 router.post("/sub-category/delete/:sub_id", utilities.checkAuthorization, budgetController.deleteSubCategory);
 router.get("/:slug", budgetController.renderSubCategory);
+router.post("/:slug/search", budgetController.searchSubCategory);
 
 // Route to get sub-categories for log page
 router.get("/get-sub-categories/:cat_id", budgetController.getSubCategories);

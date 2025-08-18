@@ -5,6 +5,21 @@
     </div></a>
 </div>
 
-<div>
+<p class="note">This page only shows entries within the current period. Find past entries with the form below...</p>
+<form action="/budget/<%= slug %>/search" method="post" class="small-form">
+    <div class="small-form__form-group">
+        <label for="from">From</label>
+        <input type="date" name="from" id="from" required />
+    </div>
+
+    <div class="small-form__form-group">
+        <label for="to">To</label>
+        <input type="date" name="to" id="to" required />
+    </div>
+
+    <input type="submit" value="Search" />
+</form>
+
+<div style="margin-top: 50px;">
     <%- logElements %>
 </div>

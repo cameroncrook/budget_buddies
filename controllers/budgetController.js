@@ -104,12 +104,36 @@ async function renderSubCategory(req, res, next) {
         const sub_id = subCategory.sub_id;
 
         const resetDay = await settingsModel.getBudgetResetDay(req.session.user.bg_id);
-        const dateRanges = utilities.getLogDateRange(resetDay);
-        const logsData = await budgetModel.getLogs(sub_id, dateRanges);
+        const dateRanges = utilities.getLogDateRange(resetDay, true);
+        const logsData = await budgetModel.getLogs(sub_id, dateRanges.startDate, dateRanges.endDate);
 
         const logElements = templates.buildLogEntries(logsData);
 
-        res.render('budget/logs', { logElements, sub_id, scripts: '', styles: '<link rel="stylesheet" href="/css/logs.css">', colorMode })
+        res.render('budget/logs', { logElements, sub_id, slug, scripts: '<script src="/js/logs.js" defer></script>', styles: '<link rel="stylesheet" href="/css/logs.css">', colorMode })
+    } else {
+        next(new Error("Subcategory not found"));
+    }
+}
+async function searchSubCategory(req, res) {
+    const slug = req.params.slug;
+    const { from, to } = req.body;
+    const colorMode = await accountModel.getAccountColorMode(req.session.user.account_id);
+
+    const subCategory = await budgetModel.getSubCategoryBySlug(slug, req.session.user.bg_id);
+    if (subCategory) {
+        const sub_id = subCategory.sub_id;
+
+        const logsData = await budgetModel.getLogs(sub_id, from, to);
+        const results = await budgetModel.getLogsTotal(sub_id, from, to);
+
+        if (logsData) {
+            const logElements = templates.buildLogEntries(logsData);
+
+            res.render('budget/search', { logElements, results, slug, scripts: '<script src="/js/logs.js" defer></script>', styles: '<link rel="stylesheet" href="/css/logs.css">', colorMode })
+        } else {
+            next(new Error());
+        }
+        
     } else {
         next(new Error("Subcategory not found"));
     }
@@ -335,4 +359,4 @@ async function removeBalance(req, res, next) {
     }
 }
 
-module.exports = { buildDashboard, buildLog, renderCreateCategory, createCategory, renderEditCategory, editCategory, deleteCategory, renderSubCategory, renderCreateSubCategory, createSubCategory, renderEditSubCategory, editSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, createLog, removeLog, editLog, renderEditSavings, editSavings, createBalance, removeBalance };
+module.exports = { buildDashboard, buildLog, renderCreateCategory, createCategory, renderEditCategory, editCategory, deleteCategory, renderSubCategory, searchSubCategory, renderCreateSubCategory, createSubCategory, renderEditSubCategory, editSubCategory, deleteSubCategory, updateSubCategory, getSubCategories, createLog, removeLog, editLog, renderEditSavings, editSavings, createBalance, removeBalance };

@@ -20,7 +20,24 @@ async function getBudgetTotals(bg_id, date_ranges) {
 
         return result.rows[0];
     } catch (error) {
-        console.error('Error fetching budget totals:', error);
+        console.log('Error fetching budget totals:', error);
+        return false;
+    }
+}
+
+async function getBudgetTotal(bg_id) {
+    try {
+        const result = await pool.query(
+            `SELECT SUM(s.sub_budget) as total
+            FROM sub_category s
+            INNER JOIN budget_category c
+            ON s.cat_id = c.cat_id
+            WHERE c.bg_id = $1;`, [bg_id]
+        );
+
+        return result.rows[0].total;
+    } catch (err) {
+        console.log('Error getting budget total: ', err);
         return false;
     }
 }
@@ -57,4 +74,4 @@ async function getCategoryTotals(bg_id, date_ranges) {
     }
 }
 
-module.exports = { getBudgetTotals, getCategoryTotals };
+module.exports = { getBudgetTotals, getBudgetTotal, getCategoryTotals };

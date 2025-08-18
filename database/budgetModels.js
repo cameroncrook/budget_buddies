@@ -383,20 +383,35 @@ async function getAllSavings() {
     }
 }
 
-async function getLogs(sub_id, dateRanges) {
+async function getLogs(sub_id, startDate, endDate) {
     try {
-        // TODO: If Start day is `1` then it just goes by month
         const result = await pool.query(
             `SELECT a.account_firstname, e.exp_id, e.exp_for, e.exp_cost, e.exp_description, e.exp_date 
             FROM expenditure e
                 INNER JOIN account a
                 ON a.account_id = e.account_id
             WHERE sub_id=$1
-            AND e.exp_date BETWEEN '${dateRanges.start_year}/${dateRanges.start_month}/${dateRanges.start_day}' AND '${dateRanges.end_year}/${dateRanges.end_month}/${dateRanges.end_day}'
-            ORDER BY e.exp_date DESC;`, [sub_id]
-        )
+            AND e.exp_date BETWEEN $2 AND $3
+            ORDER BY e.exp_date DESC;`, [sub_id, startDate, endDate]
+        );
 
         return result.rows;
+    } catch (err) {
+        console.log(`Error while getting logs: ${err}`);
+
+        return false;
+    }
+}
+async function getLogsTotal(sub_id, startDate, endDate) {
+    try {
+        const result = await pool.query(
+            `SELECT COUNT(exp_id) as results, SUM(exp_cost) as total
+            FROM expenditure
+            WHERE sub_id=$1
+            AND exp_date BETWEEN $2 AND $3;`, [sub_id, startDate, endDate]
+        );
+
+        return result.rows[0];
     } catch (err) {
         console.log(`Error while getting logs: ${err}`);
 
@@ -560,4 +575,4 @@ async function getTotalBudget(bp_id) {
     }
 }
 
-module.exports = { addCategory, getCategory, getCategories, deleteCategory, editCategory, getSubCategoryBySlug, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getAllSubCategories, getSavings, subCategoryIsSavings, addSavings, updateSavingsTotal, addToSavings, reduceFromSavings, removeSavings, getAllSavings, getLogs, getLogDatabyId, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getBudgetIdFromCategory, getTotalBudget, slugExists, addBalance, deleteBalance, getBalances }
+module.exports = { addCategory, getCategory, getCategories, deleteCategory, editCategory, getSubCategoryBySlug, addSubCategory, removeSubCategory, editSubCategory, getSubCategories, getAllSubCategories, getSavings, subCategoryIsSavings, addSavings, updateSavingsTotal, addToSavings, reduceFromSavings, removeSavings, getAllSavings, getLogs, getLogsTotal, getLogDatabyId, addLog, deleteLog, updateLog, getSubCategory, getBudgetIdFromSub, getBudgetIdFromCategory, getTotalBudget, slugExists, addBalance, deleteBalance, getBalances }
