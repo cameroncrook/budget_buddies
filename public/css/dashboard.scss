@@ -57,15 +57,20 @@
     }
 }
 
+
 .add-category {
     margin-top: 50px;
-    padding: 20px;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    box-shadow: $box-shadow-card;
     @include flexbox(row, center, center);
-    justify-self: center;
+
+    &__link {
+        @include flexbox(row, center, center);
+        padding: 20px;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        box-shadow: $box-shadow-card;
+        text-align: center;
+    }
 
     &__icon {
         width: 80%;
