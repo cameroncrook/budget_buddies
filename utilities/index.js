@@ -68,6 +68,9 @@ function getLogDateRange(setDay, returnString=false) {
     if (dateRanges.end_month > 12) {
         dateRanges.end_month = '01';
         dateRanges.end_year = year + 1;
+    } else if (dateRanges.end_month < 1) {
+        dateRanges.end_month = '12';
+        dateRanges.end_year = year - 1;
     } else {
         dateRanges.end_year = year;
     }
